@@ -13,8 +13,8 @@
 #ifndef RTV1_H
 # define RTV1_H
 
-# define SCR_WIDTH 800
-# define SCR_HEIGHT 400
+# define SCR_WIDTH 1200
+# define SCR_HEIGHT 1024
 # define W_W 800
 # define W_H 400
 # define B_W 800

@@ -38,7 +38,7 @@ static void	ft_render(t_scene *s, Uint32 *pixels, t_menu *m)
 }
   c.red = c.red * 0.1;
 c.green = c.green * 0.1;
-c.blue = c.blue * 0.1;				pixels[x +  (W_H - y - 1) * s->scr_width] = ft_rgb_color((unsigned char)fmin(c.red * 255.0, 255.0), 
+c.blue = c.blue * 0.1;				pixels[x +  (y) * s->scr_width] = ft_rgb_color((unsigned char)fmin(c.red * 255.0, 255.0), 
 					(unsigned char)fmin(c.green * 255.0, 255.0), (unsigned char)fmin(c.blue * 255.0, 255.0));
 			 
 	}

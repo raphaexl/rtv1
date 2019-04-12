@@ -33,7 +33,7 @@ int		main(int argc, char *argv[])
 		ft_update_event(&in);
 		ft_process_event(&e, &in);
 		ft_draw(&e.s, e.pixels, &e.menu);
-		//ft_print_options(&e, &in);
+		ft_print_options(&e, &in);
 		ft_env_draw(&e);
 	}
 	ft_env_quit(&e);

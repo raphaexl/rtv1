@@ -27,13 +27,13 @@ int		main(int argc, char *argv[])
 		ft_env_init(&e, argv[1]);
 	else
 		ft_error();
-	ft_draw(&e.s, e.pixels, &e.menu);
 	memset(&in, SDL_FALSE, sizeof(t_input));
 	while (!in.quit)
 	{
 		ft_update_event(&in);
 		ft_process_event(&e, &in);
 		ft_print_options(&e, &in);
+		ft_draw(&e.s, e.pixels, &e.menu);
 		ft_env_draw(&e);
 	}
 	ft_env_quit(&e);

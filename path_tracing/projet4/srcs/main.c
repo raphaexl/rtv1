@@ -23,18 +23,18 @@ int		main(int argc, char *argv[])
 	t_input	in;
 	t_env	e;
 
-	if (argc == 2)
-		ft_env_init(&e, argv[1]);
+	if (argc <= 2)
+		ft_env_init(&e, argc == 2 ? argv[1]: NULL);
 	else
 		ft_error();
-	ft_draw(&e.s, e.pixels, &e.menu);
 	memset(&in, SDL_FALSE, sizeof(t_input));
+		ft_draw(&e.s, e.pixels, &e.menu);
+		ft_env_draw(&e);
 	while (!in.quit)
 	{
 		ft_update_event(&in);
 		/*ft_process_event(&e, &in);
 		ft_print_options(&e, &in);*/
-		ft_env_draw(&e);
 	}
 	ft_env_quit(&e);
 	return (0);

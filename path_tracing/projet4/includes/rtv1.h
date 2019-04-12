@@ -13,12 +13,12 @@
 #ifndef RTV1_H
 # define RTV1_H
 
-# define SCR_WIDTH 800
-# define SCR_HEIGHT 400
-# define W_W 800
-# define W_H 400
-# define B_W 800
-# define B_H 400
+# define SCR_WIDTH 1200
+# define SCR_HEIGHT 1024
+# define W_W 200
+# define W_H 100
+# define B_W 200
+# define B_H 100
 # define START_X (SCR_WIDTH - W_W) / 2
 # define START_Y (SCR_HEIGHT - W_H) / 2
 # define END_X W_W + START_X

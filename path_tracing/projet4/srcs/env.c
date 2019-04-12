@@ -51,7 +51,7 @@ int		ft_env_init(t_env *e, char *file_name)
 	if (!(e->pixels = (Uint32 *)malloc(sizeof(Uint32) * W_W * W_H)))
 		ft_print_error("Error Malloc pixels");
 	memset(e->pixels, 0, sizeof(Uint32) * W_W * W_H);
-	//ft_env_load_all(e);
+	ft_env_load_all(e);
 	return (1);
 }
 
@@ -71,7 +71,7 @@ static void		ft_env_display_text(SDL_Renderer *r, char *mes)
 
 int		ft_env_draw(t_env *e)
 {
-	/*if (e->menu.keys[CLEAR] && !e->menu.keys[RAYTRACE])
+	if (e->menu.keys[CLEAR] && !e->menu.keys[RAYTRACE])
 		ft_clear_pixels(e->pixels);
 	else
 	SDL_SetRenderDrawColor(e->ptr.renderer, 255, 162, 51, 255);
@@ -79,7 +79,6 @@ int		ft_env_draw(t_env *e)
 	for (int i = 0; i < NB_OPTIONS; ++i)
 		SDL_RenderCopy(e->ptr.renderer, e->menu.img[i], NULL, &e->menu.pos[i]);
 	ft_env_display_text(e->ptr.renderer, e->selected ? e->selected->name : "NONE");
-	*/
 	ft_update_renderer(&e->ptr, e->pixels);
 	SDL_RenderPresent(e->ptr.renderer);
 	return (0);
@@ -88,7 +87,7 @@ int		ft_env_draw(t_env *e)
 
 void	ft_env_quit(t_env *e)
 {
-	/*int		i;
+	int		i;
 
 	i = NB_OPTIONS;
 	while (--i >= 0)
@@ -96,7 +95,7 @@ void	ft_env_quit(t_env *e)
 		if (e->menu.img[i])
 			SDL_DestroyTexture(e->menu.img[i]);
 		e->menu.img[i] = NULL;
-	}*/
+	}
 	if (e->pixels)
 		free(e->pixels);
 	e->pixels = NULL;
