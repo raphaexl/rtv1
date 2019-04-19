@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 08:53:45 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/08 15:43:16 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/19 19:25:48 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ t_light		*ft_light_read(int fd)
 		iterm.pos.z = atof(tab[2]);
 		iterm.color.red = atof(tab[3]);
 		iterm.color.green = atof(tab[4]);
-		iterm.color.blue = atof(tab[4]);
+		iterm.color.blue = atof(tab[5]);
 		i = -1;
 		while (++i < 6)
 			free(tab[i]), tab[i] = NULL;

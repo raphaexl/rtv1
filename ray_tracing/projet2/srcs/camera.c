@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 07:01:12 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/07 21:32:00 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/19 19:49:57 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ t_vector		ft_camera_dir(t_camera cam, int x, int y)
 	t_vector	tmp_pos;
 	t_vector	tmp_p;
 
-	cam.ndcw = ((float)x + 0.5 + ft_rand48()) / cam.screen.x;
-	cam.ndch = ((float)y + 0.5 + ft_rand48()) / cam.screen.y;
+	cam.ndcw = ((float)x + 0.5 /*+ ft_rand48()*/) / cam.screen.x;
+	cam.ndch = ((float)y + 0.5 /*+ ft_rand48()*/) / cam.screen.y;
 	pix_cam.z = -1.0;
 	pix_scr.x = 2.0 * cam.ndcw -1.0;
 	pix_scr.y = -(2.0 * cam.ndch - 1.0);

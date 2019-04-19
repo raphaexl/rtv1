@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 11:29:07 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/08 20:20:16 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/19 20:36:10 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ t_ray	ft_transform_ray(t_object *p, t_ray *ro, int invert)
 {
 	t_ray r;
 
-	r = (t_ray){.start = ro->start, .dir = ro->dir};
-	/*r.start = ft_rotate_vec3(ro->start, p->rotate, invert);
+	//r = (t_ray){.start = ro->start, .dir = ro->dir};
+	r.start = ft_rotate_vec3(ro->start, p->rotate, invert);
 	r.dir = ft_rotate_vec3(ro->dir, p->rotate, invert);
 	r.start = ft_translate_vec3(ro->start, p->translate, invert);
-	r.dir = ft_translate_vec3(ro->dir, p->translate, invert);*/
+	r.dir = ft_translate_vec3(ro->dir, p->translate, invert);
 	return (r);
 }
 

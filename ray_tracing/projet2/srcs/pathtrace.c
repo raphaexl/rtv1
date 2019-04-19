@@ -128,6 +128,5 @@ t_color  ft_path_trace(t_scene *s, t_intersect *in, t_menu *m, int depth)
 		else
 		return(ft_color(0.0, 0.0, 0.0));
 	}
-	else
-		return (ft_background_color(&in->ray));
+	return (ft_background_color(&in->ray));
 }

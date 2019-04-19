@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 11:33:09 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/08 16:13:42 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/19 19:21:16 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ t_vector ft_normal_cone(t_object *cone, t_vector p)
 t_vector ft_normal_cylindre(t_object *cylindre, t_vector p)
 {
 	(void)cylindre;
-	//return (ft_vector_normalized(ft_vector(0, 2 * p.y, 2 * p.z - 1.0)));
-	return (ft_vector_normalized(ft_vector(p.x, p.y, p.z)));
+//	return (ft_vector_normalized(ft_vector(0, 2 * p.y, 2 * p.z - 1.0)));
+	return (ft_vector_normalized(ft_vector(p.x,  p.y,  p.z)));
 	//return (ft_vector_normalized(ft_vector(2 * p.y, 0, 2 * p.z - 1.0)));
 	//return (ft_vector_normalized(ft_vector(0,  p.y,  p.z)));
 }

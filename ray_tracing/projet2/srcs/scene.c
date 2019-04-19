@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 08:14:04 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/08 20:46:25 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/19 19:55:54 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ void	ft_scene_random(t_scene *s)
 	t_object sphere;
 
 	//sphere.pos = (t_vector){0, -1000, -1.0};
-	sphere.pos = (t_vector){0.0, 0.0, -1.0};
+	sphere.pos = (t_vector){0.0, 0.0, -1.5};
 	sphere.type = SPHERE;
 	sphere.name = "sphere";
-	sphere.material = (t_material){0.1, 0.2, 0.5, 0.1};
+	sphere.material = (t_material){{0.1, 0.2, 0.5}, 0.1};
 	sphere.radius = 0.5;
 	sphere.angle = 0.0;
 	sphere.normal = (t_vector){.0, 0.0, 0.0};
 	sphere.translate = (t_vector){.0, 0.0, 0.0};
 	sphere.rotate = (t_vector){.0, 0.0, 0.0};
 	ft_object_push_back(&s->obj, ft_object_new(SPHERE, &sphere));
-/*	for (int a = -11; a < 11; a++)
+	for (int a = -11; a < 11; a++)
 		for (int b = -11; b < 11; b++)
 		{
 			float prob = ft_rand48();
@@ -54,18 +54,18 @@ void	ft_scene_random(t_scene *s)
 				}
 			}
 		}
-	sphere.pos = (t_vector){0, 1, -1.0};
+	sphere.pos = (t_vector){0, 1, -1.5};
 	sphere.material = (t_material){0.5, 0.5, 0.5, 1.5};
 	sphere.radius = 0.5;
 	ft_object_push_back(&s->obj, ft_object_new(SPHERE, &sphere));
-	sphere.pos = (t_vector){-4.0, 1.0, -1.0};
+	sphere.pos = (t_vector){-4.0, 1.0, -1.5};
 	sphere.material = (t_material){0.4, 0.2, 0.1, 0.0};
 	sphere.radius = 0.5;
 	ft_object_push_back(&s->obj, ft_object_new(SPHERE, &sphere));
-	sphere.pos = (t_vector){4.0, 1.0, -1.0};
+	sphere.pos = (t_vector){4.0, 1.0, -1.5};
 	sphere.material = (t_material){0.7, 0.6, 0.5, 0.0};
 	sphere.radius = 0.5;
-	ft_object_push_back(&s->obj, ft_object_new(SPHERE, &sphere));*/
+	ft_object_push_back(&s->obj, ft_object_new(SPHERE, &sphere));
 	if (!s->obj)
 	{
 		ft_putnbr(ft_object_length(s->obj));
@@ -93,7 +93,7 @@ void	ft_scene_init(t_scene *s, char *const input_file)
 		{
 			ft_parse_file(s, fd);
 			s->cam = ft_camera_new(ft_vector(0.0f, 0.0f, 0.0f), 
-					ft_vector(0.0f, 0.0f, 0.0f)	,ft_vector(0.0f, 0.0f, 0.0f), M_PI/2.0);	
+					ft_vector(0.0f, 0.0f, 0.0f)	,ft_vector(0.0f, 0.0f, 0.0f), M_PI/4.0);	
 			if (!s->obj)
 			{
 				ft_putnbr(ft_object_length(s->obj));
