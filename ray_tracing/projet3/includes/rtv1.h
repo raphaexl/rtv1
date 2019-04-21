@@ -6,15 +6,15 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:04:01 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/20 20:39:07 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/21 17:32:42 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RTV1_H
 # define RTV1_H
 
-# define SCR_WIDTH 1480
-# define SCR_HEIGHT 1240
+# define SCR_WIDTH 1200
+# define SCR_HEIGHT 750
 # define W_W 960
 # define W_H 600
 # define B_W 960
@@ -146,7 +146,7 @@ float		ft_intersection_plane(t_object	*p, t_ray *r);
 float		ft_intersection_cone(t_object	*cone, t_ray *r);
 float		ft_intersection_cylindre(t_object	*c, t_ray *r);
 
-int			ft_sphere_compute(t_object *p, t_intersect *in, t_ray *r);
+int			ft_sphere_compute(t_object *p, t_intersect *in);
 int			ft_plane_compute(t_object *p, t_intersect *in);
 int			ft_cone_compute(t_object *p, t_intersect *in);
 int			ft_cylindre_compute(t_object *p, t_intersect *in);

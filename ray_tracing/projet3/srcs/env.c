@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 17:43:15 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/20 19:11:55 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/21 17:45:51 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* **************************************************************************n */
 
@@ -29,9 +29,9 @@ int		ft_env_load_all(t_env *e)
 	e->menu.pos[12] = (SDL_Rect){.x = 440 + (SCR_WIDTH - W_W) / 2, .y = END_Y + 155};
 	e->menu.pos[13] = (SDL_Rect){.x = 210 + (SCR_WIDTH - W_W) / 2, .y = END_Y + 125};
 	e->menu.pos[14] = (SDL_Rect){.x = 210 + (SCR_WIDTH - W_W) / 2, .y = END_Y + 200};
-	e->menu.pos[15] = (SDL_Rect){.x = 5 + (SCR_WIDTH - W_W) / 2, .y = 45};
-	e->menu.pos[16] = (SDL_Rect){.x = 5 + (SCR_WIDTH - W_W) / 2 + 200 + 10, .y = 45};
-	e->menu.pos[17] = (SDL_Rect){.x = 5 +  (SCR_WIDTH - W_W) / 2 + 420 + 20, .y = 45};
+	e->menu.pos[15] = (SDL_Rect){.x = 200 + (SCR_WIDTH - W_W) / 2, .y = 25};
+	e->menu.pos[16] = (SDL_Rect){.x = 5 + (SCR_WIDTH - W_W) / 2 + 400 + 10, .y = 25};
+	e->menu.pos[17] = (SDL_Rect){.x = 5 +  (SCR_WIDTH - W_W) / 2 + 620 + 20, .y = 25};
 	for (int i = 0; i < NB_OPTIONS; ++i)
 		SDL_QueryTexture(e->menu.img[i], NULL, NULL, &e->menu.pos[i].w, &e->menu.pos[i].h);
 	printf("%d\t %d\n", e->menu.pos[0].w, e->menu.pos[0].h);

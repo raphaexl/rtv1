@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 12:28:07 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/20 20:20:50 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/21 14:28:22 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static t_color ft_phong_shading(t_color c, t_intersect	*in, t_color intensity,  
 	tp = ft_vector_kmult(reflect, in->n);
 	phong_dir = ft_vector_sub(in->ray_light.dir, tp);
 	phong_term = fmax(ft_vector_dot(phong_dir, in->ray.dir),  0.0f);
-	float spec = 0.2;
+	float spec = 1.0;
 	phong_term = spec * ft_pow(phong_term, 65.0) * coef;
 	c.red += phong_term * intensity.red;
 	c.green += phong_term * intensity.green;
