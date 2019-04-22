@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 08:14:04 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/21 22:12:38 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/22 13:16:54 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	ft_scene_init(t_scene *s, char *const input_file)
 		{
 			ft_parse_file(s, fd);
 			s->cam = ft_camera_new(ft_vector(0.0f, 0.0f, 1.0f), 
-					ft_vector(00.0f, 0.0f, 0.0f)	,ft_vector(100.0f, 0.0f, 0.0f), M_PI/4.0);	
+					ft_vector(0.0f, 0.0f, -1.0f)	,ft_vector(0.0f, 1.0f, 0.0f), M_PI/2.0);	
 			if (!s->obj)
 			{
 				ft_putnbr(ft_object_length(s->obj));

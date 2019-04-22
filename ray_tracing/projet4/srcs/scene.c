@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 08:14:04 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/21 22:12:38 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/22 17:20:15 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,10 @@ void	ft_scene_random(t_scene *s)
 	s->curr_material = (t_material){{0.0, 0.0, 0.0}, 0.0};
 	s->cam = ft_camera_new(ft_vector(0.0f, 0.0f, 0.0f), ft_vector(0.0f, 0.0f, 0.0f)	,ft_vector(0.0f, 0.0f, 0.0f), M_PI/2.0);
 	write(1, "Ok\n", 3);
+	t_iterm		l = {{1.0, 12.0, 10.0}, {1.0, 1.0, 1.0}};
+	ft_light_push_back(&s->light, ft_light_new(l.pos, l.color));
+	s->cam = ft_camera_new(ft_vector(13.0f, 2.0f, 3.0f), 
+					ft_vector(0.0f, 0.0f, 0.0f)	,ft_vector(0.0f, 1.0f, 0.0f), M_PI/2.0);
 }
 
 void	ft_scene_init(t_scene *s, char *const input_file)
