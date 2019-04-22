@@ -81,11 +81,6 @@ t_color		ft_ray_trace2(t_scene	*s, t_intersect *in, t_menu *m)
 		in->t = 20000.0f;
 		if (!ft_scene_intersect(s, in))
 			break;
-		float    temp = ft_vector_dot(in->n, in->n);
-		if (temp == 0.01)
-			break;
-		temp = 1.0 / sqrt(temp);
-		in->n = ft_vector_kmult(temp, in->n);
 		s->curr_material = in->current->material;
 		t_light	*p = s->light;
 		while (p)
@@ -106,7 +101,6 @@ t_color		ft_ray_trace2(t_scene	*s, t_intersect *in, t_menu *m)
 			float tp = in->t;
 			in->t = t;
 			ft_floor_plane(in->current, &s->curr_material, in->p);
-			//if (m->keys[SHADOW])
 			 in_shadow = 0;
 				in_shadow = ft_scene_intersectl(s, in);
 			if (!in_shadow)
@@ -136,11 +130,6 @@ t_color		ft_ray_trace1(t_scene	*s, t_intersect *in, t_menu *m)
 		in->t = 20000.0f;
 		if (!ft_scene_intersect(s, in))
 			break;
-		float    temp = ft_vector_dot(in->n, in->n);
-		if (temp == 0.01)
-			break;
-		temp = 1.0 / sqrt(temp);
-		in->n = ft_vector_kmult(temp, in->n);
 		s->curr_material = in->current->material;
 		t_light	*p = s->light;
 		while (p)
@@ -161,7 +150,6 @@ t_color		ft_ray_trace1(t_scene	*s, t_intersect *in, t_menu *m)
 			float tp = in->t;
 			in->t = t;
 			ft_floor_plane(in->current, &s->curr_material, in->p);
-			//if (m->keys[SHADOW])
 			 in_shadow = 0;
 				in_shadow = ft_scene_intersectl(s, in);
 			if (!in_shadow)

@@ -70,11 +70,6 @@ t_color		ft_cast_ray1(t_scene	*s, t_intersect *in, t_menu *m)
 		in->t = 20000.0f;
 		if (!ft_scene_intersect(s, in))
 			break;
-		float    temp = ft_vector_dot(in->n, in->n);
-		if (temp == 0.01)
-			break;
-		temp = 1.0 / sqrt(temp);
-		in->n = ft_vector_kmult(temp, in->n);
 		s->curr_material = in->current->material;
 		t_light	*p = s->light;
 		while (p)
