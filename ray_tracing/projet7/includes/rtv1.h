@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:04:01 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/22 22:13:38 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:56:00 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 
 # define SCR_WIDTH 1200
 # define SCR_HEIGHT 750
-# define W_W 900
+# define W_W 960
 # define W_H 600
 # define B_W 960
 # define B_H 600
-# define START_X (SCR_WIDTH - W_W) / 2
-# define START_Y (SCR_HEIGHT - W_H) / 2
-# define END_X W_W + START_X
-# define END_Y  W_H + START_Y
-# define NB_THREADS 200
+# define START_X (SCR_WIDTH - B_W) / 2
+# define START_Y (SCR_HEIGHT - B_H) / 2
+# define END_X B_W + START_X
+# define END_Y  B_H + START_Y
+# define NB_THREADS 3
 # define NB_OPTIONS 8
 # define DELTA_ANGLE 10
 # define ERR_CHECK(cond) if (!(cond)) perror(SDL_GetError());
@@ -46,10 +46,10 @@ void		ft_sdl_quit(t_ptr *ptr);
 void		ft_env_load_all(t_env *e);
 void		ft_env_load_images(t_env *env);
 void		ft_env_init(t_env *e, char *file);
-void		ft_env_update_camera(t_env *e, float coef);
+void		ft_env_update_camera(t_camera *c, t_menu m, float coef);
 void		ft_env_select_object(t_env *e, int mousex, int mousey);
-int		ft_process_event(t_env *e, t_input *in);
-int		ft_update_options(t_menu *m, t_input *in, int k);
+int			ft_process_event(t_env *e, t_input *in);
+int			ft_update_options(t_menu *m, t_input *in, int k);
 int			ft_mouse_inside(int mousex, int mousey, SDL_Rect *r);
 void		ft_env_draw(t_env *e);
 void		ft_env_quit(t_env *e);

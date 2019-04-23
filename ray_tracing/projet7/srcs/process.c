@@ -6,11 +6,11 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 15:57:28 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/21 19:30:14 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:21:01 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/rtv1.h"
+#include "../includes/rtv1.h"
 
 int			ft_mouse_inside(int mousex, int mousey, SDL_Rect *r)
 {
@@ -22,7 +22,7 @@ int			ft_mouse_inside(int mousex, int mousey, SDL_Rect *r)
 		return (1);
 }
 
-int		ft_update_options(t_menu *m, t_input *in, int k)
+int			ft_update_options(t_menu *m, t_input *in, int k)
 {
 	int		i;
 
@@ -31,64 +31,62 @@ int		ft_update_options(t_menu *m, t_input *in, int k)
 	{
 		if (ft_mouse_inside(in->mousex, in->mousey, &m->pos[i]))
 		{
-			m->keys[i] =  (NNE + i) * k;
+			m->keys[i] = i * k;
 			return (1);
 		}
 	}
 	return (0);
 }
 
-void	ft_env_update_camera(t_env *e, float rev)
+void		ft_env_update_camera(t_camera *cam, t_menu m, float rev)
 {
-	if (e->menu.keys[MOVE_X])
-		e->s.cam.trans.x += (rev * 0.1);
-	else if (e->menu.keys[MOVE_Y])
-		e->s.cam.trans.y += (rev * 0.1);
-	else if (e->menu.keys[MOVE_Z])
-		e->s.cam.trans.z += (rev * 0.1);
-	else if (e->menu.keys[ROTATE_X])
-		e->s.cam.rot.x += (2.5 * rev);
-	else if (e->menu.keys[ROTATE_Y])
-		e->s.cam.rot.y += (2.5 * rev);
-	else if (e->menu.keys[ROTATE_Z])
-		e->s.cam.rot.z += (2.5 * rev);
-	else if (e->menu.keys[ZOOM])
-		e->s.cam.fov += (0.5 * rev);
-	e->s.cam.h = tan(e->s.cam.fov / 2.0);
-	e->s.cam.w = e->s.cam.ratio * e->s.cam.h;
-	e->s.cam.dir = ft_vector_normalized(ft_vector_sub(e->s.cam.look_at,
-				e->s.cam.pos));
-	e->s.cam.u = ft_vector_normalized(ft_vector_cross(e->s.cam.dir, e->s.cam.up));
-	e->s.cam.v = ft_vector_cross(e->s.cam.u, e->s.cam.dir);
-	e->s.cam.low_left = ft_vector_sub(e->s.cam.pos, 
-			ft_vector_sum(ft_vector_kmult(e->s.cam.h,
-					e->s.cam.v), ft_vector_kmult(e->s.cam.w, e->s.cam.u)));
-	e->s.cam.low_left = ft_vector_sum(e->s.cam.low_left, e->s.cam.dir);
-	e->s.cam.horiz = ft_vector_kmult(2.0 * e->s.cam.w, e->s.cam.u);
-	e->s.cam.vert = ft_vector_kmult(2.0 * e->s.cam.h, e->s.cam.v);
+	if (m.keys[MOVE_X])
+		cam->trans.x += (rev * 0.1);
+	else if (m.keys[MOVE_Y])
+		cam->trans.y += (rev * 0.1);
+	else if (m.keys[MOVE_Z])
+		cam->trans.z += (rev * 0.1);
+	else if (m.keys[ROTATE_X])
+		cam->rot.x += (2.5 * rev);
+	else if (m.keys[ROTATE_Y])
+		cam->rot.y += (2.5 * rev);
+	else if (m.keys[ROTATE_Z])
+		cam->rot.z += (2.5 * rev);
+	else if (m.keys[ZOOM])
+		cam->fov += (0.5 * rev);
+	cam->h = tan(cam->fov / 2.0);
+	cam->w = cam->ratio * cam->h;
+	cam->dir = ft_vector_normalized(ft_vector_sub(cam->look_at, cam->pos));
+	cam->u = ft_vector_normalized(ft_vector_cross(cam->dir, cam->up));
+	cam->v = ft_vector_cross(cam->u, cam->dir);
+	cam->low_left = ft_vector_sub(cam->pos, ft_vector_sum(
+				ft_vector_kmult(cam->h, cam->v), ft_vector_kmult(cam->w,
+					cam->u)));
+	cam->low_left = ft_vector_sum(cam->low_left, cam->dir);
+	cam->horiz = ft_vector_kmult(2.0 * cam->w / (float)W_W, cam->u);
+	cam->vert = ft_vector_kmult(2.0 * cam->h / (float)W_H, cam->v);
 }
 
-int		ft_process_event(t_env *e, t_input *in)
+int			ft_process_event(t_env *e, t_input *in)
 {
 	static	int		initialized = 0;
 
 	if (!initialized && (initialized = 1))
 		return (1);
-	if (in->mouse[SDL_BUTTON_RIGHT] )
+	if (in->mouse[SDL_BUTTON_RIGHT])
 	{
 		if (ft_update_options(&e->menu, in, 1))
 		{
-		ft_env_update_camera(e, -1.0);
-		write(1, "Yes\n", 4);
-		return (1);
+			ft_env_update_camera(&e->s.cam, e->menu, -1.0);
+			return (1);
 		}
 	}
 	else if (in->mouse[SDL_BUTTON_LEFT])
 	{
 		if (ft_update_options(&e->menu, in, 1))
 		{
-		ft_env_update_camera(e, 1.0);
-		return (1);
+			ft_env_update_camera(&e->s.cam, e->menu, 1.0);
+			return (1);
 		}
 	}
 	return (0);

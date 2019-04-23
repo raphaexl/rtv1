@@ -6,13 +6,14 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 11:55:38 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/22 22:11:24 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/23 10:42:29 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINES_H
 # define DEFINES_H
 
+# define RAND_N 11
 # define DEG_TO_RAD(x) ((x) * (M_PI / 180.0))
 
 typedef struct	s_point

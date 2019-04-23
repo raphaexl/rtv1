@@ -6,13 +6,13 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 08:14:04 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/22 20:11:28 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:05:42 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
 
-void	ft_scene_random(t_scene *s)
+static	t_object	ft_scene_random1(t_scene *s)
 {
 	t_object sphere;
 
@@ -25,32 +25,6 @@ void	ft_scene_random(t_scene *s)
 	sphere.translate = (t_vector){.0, 0.0, 0.0};
 	sphere.rotate = (t_vector){.0, 0.0, 0.0};
 	ft_object_push_back(&s->obj, ft_object_new(SPHERE, &sphere));
-	for (int a = -11; a < 11; a++)
-		for (int b = -11; b < 11; b++)
-		{
-			float prob = ft_rand48();
-			t_vector c = (t_vector){a + 0.9 * ft_rand48(), 0.2, -(b + 0.9 * ft_rand48())};
-			if (ft_vector_norm(ft_vector_sub(c, ft_vector(4, 0.2, 0))) > 0.9)
-			{
-				sphere.pos = c;
-				sphere.radius = 0.2;
-				if (prob < 0.8)
-				{
-					sphere.material = (t_material){{ft_rand48() * ft_rand48(),ft_rand48() * ft_rand48() ,ft_rand48() * ft_rand48()}, 0.0};
-					ft_object_push_back(&s->obj, ft_object_new(SPHERE, &sphere));
-				}
-				else if (prob < 0.95)
-				{
-					sphere.material = (t_material){{0.5 * (1.0 + ft_rand48()), 0.5 * (1.0 + ft_rand48()) , 0.5 * (1.0 + ft_rand48())}, 0.5 * ft_rand48()};
-					ft_object_push_back(&s->obj, ft_object_new(SPHERE, &sphere));
-				}
-				else
-				{
-					sphere.material = (t_material){{0.5, 0.5, 0.5}, 1.5};
-					ft_object_push_back(&s->obj, ft_object_new(SPHERE, &sphere));
-				}
-			}
-		}
 	sphere.pos = (t_vector){0, 1, 0.0};
 	sphere.material = (t_material){{0.5, 0.5, 0.5}, 1.5};
 	sphere.radius = 1.0;
@@ -63,22 +37,54 @@ void	ft_scene_random(t_scene *s)
 	sphere.material = (t_material){{0.7, 0.6, 0.5}, 0.0};
 	sphere.radius = 1.0;
 	ft_object_push_back(&s->obj, ft_object_new(SPHERE, &sphere));
-	if (!s->obj)
+	return (sphere);
+}
+
+static	void		ft_scene_random2(t_scene *s, t_object sp, int a, int b)
+{
+	float		prob;
+	t_vector	c;
+
+	while (++a < RAND_N)
 	{
-		write(1, "\n", 1);
-		exit(0);
+		b = -RAND_N - 1;
+		while (++b < RAND_N)
+		{
+			prob = ft_rand48();
+			c = (t_vector){a + 0.9 * ft_rand48(), 0.2, b + 0.9 * ft_rand48()};
+			if (ft_vector_norm(ft_vector_sub(c, ft_vector(4, 0.2, 0))) < 0.9)
+				continue ;
+			sp.pos = c;
+			sp.radius = 0.2;
+			sp.material = (t_material){{0.5, 0.5, 0.5}, 1.5};
+			if (prob < 0.8)
+				sp.material = (t_material){{ft_rand48() * ft_rand48(),
+					ft_rand48() * ft_rand48(), ft_rand48() * ft_rand48()}, 0.2};
+			else if (prob < 0.95)
+				sp.material = (t_material){{0.5 * (1.0 + ft_rand48()), 0.5 *
+					(1.0 + ft_rand48()), 0.5 * (1.0 + ft_rand48())},
+					0.5 * ft_rand48()};
+			ft_object_push_back(&s->obj, ft_object_new(SPHERE, &sp));
+		}
 	}
+}
+
+static	void		ft_scene_random(t_scene *s)
+{
+	t_iterm		l;
+
+	ft_scene_random2(s, ft_scene_random1(s), -RAND_N - 1, 0);
 	s->curr_material = (t_material){{0.0, 0.0, 0.0}, 0.0};
-	s->cam = ft_camera_new(ft_vector(13.0f, 2.0f, 3.0f), ft_vector(0.0f, 0.0f, 0.0f)	,ft_vector(0.0f, 1.0f, 0.0f), M_PI/2.0);
-	write(1, "Ok\n", 3);
-	t_iterm		l = {{13.0, 100.0, 100.0}, {1.0, 1.0, 1.0}};
+	s->cam = ft_camera_new(ft_vector(13.0f, 2.0f, 3.0f),
+			ft_vector(0.0f, 0.0f, 0.0f), ft_vector(0.0f, 1.0f, 0.0f),
+			M_PI / 2.0);
+	l = (t_iterm){{13.0, 100.0, 100.0}, {1.0, 1.0, 1.0}};
 	ft_light_push_back(&s->light, ft_light_new(l.pos, l.color));
 	l = (t_iterm) {{100.0, 0.0, 100.0}, {1.0, 1.0, 1.0}};
 	ft_light_push_back(&s->light, ft_light_new(l.pos, l.color));
 }
 
-
-void	ft_scene_init(t_scene *s, char *const input_file)
+void				ft_scene_init(t_scene *s, char *const input_file)
 {
 	int		fd;
 
@@ -91,10 +97,11 @@ void	ft_scene_init(t_scene *s, char *const input_file)
 		if ((fd = open(input_file, O_RDONLY)) && fd > 0)
 		{
 			ft_parse_file(s, fd);
-			s->cam = ft_camera_new(ft_vector(0.0f, 0.0f, 1.0f), 
-					ft_vector(0.0f, 0.0f, -1.0f)	,ft_vector(0.0f, 1.0f, 0.0f), M_PI/2.0);	
-			if (!s->obj)
-				ft_error();
+			s->cam = ft_camera_new(ft_vector(0.0f, 0.0f, 1.0f),
+					ft_vector(0.0f, 0.0f, -1.0f), ft_vector(0.0f, 1.0f, 0.0f),
+					M_PI / 2.0);
+			if (!s->obj || !s->light)
+				ft_print_error("missing Light or objects :)");
 			s->curr_material = (t_material){{0.0, 0.0, 0.0}, 0.0};
 			close(fd);
 		}
@@ -103,7 +110,7 @@ void	ft_scene_init(t_scene *s, char *const input_file)
 	}
 }
 
-void	ft_scene_clear(t_scene *s)
+void				ft_scene_clear(t_scene *s)
 {
 	ft_object_clean(&s->obj);
 	s->obj = NULL;

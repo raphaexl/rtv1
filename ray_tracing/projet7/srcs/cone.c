@@ -6,13 +6,29 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 18:11:42 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/22 22:32:00 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/23 09:55:54 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
 
-int		ft_cone_compute(t_object *p, t_intersect *in)
+static int		ft_min_ray(float t1, float t2, float *t)
+{
+	if ((t1 < t2 || t2 < 0) && t1 > 0)
+	{
+		*t = t1;
+		return (1);
+	}
+	else if ((t2 < t1 || t1 < 0) && t2 > 0)
+	{
+		*t = t2;
+		return (1);
+	}
+	else
+		return (0);
+}
+
+int				ft_cone_compute(t_object *p, t_intersect *in)
 {
 	t_ray	r;
 
@@ -28,14 +44,12 @@ int		ft_cone_compute(t_object *p, t_intersect *in)
 	return (1);
 }
 
-int		ft_cone_intersect(t_object *c, t_ray *r, float *t)
+int				ft_cone_intersect(t_object *c, t_ray *r, float *t)
 {
 	t_delta		d;
 	t_vector	dist;
 	float		anglesin;
 	float		anglecos;
-	float		t1;
-	float		t2;
 
 	anglecos = pow(cos(c->angle), 2.0);
 	anglesin = pow(sin(c->angle), 2.0);
@@ -50,14 +64,6 @@ int		ft_cone_intersect(t_object *c, t_ray *r, float *t)
 	if (d.delta < 0.0)
 		return (0);
 	d.delta = sqrt(d.delta);
-	t1 = (-d.b + d.delta) / (2.0 * d.a);
-	t2 = (-d.b - d.delta) / (2.0 * d.a);
-	if (t1 > t2)
-		t1 = t2;
-	if ((t1 > 0.001) && (t1 < *t))
-	{
-		*t = t1;
-		return (1);
-	}
-	return (0);
+	return (ft_min_ray(-d.b - d.delta / (2.0 * d.a),
+				(-d.b + d.delta / (2.0 * d.a)), t));
 }
