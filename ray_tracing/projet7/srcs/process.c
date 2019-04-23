@@ -22,7 +22,7 @@ int			ft_mouse_inside(int mousex, int mousey, SDL_Rect *r)
 		return (1);
 }
 
-void		ft_update_options(t_menu *m, t_input *in, int k)
+int		ft_update_options(t_menu *m, t_input *in, int k)
 {
 	int		i;
 
@@ -32,22 +32,64 @@ void		ft_update_options(t_menu *m, t_input *in, int k)
 		if (ft_mouse_inside(in->mousex, in->mousey, &m->pos[i]))
 		{
 			m->keys[i] =  (NNE + i) * k;
-			m->option[i] =  k;
+			return (1);
 		}
 	}
+	return (0);
 }
 
-void		ft_process_event(t_env *e, t_input *in)
+void	ft_env_update_camera(t_env *e, float rev)
 {
+	if (e->menu.keys[MOVE_X])
+		e->s.cam.trans.x += (rev * 0.1);
+	else if (e->menu.keys[MOVE_Y])
+		e->s.cam.trans.y += (rev * 0.1);
+	else if (e->menu.keys[MOVE_Z])
+		e->s.cam.trans.z += (rev * 0.1);
+	else if (e->menu.keys[ROTATE_X])
+		e->s.cam.rot.x += (2.5 * rev);
+	else if (e->menu.keys[ROTATE_Y])
+		e->s.cam.rot.y += (2.5 * rev);
+	else if (e->menu.keys[ROTATE_Z])
+		e->s.cam.rot.z += (2.5 * rev);
+	else if (e->menu.keys[ZOOM])
+		e->s.cam.fov += (0.5 * rev);
+	e->s.cam.h = tan(e->s.cam.fov / 2.0);
+	e->s.cam.w = e->s.cam.ratio * e->s.cam.h;
+	e->s.cam.dir = ft_vector_normalized(ft_vector_sub(e->s.cam.look_at,
+				e->s.cam.pos));
+	e->s.cam.u = ft_vector_normalized(ft_vector_cross(e->s.cam.dir, e->s.cam.up));
+	e->s.cam.v = ft_vector_cross(e->s.cam.u, e->s.cam.dir);
+	e->s.cam.low_left = ft_vector_sub(e->s.cam.pos, 
+			ft_vector_sum(ft_vector_kmult(e->s.cam.h,
+					e->s.cam.v), ft_vector_kmult(e->s.cam.w, e->s.cam.u)));
+	e->s.cam.low_left = ft_vector_sum(e->s.cam.low_left, e->s.cam.dir);
+	e->s.cam.horiz = ft_vector_kmult(2.0 * e->s.cam.w, e->s.cam.u);
+	e->s.cam.vert = ft_vector_kmult(2.0 * e->s.cam.h, e->s.cam.v);
+}
+
+int		ft_process_event(t_env *e, t_input *in)
+{
+	static	int		initialized = 0;
+
+	if (!initialized && (initialized = 1))
+		return (1);
 	if (in->mouse[SDL_BUTTON_RIGHT] )
 	{
-		ft_update_options(&e->menu, in, 1);
+		if (ft_update_options(&e->menu, in, 1))
+		{
 		ft_env_update_camera(e, -1.0);
+		write(1, "Yes\n", 4);
+		return (1);
+		}
 	}
 	else if (in->mouse[SDL_BUTTON_LEFT])
 	{
-		ft_update_options(&e->menu, in, 1);
+		if (ft_update_options(&e->menu, in, 1))
+		{
 		ft_env_update_camera(e, 1.0);
+		return (1);
+		}
 	}
-	return;
+	return (0);
 }

@@ -41,8 +41,8 @@ void	ft_env_init(t_env *e, char *file_name)
 		ft_print_error("Error SDL_Init()");
 	if (!(e->pixels = (Uint32 *)malloc(sizeof(Uint32) * W_W * W_H)))
 		ft_print_error("Error Malloc pixels");
-	/*ft_memset(e->pixels, 0, sizeof(Uint32) * W_W * W_H);
-	ft_env_load_all(e);*/
+	ft_memset(e->pixels, 0, sizeof(Uint32) * W_W * W_H);
+	ft_env_load_all(e);
 }
 
 static void		ft_env_display_text(SDL_Renderer *r, char *m)

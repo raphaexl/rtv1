@@ -43,7 +43,6 @@ SRC=$(SRCDIR)/main.c\
 	$(SRCDIR)/raytrace.c\
 	$(SRCDIR)/trace.c\
 	$(SRCDIR)/render.c\
-	$(SRCDIR)/event1.c\
 	$(SRCDIR)/compute.c\
 	$(SRCDIR)/intersections.c\
 	$(SRCDIR)/normals.c\
@@ -70,7 +69,6 @@ OBJ=$(LIBDIR)/main.o\
 	$(LIBDIR)/raytrace.o\
 	$(LIBDIR)/trace.o\
 	$(LIBDIR)/render.o\
-	$(LIBDIR)/event1.o\
 	$(LIBDIR)/compute.o\
 	$(LIBDIR)/intersections.o\
 	$(LIBDIR)/normals.o\

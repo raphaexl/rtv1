@@ -25,8 +25,8 @@ int		main(int argc, char *argv[])
 	while (!in.quit)
 	{
 		ft_update_event(&in);
-		ft_process_event(&e, &in);
-		ft_render(&e.s, e.pixels);
+		if (ft_process_event(&e, &in))
+			ft_render(&e.s, e.pixels);
 		ft_env_draw(&e);
 	}
 	ft_env_quit(&e);

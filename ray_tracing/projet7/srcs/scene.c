@@ -91,7 +91,7 @@ void	ft_scene_init(t_scene *s, char *const input_file)
 		if ((fd = open(input_file, O_RDONLY)) && fd > 0)
 		{
 			ft_parse_file(s, fd);
-			s->cam = ft_camera_new(ft_vector(-2.0f, 2.0f, 1.0f), 
+			s->cam = ft_camera_new(ft_vector(0.0f, 0.0f, 1.0f), 
 					ft_vector(0.0f, 0.0f, -1.0f)	,ft_vector(0.0f, 1.0f, 0.0f), M_PI/2.0);	
 			if (!s->obj)
 				ft_error();

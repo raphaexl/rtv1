@@ -22,10 +22,6 @@ typedef struct		s_input
 	int		quit;
 	int		mousex;
 	int		mousey;
-	int		xwheel;
-	int		ywheel;
-	int		mousexrel;
-	int		mouseyrel;
 	int		mouse[6];
 	int		keys[SDL_NUM_SCANCODES];
 }					t_input;
@@ -35,7 +31,6 @@ typedef struct		s_menu
 	SDL_Texture		*img[NB_OPTIONS];
 	SDL_Rect		pos[NB_OPTIONS];
 	int				keys[NB_OPTIONS];
-	t_options		option[ROTATE_Z + 1];
 }					t_menu;
 
 typedef	struct		s_ptr
