@@ -21,7 +21,8 @@ t_vector	ft_normal_sphere(t_object *s, t_vector p)
 
 t_vector	ft_normal_plane(t_object *plane, t_vector p)
 {
-	p = ft_rotate_vec3(plane->normal, plane->rotate, -1);
+	(void)p;
+	(void)plane;
 	return (ft_vector(0, 0, 1.0));
 }
 
