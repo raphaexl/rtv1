@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 11:33:09 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/23 09:45:13 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/24 11:04:41 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ t_vector	ft_normal_sphere(t_object *s, t_vector p)
 
 t_vector	ft_normal_plane(t_object *plane, t_vector p)
 {
-	p = ft_rotate_vec3(plane->normal, plane->rotate, -1);
+	(void)(plane);
+	(void)p;
 	return (ft_vector(0, 0, 1.0));
 }
 

@@ -6,20 +6,32 @@
 #    By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/28 22:15:58 by ebatchas          #+#    #+#              #
-#    Updated: 2019/04/23 22:46:49 by ebatchas         ###   ########.fr        #
+#    Updated: 2019/04/24 11:34:01 by ebatchas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC=gcc
+C=gcc
 
 SRCDIR=srcs
 LIBDIR=libs
 HEADDIR=includes
 CFLAGS=-Wall -Wextra -I$(HEADDIR)
-LDFLAGS= $(CFLAGS) -I$(HEADDIR) -L$(LIBDIR)/ -lft
-SDL2 = ./frameworks/SDL2.framework/Versions/A/SDL2
-SDL2_image = ./frameworks/SDL2_image.framework/Versions/A/SDL2_image
-SDL2_ttf = ./frameworks/SDL2_ttf.framework/Versions/A/SDL2_ttf
+LDFLAGS= $(CFLAGS) -L$(LIBDIR)/ -lft -lm
+
+UNAME_S := $(shell uname -s)
+
+ifeq	($(UNAME_S),Linux)
+	LDFLAGS += -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lm
+	#LDFLAGS = $(CFLAGS) $(LIBDIR)/libft/libft.a -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lm
+endif
+
+ifeq	($(UNAME_S),Darwin)
+	SDL2 = ./frameworks/SDL2.framework/Versions/A/SDL2
+	SDL2_image = ./frameworks/SDL2_image.framework/Versions/A/SDL2_image
+	SDL2_ttf = ./frameworks/SDL2_ttf.framework/Versions/A/SDL2_ttf
+	LDFLAGS += -F ./frameworks -framework SDL2 -framework SDL2_image -framework SDL2_ttf
+	CFLAGS += -F ./frameworks
+endif
 
 SRC=$(SRCDIR)/main.c\
 	$(SRCDIR)/input.c\
@@ -46,7 +58,6 @@ SRC=$(SRCDIR)/main.c\
 	$(SRCDIR)/raytrace.c\
 	$(SRCDIR)/trace.c\
 	$(SRCDIR)/compute.c\
-	$(SRCDIR)/intersections.c\
 	$(SRCDIR)/normals.c\
 	$(SRCDIR)/sdl.c
 
@@ -71,7 +82,6 @@ OBJ=$(LIBDIR)/main.o\
 	$(LIBDIR)/raytrace.o\
 	$(LIBDIR)/trace.o\
 	$(LIBDIR)/compute.o\
-	$(LIBDIR)/intersections.o\
 	$(LIBDIR)/normals.o\
 	$(LIBDIR)/vector1.o\
 	$(LIBDIR)/vector2.o\
@@ -84,17 +94,19 @@ NAME=rtv1
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	make -C $(LIBDIR)/libft/ fclean && make -C $(LIBDIR)/libft
-	cp $(LIBDIR)/libft/libft.a $(LIBDIR)/
-	$(CC) $(LDFLAGS) -o $@ $^ -F ./frameworks -framework SDL2 -framework SDL2_image -framework SDL2_ttf
-	@install_name_tool -change @rpath/SDL2.framework/Versions/A/SDL2 $(SDL2) $(NAME)
-	@install_name_tool -change @rpath/SDL2_image.framework/Versions/A/SDL2_image $(SDL2_image) $(NAME)
-	@install_name_tool -change @rpath/SDL2_ttf.framework/Versions/A/SDL2_ttf $(SDL2_ttf) $(NAME)
+	@make -C $(LIBDIR)/libft/ fclean && make -C $(LIBDIR)/libft
+	@cp $(LIBDIR)/libft/libft.a $(LIBDIR)/
+	$(CC) $(LDFLAGS) -o $@ $^
+ifeq ($(UNAME_S),Darwin)
+		@install_name_tool -change @rpath/SDL2.framework/Versions/A/SDL2 $(SDL2) $(NAME)
+		@install_name_tool -change @rpath/SDL2_image.framework/Versions/A/SDL2_image $(SDL2_image) $(NAME)
+		@install_name_tool -change @rpath/SDL2_ttf.framework/Versions/A/SDL2_ttf $(SDL2_ttf) $(NAME)
+endif
 
 $(LIBDIR)/%.o:$(HEADDIR)/%.h
 
 $(LIBDIR)/%.o:$(SRCDIR)/%.c
-	$(CC) $(CFLAGS) -o $@ -c $< -F ./frameworks
+	@$(CC) $(CFLAGS) -o $@ -c $<
 
 .PHONY:clean fclean
 
