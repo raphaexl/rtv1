@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 08:14:04 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/23 22:24:29 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/24 12:30:02 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static	t_object	ft_scene_random1(t_scene *s)
 	sphere.radius = 1000.0;
 	sphere.angle = 0.0;
 	sphere.normal = (t_vector){.0, 0.0, 0.0};
-	sphere.translate = (t_vector){.0, 0.0, 0.0};
+	sphere.translate = (t_vector){.0, 0.0, -5.0};
 	sphere.rotate = (t_vector){.0, 0.0, 0.0};
 	ft_object_push_back(&s->obj, ft_object_new(SPHERE, &sphere));
 	sphere.pos = (t_vector){0, 1, 0.0};
@@ -78,9 +78,9 @@ static	void		ft_scene_random(t_scene *s)
 	s->cam = ft_camera_new(ft_vector(0.0f, 0.0f, 0.0f),
 			ft_vector(0.0f, 0.0f, 0.0f), ft_vector(0.0f, 0.0f, 0.0f),
 			M_PI / 2.0);
-	l = (t_iterm){{13.0, 100.0, 100.0}, {1.0, 1.0, 1.0}};
+	l = (t_iterm){{0.0, 1.0, 10.0}, {1.0, 1.0, 1.0}};
 	ft_light_push_back(&s->light, ft_light_new(l.pos, l.color));
-	l = (t_iterm) {{100.0, 0.0, 100.0}, {1.0, 1.0, 1.0}};
+	l = (t_iterm) {{0.0, -1.0, 10.0}, {1.0, 1.0, 1.0}};
 	ft_light_push_back(&s->light, ft_light_new(l.pos, l.color));
 }
 
@@ -99,7 +99,7 @@ void				ft_scene_init(t_scene *s, char *const input_file)
 			ft_parse_file(s, fd);
 			s->cam = ft_camera_new(ft_vector(0.0f, 0.0f, 0.0f),
 					ft_vector(0.0f, 0.0f, 0.0f), ft_vector(0.0f, 0.0f, 0.0f),
-					M_PI / 4.0);
+					M_PI / 2.0);
 			if (!s->obj || !s->light)
 				ft_print_error("missing Light or objects :)");
 			s->curr_material = (t_material){{0.0, 0.0, 0.0}, 0.0};
