@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 15:57:28 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/23 22:17:23 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/24 18:05:59 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int			ft_update_options(t_menu *m, t_input *in, int k)
 			m->keys[i] = i * k;
 			return (1);
 		}
+		else
+			m->keys[i] = 0;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 10:47:27 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/23 22:52:14 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/24 16:00:26 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ typedef struct	s_intersect
 typedef	struct	s_scene
 {
 	t_material	curr_material;
-	t_type		type;
 	t_object	*obj;
 	t_light		*light;
 	t_camera	cam;

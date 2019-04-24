@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 22:21:00 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/23 22:11:24 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/24 18:15:21 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void			ft_draw(t_env *e)
 		arg[k].k = k;
 		arg[k].start = k * W_W / NB_THREADS;
 		arg[k].e = *e;
-		t[k] = SDL_CreateThread(ft_rend, "render", (void *)&arg[k]);
+		t[k] = SDL_CreateThread(ft_rend, "ft_rend", (void *)&arg[k]);
 	}
 	k = NB_THREADS;
 	while (--k >= 0)

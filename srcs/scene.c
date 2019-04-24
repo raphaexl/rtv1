@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 08:14:04 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/24 12:30:02 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/24 16:12:05 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ void				ft_scene_init(t_scene *s, char *const input_file)
 			s->cam = ft_camera_new(ft_vector(0.0f, 0.0f, 0.0f),
 					ft_vector(0.0f, 0.0f, 0.0f), ft_vector(0.0f, 0.0f, 0.0f),
 					M_PI / 2.0);
-			if (!s->obj || !s->light)
-				ft_print_error("missing Light or objects :)");
+			if (!s->light)
+				ft_print_error("missing Light :)");
 			s->curr_material = (t_material){{0.0, 0.0, 0.0}, 0.0};
 			close(fd);
 		}

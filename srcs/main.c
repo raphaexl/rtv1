@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 18:54:55 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/23 16:28:57 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/24 17:56:56 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		main(int argc, char *argv[])
 		ft_env_init(&e, argc, argv);
 	else
 		ft_error();
-	memset(&in, SDL_FALSE, sizeof(t_input));
+	ft_memset(&in, SDL_FALSE, sizeof(t_input));
 	while (!in.quit)
 	{
 		ft_update_event(&in);

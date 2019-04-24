@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 21:20:26 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/23 16:28:06 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/24 17:58:28 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void	ft_env_display_text(SDL_Renderer *r, char *m)
 		pos.x = 233 / 2 - pos.w / 2;
 	}
 	SDL_RenderCopy(r, t, NULL, &pos);
+	SDL_DestroyTexture(t);
 }
 
 void		ft_env_load_all(t_env *e)

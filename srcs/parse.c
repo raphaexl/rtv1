@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 21:09:23 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/23 09:48:23 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/24 16:12:06 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,5 @@ void		ft_parse_file(t_scene *s, int fd)
 			ft_error();
 	}
 	if (!s->obj)
-		ft_error();
+		ft_print_error("missing  objects :)");
 }
