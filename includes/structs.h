@@ -13,6 +13,7 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
+# include <time.h>
 # include "SDL2/SDL_image.h"
 # include "SDL2/SDL_ttf.h"
 # include "SDL2/SDL_thread.h"

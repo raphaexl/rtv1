@@ -12,6 +12,10 @@
 
 #include "../includes/rtv1.h"
 
+float	ft_clamp(float min, float max, float val)
+{ 
+  return (fmax(min, fmin(max, val)));
+}
 float	ft_rand48(void)
 {
 	static int	initialized = 0;

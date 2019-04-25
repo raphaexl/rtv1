@@ -54,6 +54,36 @@ t_light		*ft_light_read(int fd)
 	return (ft_light_new(iterm.pos, iterm.color));
 }
 
+t_camera	ft_camera_read(int fd)
+{
+	char		*line;
+	char		**tab;
+	t_iterm		iterm;
+	int			i;
+
+	if (ft_get_next_line(fd, &line) == 1 && line)
+	{
+		if ((tab = ft_strsplit(line, ' ')) && ft_tab_len(tab) != 6)
+			ft_print_error("invalid light paramters");
+		iterm.pos.x = atof(tab[0]);
+		iterm.pos.y = atof(tab[1]);
+		iterm.pos.z = atof(tab[2]);
+		iterm.color.red = atof(tab[3]);
+		iterm.color.green = atof(tab[4]);
+		iterm.color.blue = atof(tab[5]);
+		i = -1;
+		while (++i < 6)
+			free(tab[i]);
+		free(tab);
+		tab = NULL;
+	}
+	else
+		ft_error();
+	t_camera cam;
+	return (cam);
+}
+
+
 void		ft_parse_file(t_scene *s, int fd)
 {
 	char		*line;
@@ -70,6 +100,8 @@ void		ft_parse_file(t_scene *s, int fd)
 			ft_object_push_back(&s->obj, ft_plane_read(fd));
 		else if (!ft_strcmp(line, "light"))
 			ft_light_push_back(&s->light, ft_light_read(fd));
+		else if (!ft_strcmp(line, "camera"))
+			s->cam = ft_camera_read(fd);
 		else
 			ft_error();
 	}

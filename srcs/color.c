@@ -31,3 +31,13 @@ t_color		ft_color_sum(t_color a, t_color b)
 	res.blue = a.blue + b.blue;
 	return (res);
 }
+
+t_color		ft_color_kmult(float k, t_color b)
+{
+	t_color res;
+
+	res.red = k * b.red;
+	res.green = k * b.green;
+	res.blue = k * b.blue;
+	return (res);
+}

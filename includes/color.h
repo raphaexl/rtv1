@@ -22,4 +22,5 @@ typedef struct	s_color
 
 t_color			ft_color(float r, float g, float b);
 t_color			ft_color_sum(t_color a, t_color b);
+t_color			ft_color_kmult(float k, t_color b);
 #endif

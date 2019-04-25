@@ -45,11 +45,12 @@ int			ft_plane_intersect(t_object *plane, t_ray *r, float *t)
 	ddn = ft_vector_dot(r->dir, plane->normal);
 	if (ddn == 0.000001)
 		return (0);
-	dist = ft_vector_sub(r->start, plane->pos);
-	t1 = (-ft_vector_dot(dist, plane->normal)) / ddn;
-	if (t1 < 0.001 || t1 > *t)
-		return (0);
+	dist = ft_vector_sub(plane->pos, r->start);
+	t1 = (ft_vector_dot(dist, plane->normal)) / ddn;
+	/*if (t1 < 0.001 || t1 > *t)
+		return (0);*/
 	*t = t1;
+	return (*t >= 0);
 	if (ddn > 0)
 		return (2);
 	return (1);

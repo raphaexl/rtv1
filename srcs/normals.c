@@ -14,8 +14,8 @@
 
 t_vector	ft_normal_sphere(t_object *s, t_vector p)
 {
-	p = ft_rotate_vec3(p, s->rotate, -1);
-	p = ft_translate_vec3(p, s->translate, -1);
+/*	p = ft_rotate_vec3(p, s->rotate, -1);
+	p = ft_translate_vec3(p, s->translate, -1);*/
 	return (ft_vector_normalized(p));
 }
 

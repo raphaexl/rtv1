@@ -22,6 +22,11 @@ typedef enum	e_type
 	NONE = 0, SPHERE, PLANE, CYLINDRE, CONE
 }				t_type;
 
+typedef enum	e_material_type
+{
+	NONE = 0, DIFFUSE_AND_GLOSSY, REFLECTION_AND_REFRACTION, REFLECTION
+}				t_material_type;
+
 typedef	struct	s_camera
 {
 	t_vector	pos;
@@ -29,9 +34,9 @@ typedef	struct	s_camera
 	t_vector	trans;
 	t_vector	cam_space;
 	float		ratio;
-	float		fov;
 	float		ndcw;
 	float		ndch;
+	float		fov;
 }				t_camera;
 
 typedef struct	s_ray
@@ -42,7 +47,9 @@ typedef struct	s_ray
 
 typedef	struct	s_l
 {
+	int		directional;
 	t_vector	pos;
+	t_vector	dir;
 	t_color		intensity;
 	struct s_l	*next;
 }				t_light;
@@ -50,7 +57,11 @@ typedef	struct	s_l
 typedef struct	s_material
 {
 	t_color		diffuse;
-	float		reflection;
+	int		chess;
+	float		ior;
+	float		kdiff;
+	float		kspec;
+	float		specp;
 }				t_material;
 
 typedef	struct	s_o

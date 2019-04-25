@@ -15,6 +15,8 @@
 
 # include <math.h>
 
+# define MAX_DEPTH 10
+# define MAX_DISTANCE 1000.0f
 # define RAND_N 3
 # define DEG_TO_RAD(x) ((x) * (M_PI / 180.0))
 

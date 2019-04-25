@@ -47,13 +47,15 @@ t_material		ft_material_read(int fd)
 	material.diffuse.blue = 1.0;
 	if (ft_get_next_line(fd, &line) == 1 && line)
 	{
-		if ((tab = ft_strsplit(line, ' ')) && ft_tab_len(tab) != 4)
+		if ((tab = ft_strsplit(line, ' ')) && ft_tab_len(tab) != 6)
 			ft_error();
 		material.diffuse.red = atof(tab[0]);
 		material.diffuse.green = atof(tab[1]);
 		material.diffuse.blue = atof(tab[2]);
 		material.reflection = atof(tab[3]);
-		while (++i < 4)
+		material.refraction = atof(tab[4]);
+		material.chess = atoi(tab[5]);
+		while (++i < 6)
 			free(tab[i]);
 		free(tab);
 		tab = NULL;

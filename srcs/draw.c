@@ -39,7 +39,7 @@ void			ft_render(t_scene *s, Uint32 *pixels)
 		{
 			inter.ray.start = s->cam.pos;
 			inter.ray.dir = ft_camera_dir(s->cam, x, y);
-			c = ft_ray_trace(s, &inter);
+			c = ft_ray_trace(s, &inter, 0);
 			pixels[x + y * W_W] = ft_clamp(c.red, c.green, c.blue);
 		}
 	}
@@ -62,7 +62,7 @@ static	int		ft_rend(void *ptr)
 		{
 			inter.ray.start = g->e.s.cam.pos;
 			inter.ray.dir = ft_camera_dir(g->e.s.cam, x, y);
-			c = ft_ray_trace(&g->e.s, &inter);
+			c = ft_ray_trace(&g->e.s, &inter, 0);
 			g->e.pixels[x + y * W_W] = ft_clamp(c.red, c.green,
 					c.blue);
 		}

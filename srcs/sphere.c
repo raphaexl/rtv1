@@ -37,16 +37,18 @@ int			ft_sphere_intersect(t_object *s, t_ray *r, float *t)
 	float		t1;
 	float		t2;
 
-	d.a = ft_vector_dot(r->dir, r->dir);
-	dist = ft_vector_sub(r->start, s->pos);
-	d.b = 2.0 * ft_vector_dot(r->dir, dist);
+//	d.a = ft_vector_dot(r->dir, r->dir);
+	dist = ft_vector_sub(s->pos, r->start);
+	//d.b = 2.0 * ft_vector_dot(r->dir, dist);
+	d.b = ft_vector_dot(r->dir, dist);
 	d.c = ft_vector_dot(dist, dist) - (s->radius * s->radius);
-	d.delta = d.b * d.b - 4.0 * d.c * d.a;
-	if (d.delta < 0)
+	//d.delta = d.b * d.b - 4.0 * d.c * d.a;
+	d.delta = d.b * d.b - d.c ;//* d.a;
+	if (d.delta < 0.0001)
 		return (0);
 	d.delta = sqrt(d.delta);
-	t1 = (-d.b + d.delta) / (2.0 * d.a);
-	t2 = (-d.b - d.delta) / (2.0 * d.a);
+	t1 = (d.b + d.delta) ;// (2.0 * d.a);
+	t2 = (d.b - d.delta) ;// (2.0 * d.a);
 	if (t1 > t2)
 		t1 = t2;
 	if ((t1 > 0.001) && (t1 < *t))
