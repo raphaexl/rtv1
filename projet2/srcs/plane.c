@@ -52,7 +52,6 @@ int			ft_plane_intersect(t_object *plane, t_ray *r, float *t)
 	if (t1 < 0.001 || t1 > *t)
 		return (0);
 	*t = t1;
-	//return (*t >= 0);
 	if (ddn > 0)
 		return (2);
 	return (1);

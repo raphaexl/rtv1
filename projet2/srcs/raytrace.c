@@ -98,6 +98,35 @@ t_color			ft_ray_trace(t_scene *s, t_intersect *in, int depth)
 		return (c);
 	m = &in->current->material;
 	s->curr_material = *m;
+		c = ft_light(s, in, c);
+	if (depth < MAX_DEPTH && m->reflection > 0.0)
+	{
+		ft_reflect_light(in);
+		c = ft_color_sum(c, ft_color_kmult(m->reflection,
+					ft_ray_trace(s, in, depth + 1)));
+	}
+	if (depth < MAX_DEPTH && m->refraction > 0.0)
+	{
+		if (ft_refract_light(in))
+			c = ft_color_kmult(m->refraction, ft_ray_trace(s, in, depth + 1));
+	}
+//	return (m->diffuse);
+	return (c);
+}
+
+/*t_color			ft_ray_trace(t_scene *s, t_intersect *in, int depth)
+{
+	t_color		c;
+	t_material	*m;
+
+	c = (t_color){.red = 0.01f, .green = 0.01f, .blue = 0.01f};
+	in->t = 20000.0f;
+	if (depth > MAX_DEPTH)
+		return (c);
+	if (!ft_scene_intersect(s, in))
+		return (c);
+	m = &in->current->material;
+	s->curr_material = *m;
 	if (depth < MAX_DEPTH && m->reflection > 0.0)
 	{
 		ft_reflect_light(in);
@@ -111,5 +140,6 @@ t_color			ft_ray_trace(t_scene *s, t_intersect *in, int depth)
 	}
 	else
 		c = ft_light(s, in, c);
+//	return (m->diffuse);
 	return (c);
-}
+}*/

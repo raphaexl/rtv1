@@ -94,7 +94,7 @@ t_object		*ft_cone_read(int fd)
 	iterm.rotate = ft_vector_read(fd);
 	iterm.normal = ft_vector(0.0, 0.0, 0.0);
 	if (ft_get_next_line(fd, &line) == 1 && line)
-		iterm.angle = atof(line);
+		iterm.angle = DEG_TO_RAD(ft_clamp(1.0, 89.0, atof(line)));
 	else
 		ft_error();
 	iterm.material = ft_material_read(fd);

@@ -45,7 +45,7 @@ static t_color	ft_phong_shading(t_intersect *in, t_color intens)
 	tp = ft_vector_kmult(reflect, in->n);
 	phong_dir = ft_vector_sub(in->ray_light.dir, tp);
 	phong_term = fmax(ft_vector_dot(phong_dir, in->ray.dir), 0.0f);
-	phong_term = 1.0 * pow(phong_term, 65.0);
+	phong_term = 0.2 * pow(phong_term, 20.0);
 	return (ft_color(phong_term * intens.red, phong_term * intens.green,
 				phong_term * intens.blue));
 }

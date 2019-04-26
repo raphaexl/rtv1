@@ -16,7 +16,7 @@ static	int		ft_min_ray(float t1, float t2, float *t)
 {
 	if (t1 > t2)
 		t1 = t2;
-	if ((t1 > 0.001) && t1 < *t)
+	if ((t1 > 0.0000001) && t1 < *t)
 	{
 		*t = t1;
 		return (1);
@@ -57,7 +57,7 @@ int				ft_cone_intersect(t_object *c, t_ray *r, float *t)
 	d.c = anglecos * (dist.z * dist.z + dist.x * dist.x)
 		- anglesin * (dist.y * dist.y);
 	d.delta = d.b * d.b - 4.0 * d.a * d.c;
-	if (d.delta < 0.0)
+	if (d.delta < 0.0001)
 		return (0);
 	d.delta = sqrt(d.delta);
 	return (ft_min_ray((-d.b + d.delta) / (2.0 * d.a),
