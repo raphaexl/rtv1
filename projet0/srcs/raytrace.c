@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:09:53 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/25 16:09:34 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/26 23:17:00 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,17 +107,16 @@ t_color			ft_ray_trace(t_scene *s, t_intersect *in, int depth)
 		return (c);
 	m = &in->current->material;
 	s->curr_material = *m;
+	c = ft_light(s, in, c);//m->diffuse;
 	if (depth < MAX_DEPTH && m->reflection > 0.0)
 	{
 		ft_reflect_light(in);
 		c = ft_color_sum(c, ft_color_kmult(m->reflection, ft_ray_trace(s, in, depth + 1)));
 	}
-	else if (depth < MAX_DEPTH && m->refraction > 0.0)
+	if (depth < MAX_DEPTH && m->refraction > 0.0)
 	{
 		if (ft_refract_light(in));
 		c = ft_color_kmult(m->refraction, ft_ray_trace(s, in, depth + 1));
 	}
-	else
-		c = ft_light(s, in, c);//m->diffuse;
 	return (c);
 }
