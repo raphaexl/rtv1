@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 12:28:07 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/25 17:27:33 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/26 14:11:54 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_color	ft_ambient_light(t_color diffuse)
 	float		ambiant;
 	t_color		c;
 
-	ambiant = 0.2;
+	ambiant = 0.02;
 	c.red = ambiant * diffuse.red;
 	c.green = ambiant * diffuse.green;
 	c.blue = ambiant * diffuse.blue;
@@ -61,6 +61,5 @@ t_color			ft_trace(t_intersect *in, t_material m, t_light *l)
 	c = ft_ambient_light(m.diffuse);
 	lambert = ft_vector_dot(in->ray_light.dir, in->n);
 	c = ft_color_sum(c, ft_diffuse_light(intensity, m.diffuse, lambert));
-	//return (c);
 	return (ft_color_sum(c, ft_phong_shading(in, intensity)));
 }

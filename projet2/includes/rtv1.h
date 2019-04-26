@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:04:01 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/25 18:04:19 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/26 14:31:30 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # define SCR_WIDTH 1200
 # define SCR_HEIGHT 750
-# define W_W 900
-# define W_H 450
+# define W_W 960
+# define W_H 600
 # define B_W 960
 # define B_H 600
 # define START_X (SCR_WIDTH - B_W) / 2
@@ -35,9 +35,9 @@
 
 float		ft_rand48(void);
 float		ft_clamp(float min, float max, float val);
-t_vector		ft_reflect(t_vector i, t_vector n);
-t_vector	  ft_refract1(t_vector i, t_vector n, float ior);
-void		fresnel(t_vector i, t_vector n, float ior, float *kr);
+t_vector	ft_reflect(t_vector i, t_vector n);
+t_vector	ft_refract(t_vector i, t_vector n, float eta);
+t_color		ft_background_color(t_ray *r);
 void		ft_error(void);
 int			ft_tab_len(char **tab);
 void		ft_print_error(char *str);

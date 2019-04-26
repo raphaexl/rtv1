@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 15:46:04 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/08 15:35:45 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/26 14:27:36 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@ typedef struct	s_color
 
 t_color		ft_color(float r, float g, float b);
 t_color		ft_color_sum(t_color a, t_color b);
-t_color		ft_color_sub(t_color a, t_color b);
-t_color		ft_color_div(t_color a, float k);
 t_color		ft_color_mult(t_color a, t_color b);
 t_color		ft_color_kmult(float k, t_color a);
-t_color		ft_color_multk(t_color a, float k);
 #endif

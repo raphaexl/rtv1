@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 08:43:45 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/25 16:02:58 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/26 14:40:28 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int			ft_sphere_compute(t_object *p, t_intersect *in)
 	in->current = p;
 	in->p = ft_vector_sum(in->ray.start, ft_vector_kmult(in->t, in->ray.dir));
 	tmp = ft_vector_sub(in->p, p->pos);
-	//in->n = ft_normal_sphere(p, tmp);
-	in->n = ft_vector_kmult(1.0 / p->radius, tmp);
+	in->n = ft_normal_sphere(p, tmp);
+	//in->n = ft_vector_kmult(1.0 / p->radius, tmp);
 	return (1);
 }
 

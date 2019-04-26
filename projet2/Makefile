@@ -6,7 +6,7 @@
 #    By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/28 22:15:58 by ebatchas          #+#    #+#              #
-#    Updated: 2019/04/25 15:19:27 by ebatchas         ###   ########.fr        #
+#    Updated: 2019/04/26 14:42:55 by ebatchas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC=$(SRCDIR)/main.c\
 	$(SRCDIR)/input.c\
 	$(SRCDIR)/process.c\
 	$(SRCDIR)/verbose.c\
+	$(SRCDIR)/error.c\
 	$(SRCDIR)/utils.c\
 	$(SRCDIR)/draw.c\
 	$(SRCDIR)/load.c\
@@ -57,7 +58,7 @@ SRC=$(SRCDIR)/main.c\
 	$(SRCDIR)/color.c\
 	$(SRCDIR)/raytrace.c\
 	$(SRCDIR)/pathtrace.c\
-	$(SRCDIR)/trace.c\
+	$(SRCDIR)/phong.c\
 	$(SRCDIR)/reflections.c\
 	$(SRCDIR)/compute.c\
 	$(SRCDIR)/normals.c\
@@ -67,6 +68,7 @@ OBJ=$(LIBDIR)/main.o\
 	$(LIBDIR)/input.o\
 	$(LIBDIR)/process.o\
 	$(LIBDIR)/verbose.o\
+	$(LIBDIR)/error.o\
 	$(LIBDIR)/utils.o\
 	$(LIBDIR)/draw.o\
 	$(LIBDIR)/load.o\
@@ -83,7 +85,7 @@ OBJ=$(LIBDIR)/main.o\
 	$(LIBDIR)/camera.o\
 	$(LIBDIR)/raytrace.o\
 	$(LIBDIR)/pathtrace.o\
-	$(LIBDIR)/trace.o\
+	$(LIBDIR)/phong.o\
 	$(LIBDIR)/compute.o\
 	$(LIBDIR)/normals.o\
 	$(LIBDIR)/vector1.o\

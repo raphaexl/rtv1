@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.h                                           :+:      :+:    :+:   */
+/*   reflections.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/06 06:17:50 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/25 18:38:31 by ebatchas         ###   ########.fr       */
+/*   Created: 2019/04/25 13:33:34 by ebatchas          #+#    #+#             */
+/*   Updated: 2019/04/26 15:12:17 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAMERA_H
-# define CAMERA_H
-# include "vector.h"
+#include "../includes/vector.h"
 
-typedef struct	s_ray	t_ray;
-
-typedef enum	e_mode
+t_vector	  ft_refract(t_vector i, t_vector n, float eta)
 {
-	RAY_TRACE, PATH_TRACE
-}				t_mode;
+	float		cosi;
+	float		cost;
 
-typedef	struct	s_camera
-{
-	t_vector	pos;
-	t_vector	rot;
-	float		zoom;
-}				t_camera;
-
-t_camera		ft_camera_new(t_vector o, t_vector r, float zoom);
-t_ray		ft_camera_dir(t_camera *cam, int x, int y);
-#endif
+	cosi = -ft_vector_dot(n, i);
+	cost = 1.0 - eta * eta * (1.0 - cosi * cosi);
+	return (ft_vector_sum(ft_vector_kmult(eta, i),
+				ft_vector_kmult(eta * cosi - sqrtf(cost), n)));
+}

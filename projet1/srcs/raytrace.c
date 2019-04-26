@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:09:53 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/25 20:20:39 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/26 13:08:47 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static	int	ft_reflect_light(t_intersect *in)
 	reflect = ft_reflect(in->ray.dir, in->n);
 	in->ray.start = ft_vector_sum(in->p, ft_vector_kmult(0.001, reflect));
 	in->ray.dir = ft_vector_normalized(reflect);
-	//in->ray.dir = reflect;
 	return (1);
 }
 
@@ -42,12 +41,10 @@ static	int	ft_refract_light(t_intersect *in)
 	{
 		in->ray.start = ft_vector_sum(in->p, ft_vector_kmult(0.001, refract));
 		in->ray.dir = ft_vector_normalized(refract);
-		//in->ray.dir = refract;
 		return (1);
 	}
 		in->ray.start = ft_vector_sum(in->p, ft_vector_kmult(-0.001, refract));
 		in->ray.dir = ft_vector_normalized(refract);
-		//in->ray.dir = refract;
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 21:09:23 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/25 19:22:33 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/26 14:49:00 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,22 @@ t_camera	ft_camera_read(int fd)
 
 	cam.pos = ft_vector_read(fd);
 	cam.rot = ft_vector_read(fd);
-	cam.zoom = DEFAULT_DIST;
 	if (ft_get_next_line(fd, &line) == 1 && line)
 	{
 		if ((tab = ft_strsplit(line, ' ')) && ft_tab_len(tab) != 1)
-			ft_print_error("invalid light paramters");
-		cam.zoom = atof(tab[0]);
+			ft_print_error("invalid fov paramter");
+		cam.fov = atof(tab[0]);
 		i = -1;
 		while (++i < 1)
 			free(tab[i]);
 		free(tab);
 		tab = NULL;
 	}
-	return (cam);
+	else
+		ft_error();
+	return (ft_camera_new(cam.pos, cam.rot, ft_vector(0.0, 1.0, 0.0), cam.fov));
 }
+
 
 void		ft_parse_file(t_scene *s, int fd)
 {

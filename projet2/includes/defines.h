@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 11:55:38 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/25 19:24:48 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/25 14:33:45 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <math.h>
 
 # define MAX_DEPTH 5
-# define DEFAULT_DIST 50
 # define MAX_DISTANCE 1000.0f
 # define RAND_N 3
 # define DEG_TO_RAD(x) ((x) * (M_PI / 180.0))

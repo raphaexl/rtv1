@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 22:21:00 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/25 18:41:44 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/26 15:27:04 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void			ft_render(t_scene *s, Uint32 *pixels)
 		y = W_H;
 		while (--y >= 0)
 		{
-			inter.ray = ft_camera_dir(&s->cam, x, y);
+			inter.ray = ft_camera_ray(&s->cam, x, y);
 			c = s->ft_rtv1(s, &inter, 0);
-			pixels[x + (W_H - 1 - y) * W_W] = ft_cclamp(c.red, c.green, c.blue);
+			pixels[x + (W_H - y - 1) * W_W] = ft_cclamp(c.red, c.green, c.blue);
 		}
 	}
 }
@@ -59,9 +59,9 @@ static	int		ft_rend(void *ptr)
 		y = W_H;
 		while (--y >= 0)
 		{
-			inter.ray = ft_camera_dir(&g->e.s.cam, x, y);
+			inter.ray = ft_camera_ray(&g->e.s.cam, x, y);
 			c = g->e.s.ft_rtv1(&g->e.s, &inter, 0);
-			g->e.pixels[x + (W_H - y - 1) * W_W] = ft_cclamp(c.red, c.green,
+			g->e.pixels[x + (W_H - 1 - y) * W_W] = ft_cclamp(c.red, c.green,
 					c.blue);
 		}
 	}

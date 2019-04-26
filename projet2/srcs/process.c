@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 15:57:28 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/25 19:35:29 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/26 15:24:01 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,25 @@ int			ft_update_options(t_menu *m, t_input *in, int k)
 void		ft_env_update_camera(t_camera *cam, t_menu *m, float rev)
 {
 	if (m->keys[MOVE_X])
-		cam->pos.x += (rev * 0.01);
+		cam->trans.x += (rev * 0.1);
 	else if (m->keys[MOVE_Y])
-		cam->pos.y += (rev * 0.01);
+		cam->trans.y += (rev * 0.1);
 	else if (m->keys[MOVE_Z])
-		cam->pos.z += (rev * 0.01);
+		cam->trans.z += (rev * 0.1);
 	else if (m->keys[ROTATE_X])
-		cam->rot.x += (4.5 * rev);
+		cam->rot.x += (2.5 * rev);
 	else if (m->keys[ROTATE_Y])
-		cam->rot.y += (3.5 * rev);
+		cam->rot.y += (2.5 * rev);
 	else if (m->keys[ROTATE_Z])
-		cam->rot.z += (5.5 * rev);
+		cam->rot.z += (2.5 * rev);
 	else if (m->keys[ZOOM])
-		cam->zoom += (5.5 * rev);
-	printf("pos x : %.2lf\t y : %.2lf\t %.2lf\n", cam->pos.x, cam->pos.y, cam->pos.z);
-	printf("zoom  : %.2lf\n", cam->zoom);
+	{
+		cam->fov += (0.01 * rev);
+		cam->fov = ft_clamp(0.1, M_PI - 0.1, cam->fov);
+	}
+	cam->h = tan(cam->fov / 2.0);
+	cam->w = cam->ratio * cam->h;
+	ft_camera_transform(cam);
 }
 
 int			ft_process_event(t_env *e, t_input *in)
@@ -82,15 +86,10 @@ int			ft_process_event(t_env *e, t_input *in)
 			return (1);
 		}
 	}
-	if (in->keys[SDL_SCANCODE_SPACE])
-	{
-		e->s.mode = (e->s.mode  ==  PATH_TRACE) ?  PATH_TRACE :  RAY_TRACE;
-		if (e->s.mode == PATH_TRACE)
-			e->s.ft_rtv1 = ft_path_trace;
-		else
-			e->s.ft_rtv1 = ft_ray_trace;
-		return (1);
-	}
 	ft_update_options(&e->menu, in, 0);
+	/*if (e->s.mode == PATH_TRACE)
+	  e->s.ft_rtv1 = ft_path_trace;
+	  else
+	  e->s.ft_rtv1 = ft_ray_trace;*/
 	return (0);
 }
