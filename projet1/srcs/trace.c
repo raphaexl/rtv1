@@ -61,6 +61,5 @@ t_color			ft_trace(t_intersect *in, t_material m, t_light *l)
 	c = ft_ambient_light(m.diffuse);
 	lambert = ft_vector_dot(in->ray_light.dir, in->n);
 	c = ft_color_sum(c, ft_diffuse_light(intensity, m.diffuse, lambert));
-	return (c);
-	//return (ft_color_sum(c, ft_phong_shading(in, intensity)));
+	return (ft_color_sum(c, ft_phong_shading(in, intensity)));
 }

@@ -15,8 +15,8 @@
 
 # define SCR_WIDTH 1200
 # define SCR_HEIGHT 750
-# define W_W 900
-# define W_H 450
+# define W_W 960
+# define W_H 600
 # define B_W 960
 # define B_H 600
 # define START_X (SCR_WIDTH - B_W) / 2

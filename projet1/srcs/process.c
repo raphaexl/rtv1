@@ -81,9 +81,9 @@ int			ft_process_event(t_env *e, t_input *in)
 		}
 	}
 	ft_update_options(&e->menu, in, 0);
-	if (e->s.mode == PATH_TRACE)
+	/*if (e->s.mode == PATH_TRACE)
 		e->s.ft_rtv1 = ft_path_trace;
 	else
-		e->s.ft_rtv1 = ft_ray_trace;
+		e->s.ft_rtv1 = ft_ray_trace;*/
 	return (0);
 }

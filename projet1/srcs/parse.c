@@ -62,7 +62,7 @@ t_camera	ft_camera_read(int fd)
 	int			i;
 
 	cam.pos = ft_vector_read(fd);
-	cam.at = ft_vector_read(fd);
+	cam.rot = ft_vector_read(fd);
 	if (ft_get_next_line(fd, &line) == 1 && line)
 	{
 		if ((tab = ft_strsplit(line, ' ')) && ft_tab_len(tab) != 1)
@@ -76,7 +76,7 @@ t_camera	ft_camera_read(int fd)
 	}
 	else
 		ft_error();
-	return (ft_camera_new(cam.pos, cam.at, cam.fov));
+	return (ft_camera_new(cam.pos, cam.rot, cam.fov));
 }
 
 
