@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 08:53:45 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/27 18:54:13 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:00:25 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,30 @@ t_vector		ft_vector_read(int fd)
 	return (vect);
 }
 
+t_color		ft_color_read(int fd)
+{
+	t_color		c;
+	char		*line;
+	char		**tab;
+	int			i;
+
+	i = -1;
+	c.red = 0;
+	if (ft_get_next_line(fd, &line) == 1 && line)
+	{
+		if ((tab = ft_strsplit(line, ' ')) && ft_tab_len(tab) != 3)
+			ft_error();
+		c.red = atof(tab[0]);
+		c.green = atof(tab[1]);
+		c.blue = atof(tab[2]);
+		while (++i < 3)
+			free(tab[i]);
+		free(tab);
+		tab = NULL;
+	}
+	return (c);
+}
+
 t_material		ft_material_read(int fd)
 {
 	char		*line;
@@ -45,17 +69,18 @@ t_material		ft_material_read(int fd)
 
 	i = -1;
 	material.diffuse.blue = 1.0;
+	material.diffuse = ft_color_read(fd);
+	material.specular = ft_color_read(fd);
+	if (ft_get_next_line(fd, &line) == 1 && line)
+		material.spec_pow = atof(line);
 	if (ft_get_next_line(fd, &line) == 1 && line)
 	{
-		if ((tab = ft_strsplit(line, ' ')) && ft_tab_len(tab) != 6)
+		if ((tab = ft_strsplit(line, ' ')) && ft_tab_len(tab) != 3)
 			ft_error();
-		material.diffuse.red = atof(tab[0]);
-		material.diffuse.green = atof(tab[1]);
-		material.diffuse.blue = atof(tab[2]);
-		material.reflection = atof(tab[3]);
-		material.refraction = atof(tab[4]);
-		material.chess = atoi(tab[5]);
-		while (++i < 6)
+		material.reflection = atof(tab[0]);
+		material.refraction = atof(tab[1]);
+		material.chess = atoi(tab[2]);
+		while (++i < 3)
 			free(tab[i]);
 		free(tab);
 		tab = NULL;

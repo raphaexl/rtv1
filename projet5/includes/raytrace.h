@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 10:47:27 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/27 21:32:16 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/28 21:49:49 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ typedef struct	s_material
 {
 	t_color		diffuse;
 	t_color		specular;
-	int			chess;
 	float		spec_pow;
 	float		reflection;
 	float		refraction;
+	int			chess;
 }				t_material;
 
 typedef	struct	s_o

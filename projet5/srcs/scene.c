@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 08:14:04 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/27 17:59:34 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:18:02 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void				ft_scene_init(t_scene *s, char *const input_file)
 	else
 		ft_error();
 	s->nb_of_samples = 1;
-	s->ft_rtv1 = ft_ray_trace;
+	s->ft_rtv1 = ft_path_trace;
 }
 
 void				ft_scene_clear(t_scene *s)

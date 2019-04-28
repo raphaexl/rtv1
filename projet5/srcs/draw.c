@@ -6,21 +6,21 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 22:21:00 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/27 18:53:14 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:24:43 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
 
-static Uint32	ft_clamp_exp(float red, float green, float blue, float factor)
+static Uint32	ft_clamp_gama(float red, float green, float blue, float factor)
 {
 	unsigned char	r;
 	unsigned char	g;
 	unsigned char	b;
 
-	r = (unsigned char)fmin(red * 255.0 * factor, 255.0);
-	g = (unsigned char)fmin(green * 255.0 * factor, 255.0);
-	b = (unsigned char)fmin(blue * 255.0 * factor, 255.0);
+	r = (unsigned char)fmin(red * factor * 255.0, 255.0);
+	g = (unsigned char)fmin(green * factor * 255.0, 255.0);
+	b = (unsigned char)fmin(blue * factor * 255.0, 255.0);
 	return (b + (g << 8) + (r << 16));
 }
 
@@ -29,29 +29,24 @@ void			ft_render(t_scene *s, Uint32 *pixels)
 	t_intersect	inter;
 	int			y;
 	int			x;
-	int			y1;
-	int			x1;
+	int			a;
 	t_color		c;
 
 	x = W_W;
-	c = (t_color){0.0, 0.0, 0.0};
 	while (--x >= 0)
 	{
 		y = W_H;
 		while (--y >= 0)
 		{
-			x1 = s->nb_of_samples;
-			while (--x1 >= 0)
+			a = 10;
+			c = (t_color){0.0, 0.0, 0.0};
+			while (--a >= 0)
 			{
-				y1 = s->nb_of_samples;
-				while (--y1 >= 0)
-				{
-					inter.ray = ft_camera_ray(&s->cam, x + (x1 + 0.5) / s->nb_of_samples, y + (y1 + 0.5) / s->nb_of_samples);
-					c = ft_color_sum(c, s->ft_rtv1(s, &inter, 0));
-				}
+				inter.ray = ft_camera_ray(&s->cam, x + ft_rand48(), y + ft_rand48());
+				c = s->ft_rtv1(s, &inter, 0);
 			}
-			pixels[x + (W_H - y - 1) * W_W] = ft_clamp_exp(c.red, c.green, c.blue,
-					1.0 / pow(s->nb_of_samples, 2));
+			pixels[x + (W_H - 1 - y) * W_W] = ft_clamp_gama(c.red, c.green,
+					c.blue, 1);
 		}
 	}
 }
@@ -62,8 +57,7 @@ static	int		ft_rend(void *ptr)
 	t_arg		*g;
 	int			y;
 	int			x;
-	int			y1;
-	int			x1;
+	int			a;
 	t_color		c;
 
 	g = (t_arg *)ptr;
@@ -73,11 +67,15 @@ static	int		ft_rend(void *ptr)
 		y = W_H;
 		while (--y >= 0)
 		{
-	c = (t_color){0.0, 0.0, 0.0};
-					inter.ray = ft_camera_ray(&g->e.s.cam, x + 0.5, y + 0.5);
-					c = ft_color_sum(c, g->e.s.ft_rtv1(&g->e.s, &inter, 0));
-			g->e.pixels[x + (W_H - 1 - y) * W_W] = ft_clamp_exp(c.red, c.green,
-					c.blue, 1.0);
+			a = 10;
+			c = (t_color){0.0, 0.0, 0.0};
+			while (--a >= 0)
+			{
+				inter.ray = ft_camera_ray(&g->e.s.cam, x + ft_rand48(), y + ft_rand48());
+				c = ft_color_sum(c, g->e.s.ft_rtv1(&g->e.s, &inter, 0));
+			}
+			g->e.pixels[x + (W_H - 1 - y) * W_W] = ft_clamp_gama(c.red, c.green,
+					c.blue, 0.1);
 		}
 	}
 	return (0);

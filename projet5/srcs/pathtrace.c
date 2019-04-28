@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:29:41 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/27 21:35:09 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:28:36 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ t_color		ft_path_trace(t_scene *s, t_intersect *in, int depth)
 	in->t = 20000.0f;
 	if (ft_scene_intersect(s, in))
 	{
-		if (s->mode == EDIT)
-			return (in->current->material.diffuse);
 		if (depth < MAX_DEPTH)
 		{
 			if (in->current->material.reflection > 0.0)

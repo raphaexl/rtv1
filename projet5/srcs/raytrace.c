@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 14:03:14 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/27 21:34:57 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/28 22:02:50 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int		ft_reflect_light(t_intersect *in)
 	t_vector	reflect;
 
 	reflect = ft_reflect(in->ray.dir, in->n);
-	in->ray.start = ft_vector_sub(in->p, ft_vector_kmult(0.001, reflect));
+	in->ray.start = ft_vector_sub(in->p, reflect);//ft_vector_kmult(0.001, reflect));
 	in->ray.dir = ft_vector_normalized(reflect);
 	return (1);
 }
@@ -94,23 +94,23 @@ t_color			ft_ray_trace(t_scene *s, t_intersect *in, int depth)
 	if (depth > MAX_DEPTH)
 		return (c);
 	if (ft_scene_intersect(s, in))
+	{
+		if (s->mode == EDIT)
+			return (in->current->material.diffuse);
+		m = &in->current->material;
+		s->curr_material = *m;
+		c = ft_light(s, in, c);
+		if (depth < MAX_DEPTH && m->reflection > 0.0)
 		{
-	if (s->mode == EDIT)
-		return (in->current->material.diffuse);
-	m = &in->current->material;
-	s->curr_material = *m;
-	c = ft_light(s, in, c);
-	if (depth < MAX_DEPTH && m->reflection > 0.0)
-	{
-		ft_reflect_light(in);
-		c = ft_color_sum(c, ft_color_kmult(m->reflection,
-					ft_ray_trace(s, in, depth + 1)));
+			ft_reflect_light(in);
+			c = ft_color_sum(c, ft_color_kmult(m->reflection,
+						ft_ray_trace(s, in, depth + 1)));
+		}
+		if (depth < MAX_DEPTH && m->refraction > 0.0)
+		{
+			if (ft_refract_light(in))
+				c = ft_color_kmult(m->refraction, ft_ray_trace(s, in, depth + 1));
+		}
 	}
-	if (depth < MAX_DEPTH && m->refraction > 0.0)
-	{
-		if (ft_refract_light(in))
-			c = ft_color_kmult(m->refraction, ft_ray_trace(s, in, depth + 1));
-	}
-}
 	return (c);
 }
