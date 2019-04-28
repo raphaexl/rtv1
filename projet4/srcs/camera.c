@@ -36,13 +36,13 @@ t_camera		ft_camera_new(t_vector eye, t_vector at, t_vector up, float a)
 	return (cam);
 }
 
-t_ray		ft_camera_ray(t_camera *cam, int x, int y)
+t_ray		ft_camera_ray(t_camera *cam, float x, float y)
 {
 	t_ray		r;
 	t_vector	tmp;
 
-	tmp = ft_vector_sum(cam->low_left, ft_vector_multk(cam->horiz, ((float)x + 0.5) / (float)W_W));
-	tmp = ft_vector_sum(tmp, ft_vector_multk(cam->vert, ((float)y + 0.5) / (float)W_H));
+	tmp = ft_vector_sum(cam->low_left, ft_vector_multk(cam->horiz, (x + 0.5) / (float)W_W));
+	tmp = ft_vector_sum(tmp, ft_vector_multk(cam->vert, (y + 0.5) / (float)W_H));
 	r.start = cam->pos;
 	r.dir = ft_vector_normalized(ft_vector_sub(tmp, cam->pos));
 	return (r);

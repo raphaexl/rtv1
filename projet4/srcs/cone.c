@@ -51,9 +51,9 @@ int				ft_cone_compute(t_object *p, t_intersect *in)
 	t_ray	r;
 
 	r = in->ray;
-	/*r.start = ft_rotate_vec3(r.start, p->rotate, -1);
+	r.start = ft_rotate_vec3(r.start, p->rotate, -1);
 	r.dir = ft_rotate_vec3(r.dir, p->rotate, -1);
-	r.start = ft_translate_vec3(r.start, p->translate, -1);*/
+	r.start = ft_translate_vec3(r.start, p->translate, -1);
 	if (!ft_cone_intersect(p, &r, &in->t))
 		return (0);
 	in->current = p;

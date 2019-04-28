@@ -45,6 +45,6 @@ typedef	struct		s_camera
 }					t_camera;
 
 t_camera		ft_camera_new(t_vector eye, t_vector look_at, t_vector up, float a);
-t_ray		ft_camera_ray(t_camera *cam, int x, int y);
+t_ray		ft_camera_ray(t_camera *cam, float x, float y);
 void		ft_camera_transform(t_camera *cam);
 #endif

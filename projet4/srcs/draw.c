@@ -12,15 +12,15 @@
 
 #include "../includes/rtv1.h"
 
-static Uint32	ft_cclamp(float red, float green, float blue)
+static Uint32	ft_clamp_exp(float red, float green, float blue, float factor)
 {
 	unsigned char	r;
 	unsigned char	g;
 	unsigned char	b;
 
-	r = (unsigned char)fmin(red * 255.0, 255.0);
-	g = (unsigned char)fmin(green * 255.0, 255.0);
-	b = (unsigned char)fmin(blue * 255.0, 255.0);
+	r = (unsigned char)fmin(red * 255.0 * factor, 255.0);
+	g = (unsigned char)fmin(green * 255.0 * factor, 255.0);
+	b = (unsigned char)fmin(blue * 255.0 * factor, 255.0);
 	return (b + (g << 8) + (r << 16));
 }
 
@@ -29,17 +29,29 @@ void			ft_render(t_scene *s, Uint32 *pixels)
 	t_intersect	inter;
 	int			y;
 	int			x;
+	int			y1;
+	int			x1;
 	t_color		c;
 
 	x = W_W;
+	c = (t_color){0.0, 0.0, 0.0};
 	while (--x >= 0)
 	{
 		y = W_H;
 		while (--y >= 0)
 		{
-			inter.ray = ft_camera_ray(&s->cam, x, y);
-			c = s->ft_rtv1(s, &inter, 0);
-			pixels[x + (W_H - y - 1) * W_W] = ft_cclamp(c.red, c.green, c.blue);
+			x1 = s->nb_of_samples;
+			while (--x1 >= 0)
+			{
+				y1 = s->nb_of_samples;
+				while (--y1 >= 0)
+				{
+					inter.ray = ft_camera_ray(&s->cam, x + (x1 + 0.5) / s->nb_of_samples, y + (y1 + 0.5) / s->nb_of_samples);
+					c = ft_color_sum(c, s->ft_rtv1(s, &inter, 0));
+				}
+			}
+			pixels[x + (W_H - y - 1) * W_W] = ft_clamp_exp(c.red, c.green, c.blue,
+					1.0 / pow(s->nb_of_samples, 2));
 		}
 	}
 }
@@ -50,19 +62,30 @@ static	int		ft_rend(void *ptr)
 	t_arg		*g;
 	int			y;
 	int			x;
+	int			y1;
+	int			x1;
 	t_color		c;
 
 	g = (t_arg *)ptr;
+	c = (t_color){0.0, 0.0, 0.0};
 	x = (g->k + 1) * W_W / NB_THREADS + 1;
 	while (--x >= g->start)
 	{
 		y = W_H;
 		while (--y >= 0)
 		{
-			inter.ray = ft_camera_ray(&g->e.s.cam, x, y);
-			c = g->e.s.ft_rtv1(&g->e.s, &inter, 0);
-			g->e.pixels[x + (W_H - 1 - y) * W_W] = ft_cclamp(c.red, c.green,
-					c.blue);
+			x1 = g->e.s.nb_of_samples;
+			while (--x1 >= 0)
+			{
+				y1 = g->e.s.nb_of_samples;
+				while (--y1 >= 0)
+				{
+					inter.ray = ft_camera_ray(&g->e.s.cam, x + (x1 + 0.5) / g->e.s.nb_of_samples, y + (y1 + 0.5) / g->e.s.nb_of_samples);
+					c = ft_color_sum(c, g->e.s.ft_rtv1(&g->e.s, &inter, 0));
+				}
+			}
+			g->e.pixels[x + (W_H - 1 - y) * W_W] = ft_clamp_exp(c.red, c.green,
+					c.blue, 1.0 / pow(g->e.s.nb_of_samples, 2));
 		}
 	}
 	return (0);

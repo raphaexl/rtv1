@@ -88,13 +88,14 @@ typedef struct	s_intersect
 
 typedef	struct	s_scene
 {
-	t_material	curr_material;
+	int		nb_of_samples;
+	t_mode		mode;
 	t_color		background;
 	t_color		ambiant;
+	t_material	curr_material;
+	t_camera	cam;
 	t_object	*obj;
 	t_light		*light;
 	t_color		(*ft_rtv1)(t_scene *, t_intersect *, int);
-	t_mode		mode;
-	t_camera	cam;
 }				t_scene;
 #endif

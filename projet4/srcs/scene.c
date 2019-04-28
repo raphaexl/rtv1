@@ -31,6 +31,7 @@ void				ft_scene_init(t_scene *s, char *const input_file)
 	}
 	else
 		ft_error();
+	s->nb_of_samples = 5;
 	s->ft_rtv1 = ft_ray_trace;
 }
 
