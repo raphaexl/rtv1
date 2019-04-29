@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 09:39:40 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/27 18:01:09 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/29 17:50:01 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_object	*ft_cylindre_new(void)
 {
 	t_object	*new;
 
-	if (!(new = (t_object *)malloc(sizeof (*new))))
+	if ((new = (t_object *)malloc(sizeof (*new))))
 	{
 		new->type = CYLINDRE;
 		new->pos = (t_vector){0.0, 0.0, 0.0};

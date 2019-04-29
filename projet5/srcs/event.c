@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 15:10:56 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/27 19:01:34 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/29 18:05:17 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,6 @@ int	ft_env_update_camera(t_camera *cam, t_input *in)
 		cam->rot.x += 5.212;
 	if (in->keys[SDL_SCANCODE_DOWN] && (ret = 1))
 		cam->rot.x -= 5.214;
-	if (in->wheel && (ret = 1))
-	{
-		cam->fov = (cam->fov + in->wheel * DELTA_ANGLE);
-		write(1, "Hi\n", 3);
-	}
-	cam->fov = ft_clamp(0.0, 179.0, cam->fov);
 	cam->h = tan((cam->fov * M_PI * (1.0 / 180.0)) / 2.0);
 	cam->w = cam->ratio * cam->h;
 	ft_camera_transform(cam);
@@ -59,16 +53,20 @@ int	ft_env_update_camera(t_camera *cam, t_input *in)
 void	ft_env_select_object(t_env *e, int x, int y)
 {
 	t_object	*p;
-	t_object	**q;
 	t_intersect	inter;
-
+	int			start_x;
+	int			start_y;
+	
+	
+	start_x = START_X;
+	start_y = START_Y;
 	p = NULL;
 	e->selected = NULL;
 	if (x < START_X || x > END_X)
 		return ;
 	if (y < START_Y || y > END_Y)
 		return ;
-	inter.ray = ft_camera_ray(&e->s.cam, x - START_X, y - START_Y);
+	inter.ray = ft_camera_ray(&e->s.cam, x - start_x, W_H - (y - start_y));
 	inter.t = INFINITY;
 	if (ft_scene_intersect(&e->s, &inter))
 		p = inter.current;
@@ -77,7 +75,7 @@ void	ft_env_select_object(t_env *e, int x, int y)
 		p = e->s.obj;
 		while (p && p->id != inter.current->id)
 			p = p->next;
-		if (p  && (q = &p))
+		if (p)
 			e->selected = p;
 	}
 }

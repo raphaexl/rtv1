@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:04:01 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/27 21:14:12 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/29 17:42:37 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 # define W_H 600
 # define B_W 960
 # define B_H 600
-# define START_X (SCR_WIDTH - B_W) / 2
+# define START_X (SCR_WIDTH - B_W) / 2 + 100
 # define START_Y (SCR_HEIGHT - B_H) / 2
 # define END_X B_W + START_X
 # define END_Y  B_H + START_Y
 # define NB_THREADS 10
-# define NB_OPTIONS 8
+# define NB_OPTIONS 13
 # define ERR_CHECK(cond) if (!(cond)) perror(SDL_GetError());
 
 # include <sys/stat.h>

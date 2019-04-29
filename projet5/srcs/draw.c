@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 22:21:00 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/28 22:24:43 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/29 18:09:41 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static Uint32	ft_clamp_gama(float red, float green, float blue, float factor)
 	unsigned char	g;
 	unsigned char	b;
 
+//	factor = 1.0;
 	r = (unsigned char)fmin(red * factor * 255.0, 255.0);
 	g = (unsigned char)fmin(green * factor * 255.0, 255.0);
 	b = (unsigned char)fmin(blue * factor * 255.0, 255.0);
@@ -55,7 +56,7 @@ void			ft_render(t_scene *s, Uint32 *pixels)
 			while (--a >= 0)
 			{
 				inter.ray = ft_camera_ray(&s->cam, x + ft_rand48(), y + ft_rand48());
-				c = s->ft_rtv1(s, &inter, 0);
+				c = ft_color_sum(c, s->ft_rtv1(s, &inter, 0));
 			}
 			pixels[x + (W_H - 1 - y) * W_W] = ft_clamp_gama(c.red, c.green,
 					c.blue, 1.0 / s->nb_samples);
