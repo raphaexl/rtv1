@@ -78,21 +78,21 @@ typedef struct	s_iterm
 
 typedef struct	s_intersect
 {
-	t_ray		ray;
-	t_ray		ray_light;
 	float		t;
 	t_vector	n;
 	t_vector	p;
+	t_ray		ray;
+	t_ray		ray_light;
+	t_material	*mat_ptr;
 	t_object	*current;
 }				t_intersect;
 
 typedef	struct	s_scene
 {
-	int		nb_of_samples;
+	int		nb_samples;
 	t_mode		mode;
 	t_color		background;
 	t_color		ambiant;
-	t_material	curr_material;
 	t_camera	cam;
 	t_object	*obj;
 	t_light		*light;

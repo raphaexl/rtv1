@@ -24,6 +24,18 @@ static Uint32	ft_clamp_gama(float red, float green, float blue, float factor)
 	return (b + (g << 8) + (r << 16));
 }
 
+/*static Uint32	ft_clamp_gama(float red, float green, float blue, float factor)
+{
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+
+	r = (unsigned char)fmin(sqrt(red * factor) * 255.0, 255.0);
+	g = (unsigned char)fmin(sqrt(green * factor) * 255.0, 255.0);
+	b = (unsigned char)fmin(sqrt(blue * factor) * 255.0, 255.0);
+	return (b + (g << 8) + (r << 16));
+}*/
+
 void			ft_render(t_scene *s, Uint32 *pixels)
 {
 	t_intersect	inter;
@@ -38,7 +50,7 @@ void			ft_render(t_scene *s, Uint32 *pixels)
 		y = W_H;
 		while (--y >= 0)
 		{
-			a = 10;
+			a = s->nb_samples;
 			c = (t_color){0.0, 0.0, 0.0};
 			while (--a >= 0)
 			{
@@ -46,7 +58,7 @@ void			ft_render(t_scene *s, Uint32 *pixels)
 				c = s->ft_rtv1(s, &inter, 0);
 			}
 			pixels[x + (W_H - 1 - y) * W_W] = ft_clamp_gama(c.red, c.green,
-					c.blue, 1);
+					c.blue, 1.0 / s->nb_samples);
 		}
 	}
 }
@@ -67,7 +79,7 @@ static	int		ft_rend(void *ptr)
 		y = W_H;
 		while (--y >= 0)
 		{
-			a = 10;
+			a = g->e.s.nb_samples;
 			c = (t_color){0.0, 0.0, 0.0};
 			while (--a >= 0)
 			{
@@ -75,7 +87,7 @@ static	int		ft_rend(void *ptr)
 				c = ft_color_sum(c, g->e.s.ft_rtv1(&g->e.s, &inter, 0));
 			}
 			g->e.pixels[x + (W_H - 1 - y) * W_W] = ft_clamp_gama(c.red, c.green,
-					c.blue, 0.1);
+					c.blue, 1.0 / g->e.s.nb_samples);
 		}
 	}
 	return (0);

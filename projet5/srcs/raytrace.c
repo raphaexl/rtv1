@@ -22,12 +22,12 @@ static int		ft_reflect_light(t_intersect *in)
 	return (1);
 }
 
-static int		ft_refract_light(t_intersect *in)
+static int		ft_refract_light(t_intersect *in, float ref_index)
 {
 	t_vector	refract;
 
-	refract = ft_refract(in->ray.dir, in->n, 0.6);
-	if (ft_vector_dot(refract, in->n) < 0)
+	
+	if (ft_refract(in->ray.dir, in->n, ref_index, &refract))
 	{
 		in->ray.start = ft_vector_sum(in->p, ft_vector_kmult(0.001, refract));
 		in->ray.dir = ft_vector_normalized(refract);
@@ -36,21 +36,21 @@ static int		ft_refract_light(t_intersect *in)
 	return (0);
 }
 
-static void		ft_floor_object(t_object *o, t_material *m, t_vector pos)
+static void		ft_floor_object(t_object *o, t_material **m, t_vector pos)
 {
 	int		square;
 
 	square = 0;
 	if (o->type != PLANE)
 		return ;
-	if (m->chess)
+	if ((*m)->chess)
 	{
 		square = floor(pos.x) + floor(pos.z);
 		if (square % 2)
 		{
-			m->diffuse.red = 0.0;
-			m->diffuse.green = 0.0;
-			m->diffuse.blue = 0.0;
+			(*m)->diffuse.red = 0.0;
+			(*m)->diffuse.green = 0.0;
+			(*m)->diffuse.blue = 0.0;
 		}
 	}
 }
@@ -75,9 +75,9 @@ static t_color	ft_light(t_scene *s, t_intersect *in, t_color c)
 			continue;
 		}
 		in->ray_light = (t_ray){in->p,ft_vector_kmult(1.0 / in->t, dist)};
-		ft_floor_object(in->current, &s->curr_material, in->p);
+		ft_floor_object(in->current, &in->mat_ptr, in->p);
 		if (!ft_scene_intersectl(s, in))//Here is your problem fucker
-			c = ft_color_sum(c, ft_trace(in, s->curr_material, p));
+			c = ft_color_sum(c, ft_trace(in, in->mat_ptr, p));
 		p = p->next;
 	}
 	return (c);
@@ -86,7 +86,6 @@ static t_color	ft_light(t_scene *s, t_intersect *in, t_color c)
 t_color			ft_ray_trace(t_scene *s, t_intersect *in, int depth)
 {
 	t_color		c;
-	t_material	*m;
 
 
 	c = (t_color){.red = 0.0f, .green = 0.0f, .blue = 0.0f};
@@ -95,21 +94,17 @@ t_color			ft_ray_trace(t_scene *s, t_intersect *in, int depth)
 		return (c);
 	if (ft_scene_intersect(s, in))
 	{
-		if (s->mode == EDIT)
-			return (in->current->material.diffuse);
-		m = &in->current->material;
-		s->curr_material = *m;
 		c = ft_light(s, in, c);
-		if (depth < MAX_DEPTH && m->reflection > 0.0)
+		if (depth < MAX_DEPTH && in->mat_ptr->reflection > 0.0)
 		{
 			ft_reflect_light(in);
-			c = ft_color_sum(c, ft_color_kmult(m->reflection,
+			c = ft_color_sum(c, ft_color_kmult(in->mat_ptr->reflection,
 						ft_ray_trace(s, in, depth + 1)));
 		}
-		if (depth < MAX_DEPTH && m->refraction > 0.0)
+		if (depth < MAX_DEPTH && in->mat_ptr->refraction > 0.0)
 		{
-			if (ft_refract_light(in))
-				c = ft_color_kmult(m->refraction, ft_ray_trace(s, in, depth + 1));
+			if (ft_refract_light(in, in->mat_ptr->refraction))
+				c = ft_color_kmult(in->mat_ptr->refraction, ft_ray_trace(s, in, depth + 1));
 		}
 	}
 	return (c);

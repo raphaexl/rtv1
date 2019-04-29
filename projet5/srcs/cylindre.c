@@ -44,6 +44,7 @@ int		ft_cylindre_compute(t_object *p, t_intersect*in)
 	if (!ft_cylindre_intersect(p, &r, &in->t))
 		return (0);
 	in->current = p;
+	in->mat_ptr = &p->material;
 	in->p = ft_vector_sum(in->ray.start, ft_vector_kmult(in->t, in->ray.dir));
 	in->n = ft_normal_cylindre(p, ft_vector_sub(in->p, p->pos));
 	return (1);

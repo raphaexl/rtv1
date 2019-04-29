@@ -36,6 +36,7 @@ endif
 SRC=$(SRCDIR)/main.c\
 	$(SRCDIR)/input.c\
 	$(SRCDIR)/event.c\
+	$(SRCDIR)/edit.c\
 	$(SRCDIR)/process.c\
 	$(SRCDIR)/verbose.c\
 	$(SRCDIR)/error.c\
@@ -68,6 +69,7 @@ SRC=$(SRCDIR)/main.c\
 OBJ=$(LIBDIR)/main.o\
 	$(LIBDIR)/input.o\
 	$(LIBDIR)/event.o\
+	$(LIBDIR)/edit.o\
 	$(LIBDIR)/process.o\
 	$(LIBDIR)/verbose.o\
 	$(LIBDIR)/error.o\

@@ -26,12 +26,11 @@ void				ft_scene_init(t_scene *s, char *const input_file)
 		ft_parse_file(s, fd);
 		if (!s->light)
 			s->mode = PATH_TRACE;
-		s->curr_material = (t_material){{0.0, 0.0, 0.0}, {0, 0, 0}, 0, 0, 0, 0};
 		close(fd);
 	}
 	else
 		ft_error();
-	s->nb_of_samples = 1;
+	s->nb_samples = 10.0;
 	s->ft_rtv1 = ft_path_trace;
 }
 

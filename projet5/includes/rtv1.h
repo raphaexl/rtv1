@@ -35,7 +35,8 @@
 float		ft_rand48(void);
 float		ft_clamp(float min, float max, float val);
 t_vector	ft_reflect(t_vector i, t_vector n);
-t_vector	ft_refract(t_vector i, t_vector n, float eta);
+int		ft_refract(t_vector i, t_vector n, float eta, t_vector *r);
+int		ft_schlick(float cosine, float ref);
 t_color		ft_background_color(t_ray *r);
 void		ft_error(void);
 int			ft_tab_len(char **tab);
@@ -62,8 +63,9 @@ t_vector	ft_rotate_vec3(t_vector r, t_vector v, int invert);
 t_vector	ft_translate_vec3(t_vector r, t_vector v, int invert);
 
 t_color		ft_get_light(t_intersect *in, t_light *light);
-t_color		ft_trace(t_intersect *in, t_material m, t_light *l);
+t_color		ft_trace(t_intersect *in, t_material *m, t_light *l);
 t_color		ft_ray_trace(t_scene *s, t_intersect *in, int depth);
+t_color		ft_edit_trace(t_scene *s, t_intersect *in, int depth);
 t_color		ft_path_trace(t_scene *s, t_intersect *in, int depth);
 
 t_vector	ft_vector_read(int fd);

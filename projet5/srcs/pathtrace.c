@@ -26,13 +26,7 @@ t_vector	ft_random_unit(void)
 	return (p);
 }
 
-t_vector	ft_reflect(t_vector v, t_vector n)
-{
-	t_vector	tmp;
 
-	tmp = ft_vector_kmult(2.0 * ft_vector_dot(v, n), n);
-	return (ft_vector_sub(v, tmp));
-}
 
 int			ft_lambertian_sc(t_intersect *in, t_color *att)
 {
@@ -56,6 +50,49 @@ int			ft_metal_sc(t_intersect *in, t_color *att)
 	return (ft_vector_dot(reflected, in->n) > 0);
 }
 
+
+
+int 	ft_dielectric_sc(t_intersect *in, t_color *att, float ref_idx)
+{
+	t_vector reflected;
+	t_vector refracted;
+	t_vector out_n;
+	float ni_over_nt;
+	float  cosine;
+	float	reflect_prob;
+
+	*att = (t_color){1.0, 1.0, 1.0};
+	in->ray.start = in->p;    
+	reflected = ft_reflect(in->ray.dir, in->n);
+	if ((in->ray.dir.x * in->n.x + in->ray.dir.y * in->n.y + in->ray.dir.z * in->n.z) > 0.001)
+	{
+		out_n = (t_vector){-in->n.x, -in->n.y, -in->n.z};
+		ni_over_nt = ref_idx;
+		cosine = ref_idx * ft_vector_dot(in->ray.dir, in->n) * 1.0 / ft_vector_norm(in->ray.dir);
+	}
+	else
+	{
+		out_n = (t_vector){in->n.x, in->n.y, in->n.z};
+		ni_over_nt = 1.0 / ref_idx;
+		cosine = -ft_vector_dot(in->ray.dir, in->n) * 1.0 / ft_vector_norm(in->ray.dir);
+	}
+	if (ft_refract(in->ray.dir, out_n, ni_over_nt, &refracted))
+	{
+		reflect_prob = ft_schlick(cosine, ref_idx);
+	}
+	else
+	{
+		reflect_prob = 1.0;
+
+	}
+	if (ft_rand48() < reflect_prob)
+		in->ray.dir = reflected;
+	else
+		in->ray.dir = refracted;
+	return (1);
+}
+
+
 t_color		ft_path_trace(t_scene *s, t_intersect *in, int depth)
 {
 	t_color		c;
@@ -66,14 +103,21 @@ t_color		ft_path_trace(t_scene *s, t_intersect *in, int depth)
 	{
 		if (depth < MAX_DEPTH)
 		{
-			if (in->current->material.reflection > 0.0)
+			
+			if (in->current->material.refraction > 0.0)
+			{
+				if (ft_dielectric_sc(in, &c, in->current->material.refraction))
+					return (ft_color_mult(c, ft_path_trace(s, in, depth + 1)));
+			}
+			else if (in->current->material.reflection > 0.0)
 			{
 				if (ft_metal_sc(in, &c))
 					return (ft_color_mult(c, ft_path_trace(s, in, depth + 1)));
 			}
 			else if (ft_lambertian_sc(in, &c))
 				return (ft_color_mult(c, ft_path_trace(s, in, depth + 1)));
-		}
+		}else
+		return(ft_color(0.0, 0.0, 0.0));
 	}
 	else
 		return (ft_background_color(&in->ray));

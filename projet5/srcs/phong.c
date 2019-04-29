@@ -34,7 +34,7 @@ static t_color	ft_diffuse_light(t_color intens, t_color diffuse, float lamb)
 	return (c);
 }
 
-static t_color	ft_phong_shading(t_intersect *in, t_material m, t_color intens)
+static t_color	ft_phong_shading(t_intersect *in, t_material *m, t_color ints)
 {
 	float		reflect;
 	t_vector	tp;
@@ -45,12 +45,12 @@ static t_color	ft_phong_shading(t_intersect *in, t_material m, t_color intens)
 	tp = ft_vector_kmult(reflect, in->n);
 	phong_dir = ft_vector_sub(in->ray_light.dir, tp);
 	phong_term = fmax(ft_vector_dot(phong_dir, in->ray.dir), 0.0f);
-	phong_term = pow(phong_term, m.spec_pow);
-	return (ft_color_mult(intens, ft_color_kmult(phong_term,
-					ft_color_mult(m.diffuse, m.specular))));
+	phong_term = pow(phong_term, m->spec_pow);
+	return (ft_color_mult(ints, ft_color_kmult(phong_term,
+					ft_color_mult(m->diffuse, m->specular))));
 }
 
-t_color			ft_trace(t_intersect *in, t_material m, t_light *l)
+t_color			ft_trace(t_intersect *in, t_material *m, t_light *l)
 {
 	t_color		intensity;
 	float		lambert;
@@ -58,8 +58,8 @@ t_color			ft_trace(t_intersect *in, t_material m, t_light *l)
 
 	c = (t_color){0.0, 0.0, 0.0};
 	intensity = l->intensity;
-	c = ft_ambient_light(m.diffuse);
+	c = ft_ambient_light(m->diffuse);
 	lambert = ft_vector_dot(in->ray_light.dir, in->n);
-	c = ft_color_sum(c, ft_diffuse_light(intensity, m.diffuse, lambert));
+	c = ft_color_sum(c, ft_diffuse_light(intensity, m->diffuse, lambert));
 	return (ft_color_sum(c, ft_phong_shading(in, m, intensity)));
 }

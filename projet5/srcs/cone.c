@@ -16,7 +16,7 @@ static	int		ft_min_ray(float t1, float t2, float *t)
 {
 	if (t1 > t2)
 		t1 = t2;
-	if ((t1 > 0.0000001) && t1 < *t)
+	if ((t1 > 0.01) && t1 < *t)
 	{
 		*t = t1;
 		return (1);
@@ -57,6 +57,7 @@ int				ft_cone_compute(t_object *p, t_intersect *in)
 	if (!ft_cone_intersect(p, &r, &in->t))
 		return (0);
 	in->current = p;
+	in->mat_ptr = &p->material;
 	in->p = ft_vector_sum(in->ray.start, ft_vector_kmult(in->t, in->ray.dir));
 	in->n = ft_normal_cone(p, ft_vector_sub(in->p, p->pos));
 	return (1);

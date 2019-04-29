@@ -46,6 +46,7 @@ int			ft_plane_compute(t_object *p, t_intersect *in)
 	if (!ret)
 		return (0);
 	in->current = p;
+	in->mat_ptr = &p->material;
 	in->p = ft_vector_sum(in->ray.start, ft_vector_kmult(in->t, in->ray.dir));
 	if (ret == 1)
 	in->n = p->normal;
