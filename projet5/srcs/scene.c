@@ -31,7 +31,7 @@ void				ft_scene_init(t_scene *s, char *const input_file)
 	else
 		ft_error();
 	s->nb_samples = 10.0;
-	s->ft_rtv1 = ft_path_trace;
+	s->ft_rtv1 = ft_edit_trace;
 }
 
 void				ft_scene_clear(t_scene *s)

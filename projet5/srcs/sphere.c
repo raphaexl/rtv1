@@ -48,8 +48,8 @@ int			ft_sphere_compute(t_object *p, t_intersect *in)
 	in->mat_ptr = &p->material;
 	in->p = ft_vector_sum(in->ray.start, ft_vector_kmult(in->t, in->ray.dir));
 	tmp = ft_vector_sub(in->p, p->pos);
-	//in->n = ft_normal_sphere(p, tmp);
-	in->n = ft_vector_kmult(1.0 / p->radius, tmp);//raytracing in one week-end dielectric
+	in->n = ft_normal_sphere(p, tmp);
+//	in->n = ft_vector_kmult(1.0 / p->radius, tmp);//raytracing in one week-end dielectric
 	return (1);
 }
 
