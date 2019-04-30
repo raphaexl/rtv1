@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 21:20:26 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/29 16:52:24 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/30 14:24:04 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ void		ft_env_init(t_env *e, int argc, char **argv)
 	ft_scene_init(&e->s, h ? argv[h] : NULL);
 	e->selected = NULL;
 	h = W_H;
-	if (ft_sdl_init(&e->ptr, "42 rtv1"))
-		ft_print_error("Error SDL_Init()");
+	ft_sdl_init(&e->ptr, "42 rtv1");
 	if (!(e->pixels = (Uint32 *)malloc(sizeof(Uint32) * w * h)))
 		ft_print_error("error malloc pixels");
 	ft_memset(e->pixels, 0, sizeof(Uint32) * w * h);
@@ -105,7 +104,8 @@ void		ft_env_draw(t_env *e)
 	i = NB_OPTIONS;
 	while (--i >= 0)
 		SDL_RenderCopy(e->ptr.renderer, e->menu.img[i], NULL, &e->menu.pos[i]);
-	ft_env_display_text(e->ptr.renderer, e->selected ? e->selected->name : "NONE");
+	ft_env_display_text(e->ptr.renderer,
+			e->selected ? e->selected->name : "NONE");
 	ft_update_renderer(&e->ptr, e->pixels);
 	SDL_RenderPresent(e->ptr.renderer);
 }

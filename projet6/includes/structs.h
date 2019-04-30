@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 21:53:37 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/29 15:37:23 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/30 19:49:26 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct		s_input
 	int		quit;
 	int		mousex;
 	int		mousey;
-	int		wheel;
 	int		mouse[6];
 	int		keys[SDL_NUM_SCANCODES];
 }					t_input;
@@ -46,17 +45,12 @@ typedef	struct		s_ptr
 typedef	struct		s_env
 {
 	int				optimize;
+	int				k;
+	int				start;
+	Uint32			*pixels;
 	t_ptr			ptr;
 	t_menu			menu;
 	t_scene			s;
 	t_object		*selected;
-	Uint32			*pixels;
 }					t_env;
-typedef struct		s_arg
-{
-	t_env			e;
-	int				k;
-	int				start;
-}					t_arg;
-
 #endif

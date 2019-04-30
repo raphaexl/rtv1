@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 08:14:04 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/29 19:53:18 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/30 19:35:03 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void				ft_scene_init(t_scene *s, char *const input_file)
 		s->cam = ft_camera_new(ft_vector(0.0f, 0.0f, 0.0f),
 				ft_vector(0.0f, 0.0f, -1.0f), ft_vector(0.0, 1.0, 0.0),
 				60.0);
+		s->nb_samples = 1.0;
+		s->bg_color = (t_color){0.0, 0.0, 0.0};
+		s->ambiant = (t_color){0.02, 0.02, 0.02};
 		ft_parse_file(s, fd);
-		if (!s->light)
-			s->mode = EDIT;
 		close(fd);
 	}
 	else
 		ft_error();
-	s->nb_samples = 1.0;
 	s->ft_rtv1 = ft_edit_trace;
 }
 

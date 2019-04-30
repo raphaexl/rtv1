@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:29:41 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/29 16:37:43 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/30 16:31:07 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int		ft_sdl_init(t_ptr *ptr, const char *title)
 {
+	SDL_Surface	*ico;
+
 	ERR_CHECK(SDL_Init(SDL_INIT_EVERYTHING) == 0);
 	ERR_CHECK(TTF_Init() == 0);
 	ERR_CHECK(IMG_Init(IMG_INIT_PNG) != 0);
@@ -24,6 +26,12 @@ int		ft_sdl_init(t_ptr *ptr, const char *title)
 				SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC));
 	ERR_CHECK(ptr->texture = SDL_CreateTexture(ptr->renderer, \
 				SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, W_W, W_H));
+	if ((ico = IMG_Load("data/imgs/SDL_Logo.png")))
+	{
+		SDL_SetWindowIcon(ptr->window, ico);
+		SDL_FreeSurface(ico);
+	}
+	ico = NULL;
 	return (0);
 }
 

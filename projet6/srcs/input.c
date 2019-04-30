@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:49:08 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/29 17:29:11 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/04/30 14:26:54 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void		ft_update_event(t_input *in)
 			in->keys[event.key.keysym.scancode] = SDL_FALSE;
 		else if (event.type == SDL_MOUSEBUTTONDOWN)
 			in->mouse[event.button.button] = SDL_TRUE;
-		if (event.type == SDL_MOUSEWHEEL)
-			in->wheel = event.wheel.y;
 		if (event.type == SDL_MOUSEBUTTONUP)
 			in->mouse[event.button.button] = SDL_FALSE;
 		if (event.type == SDL_MOUSEMOTION)

@@ -6,7 +6,7 @@
 #    By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/28 22:15:58 by ebatchas          #+#    #+#              #
-#    Updated: 2019/04/29 15:07:10 by ebatchas         ###   ########.fr        #
+#    Updated: 2019/04/30 18:50:13 by ebatchas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRC=$(SRCDIR)/main.c\
 	$(SRCDIR)/env.c\
 	$(SRCDIR)/read.c\
 	$(SRCDIR)/parse.c\
+	$(SRCDIR)/parse_tools.c\
 	$(SRCDIR)/object.c\
 	$(SRCDIR)/light.c\
 	$(SRCDIR)/scene.c\
@@ -61,7 +62,6 @@ SRC=$(SRCDIR)/main.c\
 	$(SRCDIR)/raytrace.c\
 	$(SRCDIR)/pathtrace.c\
 	$(SRCDIR)/phong.c\
-	$(SRCDIR)/reflections.c\
 	$(SRCDIR)/compute.c\
 	$(SRCDIR)/normals.c\
 	$(SRCDIR)/sdl.c
@@ -79,6 +79,7 @@ OBJ=$(LIBDIR)/main.o\
 	$(LIBDIR)/env.o\
 	$(LIBDIR)/read.o\
 	$(LIBDIR)/parse.o\
+	$(LIBDIR)/parse_tools.o\
 	$(LIBDIR)/object.o\
 	$(LIBDIR)/light.o\
 	$(LIBDIR)/scene.o\
@@ -94,7 +95,6 @@ OBJ=$(LIBDIR)/main.o\
 	$(LIBDIR)/normals.o\
 	$(LIBDIR)/vector1.o\
 	$(LIBDIR)/vector2.o\
-	$(LIBDIR)/reflections.o\
 	$(LIBDIR)/rotation.o\
 	$(LIBDIR)/color.o\
 	$(LIBDIR)/sdl.o
