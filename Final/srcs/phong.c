@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 21:53:16 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/30 13:30:16 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/01 21:10:08 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ static t_color	ft_phong_shading(t_intersect *in, t_material *m, t_color *ints)
 	phong_dir = ft_vector_sub(in->ray_light.dir, tp);
 	phong_term = fmax(ft_vector_dot(phong_dir, in->ray.dir), 0.0f);
 	phong_term = pow(phong_term, m->spec_pow);
-	return (ft_color_mult(*ints, ft_color_kmult(phong_term,
-					ft_color_mult(m->diffuse, m->specular))));
+	return (ft_color_mult(*ints, ft_color_kmult(phong_term, m->specular)));
 }
 
 t_color			ft_trace(t_intersect *in, t_material *m, t_light *l, t_color *a)

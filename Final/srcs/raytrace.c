@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 14:03:14 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/30 19:27:25 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/01 21:28:14 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,15 @@ static void		ft_floor_object(t_object *o, t_material *m, t_vector pos)
 		}
 	}
 }
+static	int	ft_reflect_light(t_intersect *in)
+{
+	t_vector	reflect;
 
+	reflect = ft_reflect(in->ray.dir, in->n);
+	in->ray.start = ft_vector_sum(in->p, ft_vector_kmult(0.001, reflect));
+	in->ray.dir = ft_vector_normalized(reflect);
+	return (1);
+}
 static t_color	ft_light(t_scene *s, t_intersect *in, t_material m, t_color c)
 {
 	t_light			*p;
@@ -74,14 +82,16 @@ t_color			ft_ray_trace(t_scene *s, t_intersect *in, int depth)
 				if (ft_dielectric_sc(in, &c, in->current->material.refraction))
 					return (ft_color_mult(c, ft_ray_trace(s, in, depth + 1)));
 			}
-			else if (in->current->material.reflection > 0.0)
+			/*	else */if (in->current->material.reflection > 0.0)
 			{
-				if (ft_metal_sc(in, &c))
-					return (ft_color_mult(c, ft_ray_trace(s, in, depth + 1)));
-			}
-			else
-				return (ft_light(s, in, in->current->material, c));
-		}
-	}
-	return (c);
-}
+				ft_reflect_light(in);
+				return (ft_color_sum(c, ft_color_kmult(in->current->material.reflection, ft_ray_trace(s, in, depth + 1))));
+						/*ft_metal_sc(in, &c);
+						  return (ft_color_mult(c, ft_ray_trace(s, in, depth + 1)));*/
+						}
+						//else
+						return (ft_light(s, in, in->current->material, c));
+						}
+						}
+						return (c);
+						}

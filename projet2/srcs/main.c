@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 18:54:55 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/30 22:13:16 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/01 21:25:29 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		main(int argc, char *argv[])
 				ft_render(&e.s, e.pixels);
 		ft_env_draw(&e);
 		}
-		SDL_Dealy(16);
+		SDL_Delay(16);
 	}
 	ft_env_quit(&e);
 	return (0);
