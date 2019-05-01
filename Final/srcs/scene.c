@@ -102,7 +102,7 @@ void				ft_scene_init(t_scene *s, char *const input_file)
 	}
 	else
 		ft_error();
-	s->ft_rtv1 = ft_ray_trace;
+	s->ft_rtv1 = ft_edit_trace;
 }
 
 void				ft_scene_clear(t_scene *s)

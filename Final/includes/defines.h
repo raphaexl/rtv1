@@ -17,6 +17,7 @@
 
 # define MAX_DEPTH 5
 # define MAX_DISTANCE 1000.0f
+# define NB_OPTIONS 12
 # define RAND_N 3
 # define DELTA_TRANS 0.5
 # define DELTA_ANGLE 2

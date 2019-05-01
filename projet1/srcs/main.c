@@ -31,8 +31,8 @@ int		main(int argc, char *argv[])
 				ft_draw(&e);
 			else
 				ft_render(&e.s, e.pixels);
-		}
 		ft_env_draw(&e);
+		}
 		SDL_Delay(16);
 	}
 	ft_env_quit(&e);

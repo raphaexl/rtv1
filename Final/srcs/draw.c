@@ -17,7 +17,7 @@ static Uint32	ft_clamp_gama(float red, float green, float blue, float factor)
 	unsigned char	r;
 	unsigned char	g;
 	unsigned char	b;
-
+	
 	r = (unsigned char)fmin(red * factor * 255.0, 255.0);
 	g = (unsigned char)fmin(green * factor * 255.0, 255.0);
 	b = (unsigned char)fmin(blue * factor * 255.0, 255.0);

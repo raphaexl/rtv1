@@ -24,7 +24,6 @@
 # define END_X B_W + START_X
 # define END_Y  B_H + START_Y
 # define NB_THREADS 4
-# define NB_OPTIONS 13
 # define ERR_CHECK(cond) if (!(cond)) perror(SDL_GetError());
 
 # include <sys/stat.h>
