@@ -26,14 +26,12 @@ int		ft_scene_intersect(t_scene *s, t_intersect *in)
 {
 	t_object	*p;
 	int			hit;
-	t_ray		r;
 
 	hit = 0;
 	p = s->obj;
 	in->current = NULL;
 	while (p)
 	{
-		r = in->ray;
 		if (p->type == SPHERE && ft_sphere_compute(p, in))
 			hit = 1;
 		else if (p->type == CONE && ft_cone_compute(p, in))

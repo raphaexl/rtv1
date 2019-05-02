@@ -41,14 +41,12 @@ int		ft_env_update_camera(t_camera *cam, t_input *in)
 
 void	ft_env_select_object(t_env *e, int x, int y)
 {
-	t_object	*p;
 	t_intersect	inter;
 	int			start_x;
 	int			start_y;
 
 	start_x = START_X;
 	start_y = START_Y;
-	p = NULL;
 	e->selected = NULL;
 	if (x < START_X || x > END_X)
 		return ;

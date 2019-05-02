@@ -15,7 +15,7 @@
 
 # include <math.h>
 
-# define MAX_DEPTH 5
+# define MAX_DEPTH 50
 # define MAX_DISTANCE 1000.0f
 # define NB_OPTIONS 12
 # define RAND_N 3
