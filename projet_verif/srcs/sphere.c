@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 17:51:42 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/30 19:36:30 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/06 14:02:10 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int			ft_sphere_compute(t_object *p, t_intersect *in)
 	r = in->ray;
 	r.start = ft_rotate_vec3(r.start, p->rotate, -1);
 	r.dir = ft_rotate_vec3(r.dir, p->rotate, -1);
-	r.start = ft_translate_vec3(in->ray.start, p->translate, -1);
+	r.start = ft_translate_vec3(r.start, p->translate, -1);
 	if (!ft_sphere_intersect(p, &r, &in->t))
 		return (0);
 	in->current = p;

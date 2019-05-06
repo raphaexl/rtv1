@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 11:33:09 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/01 20:47:16 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/06 14:04:55 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_vector	ft_normal_cylindre(t_object *cylindre, t_vector p)
 {
 	p = ft_rotate_vec3(p, cylindre->rotate, -1);
 	p = ft_translate_vec3(p, cylindre->translate, -1);
-	p = ft_vector_kmult(1.0 / cylindre->radius, p);
+	p = ft_vector_normalized(p);
+	//p = ft_vector_kmult(1.0 / cylindre->radius, p);
 	return (ft_vector(p.x, 0.0, p.z));
 }
