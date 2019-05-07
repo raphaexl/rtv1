@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 21:53:37 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/05 21:35:45 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/07 14:52:26 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 # define STRUCTS_H
 
 # include <time.h>
+# include <assert.h>
+# ifdef __APPLE__
 # include <OpenCL/opencl.h>
+# else
+# include <CL/cl.h>
+#endif
 # include "SDL2/SDL_image.h"
 # include "SDL2/SDL_ttf.h"
 # include "SDL2/SDL_thread.h"
@@ -52,7 +57,8 @@ typedef struct		s_opencl
 	cl_int				ret;
 	cl_context			context;
 	cl_command_queue	command_queue;
-	cl_mem				cpu_mem_obj;
+	cl_mem				scene_mem_obj;
+	cl_mem				pixels_mem_obj;
 	cl_program			program;
 	cl_kernel			kernel;
 	size_t				global_iterm_size;

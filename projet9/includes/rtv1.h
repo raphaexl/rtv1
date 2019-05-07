@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:04:01 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/05 21:37:21 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/07 13:20:42 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@
 # include "libft.h"
 # include "structs.h"
 
+float		ft_rand48(void);
+float		ft_clamp(float min, float max, float val);
+t_vector	ft_reflect(t_vector i, t_vector n);
+int			ft_refract(t_vector i, t_vector n, float eta, t_vector *r);
+int			ft_lambertian_sc(t_intersect *in, t_color *att);
+int			ft_metal_sc(t_intersect *in, t_color *att);
+int			ft_dielectric_sc(t_intersect *in, t_color *att, float ref_idx);
+t_color		ft_background_color(t_ray *r);
 float		ft_rand48(void);
 float		ft_clamp(float min, float max, float val);
 t_vector	ft_reflect(t_vector i, t_vector n);
@@ -120,10 +128,10 @@ void		ft_light_clean(t_light **lst);
 cl_platform_id	ft_cl_platform(void);
 cl_device_id	ft_cl_device(cl_platform_id plateform_id);
 cl_context		ft_cl_context(cl_device_id *device_id);
-cl_command_queueft_cl_command_queue(cl_context context, cl_device_id device_id);
+cl_command_queue ft_cl_command_queue(cl_context context, cl_device_id device_id);
 cl_program		ft_cl_program(cl_context c, char *file_name);
 void			ft_opencl_init(t_opencl *opencl, char *kernel_file);
-void			ft_opencl_mem(t_opencl *opencl);
+void			ft_opencl_mem(t_opencl *opencl, t_scene *sc);
 void			ft_opencl_kernel(t_opencl *opencl);
 void			ft_opencl_quit(t_opencl *opencl);
 
