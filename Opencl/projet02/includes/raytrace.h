@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 10:47:27 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/10 20:23:47 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/11 21:11:34 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef	struct	s_light
 typedef struct	s_material
 {
 	cl_float	reflection;
-	t_color	diffuse;
+	t_color		diffuse;
 }				t_material;
 
 typedef struct	s_sphere
@@ -85,11 +85,11 @@ typedef	struct	s_scene
 	cl_int			nb_lights;
 	cl_int			nb_materials;
 	t_object	obj;
-	t_camera	cam;
 	t_sphere	spheres[N_MAX];
 	t_plane		planes[N_MAX];
 	t_light		lights[N_MAX];
 	t_material	materials[N_MAX];
+	t_camera	cam;
 }				t_scene;
 
 void		ft_vector_print(t_vector v);

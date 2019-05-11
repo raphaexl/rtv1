@@ -1,11 +1,12 @@
 # define RAY_T_MIN 0.0001
 # define RAY_T_MAX 1.0e30
-# define N_MAX  20
+# define N_MAX  10
 
 typedef enum	e_object
 {
 	NONE = 0, SPHERE, PLANE, TRIANGLE, CONE
 }				t_object;
+
 
 typedef struct	s_delta
 {
@@ -71,11 +72,15 @@ typedef	struct	s_light
 	t_color 	intensity;
 }		t_light;
 
-typedef	struct	s_camera
+typedef	struct		s_camera
 {
-	t_vector		pos;
-	t_vector		cam;
-}				t_camera;
+	float		h;
+	float		w;
+	t_vector	start;
+	t_vector	fd;
+	t_vector	up;
+	t_vector	rt;
+}					t_camera;
 
 typedef	struct	s_scene
 {
@@ -87,12 +92,13 @@ typedef	struct	s_scene
 	int			nb_lights;
 	int			nb_materials;
 	t_object	obj;
-	t_camera	cam;
 	t_sphere	spheres[N_MAX];
 	t_plane		planes[N_MAX];
 	t_light		lights[N_MAX];
 	t_material	materials[N_MAX];
+	t_camera	cam;
 }				t_scene;
+
 
 t_vector	ft_vector(float x, float y, float z);
 t_vector	ft_vector_sum(t_vector a, t_vector b);
@@ -266,7 +272,6 @@ int			ft_sphere_intersect(t_sphere s, t_ray r, float *t)
 	float 		t1;
 	float		t2;
 
-	return (1);
 	d.a = ft_vector_dot(r.dir, r.dir);
 	dist = ft_vector_sub(r.start, s.pos);
 	d.b = 2 * ft_vector_dot(r.dir, dist);
@@ -284,6 +289,11 @@ int			ft_sphere_intersect(t_sphere s, t_ray r, float *t)
 		*t = t1;
 		return (1);	
 	}
+	/*if (t2 > 0.001 && (t2 < *t))
+	{
+		*t = t2;
+		return (1);
+	}*/
 	return (0);
 }
 
@@ -317,7 +327,7 @@ int		ft_scene_intersect(t_scene s, t_intersect *in)
 			s.obj = SPHERE;
 			hit = 1;
 			in->p = ft_vector_sum(in->ray.start, ft_vector_kmult(in->t, in->ray.dir));
-			in->n = ft_vector_sub(in->p, s.spheres[i].pos);
+			in->n = ft_vector_normalized(ft_vector_sub(in->p, s.spheres[i].pos));
 			break ;
 		}
 		else if (i < s.nb_planes && ft_plane_intersect(s.planes[i], in->ray, &in->t))
@@ -327,6 +337,7 @@ int		ft_scene_intersect(t_scene s, t_intersect *in)
 			hit = 1;
 			in->p = ft_vector_sum(in->ray.start, ft_vector_kmult(in->t, in->ray.dir));
 			in->n = ft_vector_sub(in->p, s.planes[i].pos);
+		//	break ;
 			}
 	}
 	return (hit);
@@ -359,48 +370,50 @@ int		ft_scene_intersectl(t_scene s, t_intersect *in)
 
 t_color		ft_ray_trace(t_scene	s, t_intersect *in)
 {
-	t_color	c = {1.0f, 1.0f, 1.0f};
-	int level = 0;
+	t_color	c = (t_color){0.0f, 0.0f, 0.0f};
+	int level = -1;
 	float coef = 1.0;
 	int			id = -1;
+	in->t = 20000.0;
+	
 	if (ft_scene_intersect(s, in) && in->id >= 0)
-		return (s.materials[s.spheres[in->id].material].diffuse);
+	{
+        float cosinus = -1.0 * ft_vector_dot(in->n, in->ray.dir);
+		c.red += cosinus * s.materials[s.spheres[in->id].material].diffuse.red;
+		c.green += cosinus * s.materials[s.spheres[in->id].material].diffuse.green;
+		c.blue += cosinus * s.materials[s.spheres[in->id].material].diffuse.blue;
+		return (c);
+	}
 	else
-		return ((t_color){1.0, 0.0, 0.0});
-	while (coef > 0.0f && level < 15)
+		return (c);
+	while (coef > 0.0f && ++level < 12)
 	{
 		id = -1;
-		in->t = 20000.0f;
+		in->t = 20000.0;
 		if (ft_scene_intersect(s, in))
 			id = in->id;
 		if (id == -1 || s.obj == NONE)
 			break;
 		float    temp = ft_vector_dot(in->n, in->n);
-		if (temp == 0)
+		if (temp == 0.000001)
 			break;
 		temp = 1.0 / sqrt(temp);
 		in->n = ft_vector_kmult(temp, in->n);
 		t_material curr_material;
 		if (s.obj == SPHERE)
 			curr_material = s.materials[s.spheres[id].material];
-		if (s.obj == PLANE)
-		{
-			curr_material = s.materials[s.planes[id].material];
-		}
 		int j = -1;
 		while (++j < s.nb_lights)
 		{
 			t_light curr_light = s.lights[j];
 			t_vector dist = ft_vector_sub(curr_light.pos, in->p);
-			if (ft_vector_dot(in->n, dist) <= 0.0f)
-			{
+			if (ft_vector_dot(in->n, dist) <= 0.0001)
 				continue;
-			}
-			float t = sqrt(ft_vector_dot(dist, dist));
-			if (t <= 0.0f)
+			float tt = sqrt(ft_vector_dot(dist, dist));
+			if (tt <= 0.0001)
 				continue;
-			in->ray_light = (t_ray){in->p, ft_vector_kmult(1 / t, dist)};
-			in->t = t;
+			in->ray_light = (t_ray){in->p, ft_vector_kmult(1.000 / tt, dist)};
+			in->t = tt;
 			int in_shadow = ft_scene_intersectl(s, in);
 			if (!in_shadow)
 			{
@@ -415,7 +428,6 @@ t_color		ft_ray_trace(t_scene	s, t_intersect *in)
 		float reflected = 2.0f * ft_vector_dot(in->ray.dir, in->n);
 		t_vector tmp = ft_vector_kmult(reflected, in->n);
 		in->ray.dir = ft_vector_sub(in->ray.dir, tmp);
-		level++;
 	}
 	return (c);
 }
@@ -436,7 +448,6 @@ __kernel void ft_render(__global  uint *output, t_scene s, unsigned int w, unsig
 	inter.ray.dir.x = 0.0;
 	inter.ray.dir.y = 0.0;
 	inter.ray.dir.z = 1.0;
-	if (s.nb_objects == 6)
-		color = ft_ray_trace(s, &inter);
+	color = ft_ray_trace(s, &inter);
 	output[i] = ft_clamp_gama(color.red, color.green, color.blue, 1.0);
 }
