@@ -37,7 +37,6 @@ t_object	*ft_sphere_new(void)
 int			ft_sphere_compute(t_object *p, t_intersect *in)
 {
 	t_ray		r;
-	t_vector	tmp;
 
 	r = in->ray;
 	r.start = ft_rotate_vec3(r.start, p->rotate, -1);
@@ -46,9 +45,11 @@ int			ft_sphere_compute(t_object *p, t_intersect *in)
 	if (!ft_sphere_intersect(p, &r, &in->t))
 		return (0);
 	in->current = p;
-	in->p = ft_vector_sum(in->ray.start, ft_vector_kmult(in->t, in->ray.dir));
-	tmp = ft_vector_sub(in->p, p->pos);
-	in->n = ft_normal_sphere(p, tmp);
+	in->p = ft_vector_sum(r.start, ft_vector_kmult(in->t, r.dir));
+	in->n = ft_normal_sphere(p, ft_vector_sub(in->p, p->pos));
+	in->p = ft_translate_vec3(in->p, p->translate, 0);
+	in->p = ft_rotate_vec3(in->p, p->rotate, 0);
+	in->n = ft_rotate_vec3(in->n, p->rotate, 0);
 	return (1);
 }
 
