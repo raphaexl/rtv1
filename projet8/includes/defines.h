@@ -19,7 +19,7 @@
 # define MAX_DISTANCE 1000.0f
 # define NB_OPTIONS 12
 # define RAND_N 3
-# define DELTA_TRANS 0.5
+# define DELTA_TRANS 8.5
 # define DELTA_ANGLE 2
 # define DEG_TO_RAD(x) ((x) * (M_PI / 180.0))
 

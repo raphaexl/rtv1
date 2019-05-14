@@ -26,17 +26,17 @@ int		ft_env_update_camera(t_camera *cam, t_input *in)
 	if (in->keys[SDL_SCANCODE_E] && (ret = 1))
 		cam->rot.z -= 5.214;
 	if (in->keys[SDL_SCANCODE_A] && (ret = 1))
-		cam->trans.x -= 0.5;
+		cam->trans.x -= 2.5;
 	if (in->keys[SDL_SCANCODE_D] && (ret = 1))
-		cam->trans.x += 0.5;
+		cam->trans.x += 2.5;
 	if (in->keys[SDL_SCANCODE_LEFT] && (ret = 1))
-		cam->rot.y += 5.5;
-	if (in->keys[SDL_SCANCODE_RIGHT] && (ret = 1))
 		cam->rot.y -= 5.5;
+	if (in->keys[SDL_SCANCODE_RIGHT] && (ret = 1))
+		cam->rot.y += 5.5;
 	if (in->keys[SDL_SCANCODE_UP] && (ret = 1))
-		cam->trans.z -= 0.5;
+		cam->trans.z += 2.5;
 	if (in->keys[SDL_SCANCODE_DOWN] && (ret = 1))
-		cam->trans.z += 0.5;
+		cam->trans.z -= 2.5;
 	ft_camera_transform(cam);
 	return (ret);
 }

@@ -112,9 +112,9 @@ static int	ft_env_update_object(t_env *e, t_menu *menu, float rev)
 		(*s)->translate.y += (DELTA_TRANS * rev);
 	if (menu->keys[MOVE_Z])
 		(*s)->translate.z +=  (DELTA_TRANS * rev);
-	(*s)->rotate.x = ft_clamp(0.0, 179.0, (*s)->rotate.x);
-	(*s)->rotate.y = ft_clamp(0.0, 179.0, (*s)->rotate.y);
-	(*s)->rotate.z = ft_clamp(0.0, 179.0, (*s)->rotate.z);
+	(*s)->rotate.x = ft_clamp(-180.0, 180.0, (*s)->rotate.x);
+	(*s)->rotate.y = ft_clamp(-180.0, 180.0, (*s)->rotate.y);
+	(*s)->rotate.z = ft_clamp(-180.0, 180.0, (*s)->rotate.z);
 	return (1);
 }
 

@@ -49,7 +49,6 @@ int			ft_sphere_compute(t_object *p, t_intersect *in)
 	in->n = ft_normal_sphere(p, ft_vector_sub(in->p, p->pos));
 	in->p = ft_translate_vec3(in->p, p->translate, 0);
 	in->p = ft_rotate_vec3(in->p, p->rotate, 0);
-	in->n = ft_rotate_vec3(in->n, p->rotate, 0);
 	return (1);
 }
 
