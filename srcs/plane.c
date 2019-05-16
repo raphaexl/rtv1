@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 06:39:09 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/14 17:45:43 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/16 15:36:14 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,18 @@ int			ft_plane_intersect(t_object *plane, t_ray *r, float *t)
 	t_vector	dist;
 	float		t1;
 
-	ddn = ft_vector_dot(r->dir, plane->normal);
-	if (ddn == 0.000001)
-		return (0);
-	dist = ft_vector_sub(plane->pos, r->start);
-	t1 = (ft_vector_dot(dist, plane->normal)) / ddn;
-	if (t1 < *t && t1 > 0.001)
+	ddn = ft_vector_dot(plane->normal, r->dir);
+	if (fabs(ddn) >= 1.0e-6)
 	{
-		*t = t1;
-		if (ddn > 0)
-			return (2);
-		return (1);
+		dist = ft_vector_sub(plane->pos, r->start);
+		t1 = (ft_vector_dot(dist, plane->normal)) / ddn;
+		if (t1 < *t && t1 > 0.001f)
+		{
+			*t = t1;
+			if (ddn > 0.001f)
+				return (2);
+			return (1);
+		}
 	}
 	return (0);
 }

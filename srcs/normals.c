@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 11:33:09 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/14 17:42:59 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/16 15:35:59 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_vector	ft_normal_plane(t_object *plane, int ret)
 		p = plane->normal;
 	else
 		p = ft_vector_kmult(-1.0, plane->normal);
-	return (ft_vector_normalized(p));
+	return (p);
 }
 
 t_vector	ft_normal_cone(t_object *cone, t_vector p)
