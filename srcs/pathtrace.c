@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 15:29:41 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/02 11:15:52 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 16:12:19 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int			ft_lambertian_sc(t_intersect *in, t_color *att)
 
 	in->ray.start = in->p;
 	target = ft_vector_sum(ft_vector_sum(in->p, in->n), ft_random_unit());
-	*att = in->current->material.diffuse;
+	*att = ft_color_sum(*att, in->current->material.diffuse);
 	in->ray.dir = ft_vector_sub(target, in->p);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 06:39:09 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/16 15:36:14 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 16:26:53 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ t_object	*ft_plane_new(void)
 		new->translate = (t_vector){0.0, 0.0, 0.0};
 		new->rotate = (t_vector){0.0, 0.0, 0.0};
 		new->normal = (t_vector){0.0, 1.0, 0.0};
-		new->material = (t_material){{1.0, 1.0, 1.0}, {0, 0, 0}, 0, 0, 0, 0};
+		new->material = (t_material){{ft_rand48(), ft_rand48(), ft_rand48()},
+			{ft_rand48(), ft_rand48(), ft_rand48()}, 60.0, 0, 0, 0};
 		new->radius = 0.0;
 		new->angle = 0.0;
 		new->next = NULL;

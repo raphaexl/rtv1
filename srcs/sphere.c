@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 17:51:42 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/14 17:44:40 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 18:26:14 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ t_object	*ft_sphere_new(void)
 		new->translate = (t_vector){0.0, 0.0, 0.0};
 		new->rotate = (t_vector){0.0, 0.0, 0.0};
 		new->normal = (t_vector){0.0, 0.0, 0.0};
-		new->material = (t_material){{1.0, 1.0, 1.0}, {0, 0, 0}, 0, 0, 0, 0};
+		new->material = (t_material){{ft_rand48(), ft_rand48(), ft_rand48()},
+			{ft_rand48(), ft_rand48(), ft_rand48()}, 60.0, 0, 0, 0};
 		new->radius = 1.0;
 		new->angle = 0.0;
 		new->next = NULL;
@@ -40,8 +41,8 @@ int			ft_sphere_compute(t_object *p, t_intersect *in)
 
 	r = in->ray;
 	r.start = ft_rotate_vec3(r.start, p->rotate, -1);
-	r.dir = ft_rotate_vec3(r.dir, p->rotate, -1);
 	r.start = ft_translate_vec3(r.start, p->translate, -1);
+	r.dir = ft_rotate_vec3(r.dir, p->rotate, -1);
 	if (!ft_sphere_intersect(p, &r, &in->t))
 		return (0);
 	in->current = p;
@@ -49,6 +50,8 @@ int			ft_sphere_compute(t_object *p, t_intersect *in)
 	in->n = ft_normal_sphere(p, ft_vector_sub(in->p, p->pos));
 	in->p = ft_translate_vec3(in->p, p->translate, 0);
 	in->p = ft_rotate_vec3(in->p, p->rotate, 0);
+	in->n = ft_rotate_vec3(in->n, p->rotate, 0);
+	in->n = ft_vector_normalized(in->n);
 	return (1);
 }
 

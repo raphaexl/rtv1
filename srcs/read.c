@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 08:53:45 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/14 16:38:31 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 18:50:41 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,94 +15,99 @@
 t_object		*ft_sphere_read(int fd)
 {
 	char		*line;
-	t_object	iterm;
+	t_object	item;
 
-	iterm.angle = 0.0;
-	iterm.pos = ft_vector_read(fd);
-	iterm.translate = ft_vector_read(fd);
-	iterm.rotate = ft_vector_read(fd);
-	iterm.normal = ft_vector(0.0, 0.0, 0.0);
+	item.angle = 0.0;
+	item.name = "SPHERE";
+	item.pos = ft_vector_read(fd);
+	item.translate = ft_vector_read(fd);
+	item.rotate = ft_vector_read(fd);
+	item.translate = ft_translate_vec3(item.translate, item.pos, 0);
+	item.pos = (t_vector){0.0, 0.0, 0.0};
+	item.normal = ft_vector(0.0, 0.0, 0.0);
 	if (ft_get_next_line(fd, &line) == 1 && line)
-		iterm.radius = ft_atof(line);
+		item.radius = ft_atof(line);
 	else
 		ft_print_error("sphere radius :)");
-	iterm.material = ft_material_read(fd);
-	return (ft_object_new(SPHERE, &iterm));
+	item.material = ft_material_read(fd);
+	return (ft_object_new(SPHERE, &item));
 }
 
 t_object		*ft_cone_read(int fd)
 {
 	char		*line;
-	t_object	iterm;
+	t_object	item;
 
-	iterm.pos = ft_vector_read(fd);
-	iterm.translate = ft_vector_read(fd);
-	iterm.rotate = ft_vector_read(fd);
-	iterm.normal = ft_vector(0.0, 0.0, 0.0);
+	item.pos = ft_vector_read(fd);
+	item.name = "CONE";
+	item.translate = ft_vector_read(fd);
+	item.rotate = ft_vector_read(fd);
+	item.translate = ft_translate_vec3(item.translate, item.pos, 0);
+	item.pos = (t_vector){0.0, 0.0, 0.0};
+	item.normal = ft_vector(0.0, 0.0, 0.0);
 	if (ft_get_next_line(fd, &line) == 1 && line)
-		iterm.angle = DEG_TO_RAD(ft_clamp(1.0, 189.0, ft_atof(line)));
+		item.angle = DEG_TO_RAD(ft_clamp(1.0, 79.0, ft_atof(line)));
 	else
 		ft_print_error("cone angle :)");
-	iterm.material = ft_material_read(fd);
-	return (ft_object_new(CONE, &iterm));
+	item.material = ft_material_read(fd);
+	return (ft_object_new(CONE, &item));
 }
 
 t_object		*ft_cylindre_read(int fd)
 {
 	char		*line;
-	t_object	iterm;
+	t_object	item;
 
-	iterm.angle = 0.0;
-	iterm.pos = ft_vector_read(fd);
-	iterm.translate = ft_vector_read(fd);
-	iterm.rotate = ft_vector_read(fd);
-	iterm.normal = ft_vector(0.0, 0.0, 0.0);
+	item.angle = 0.0;
+	item.name = "CYLINDRE";
+	item.pos = ft_vector_read(fd);
+	item.translate = ft_vector_read(fd);
+	item.rotate = ft_vector_read(fd);
+	item.translate = ft_translate_vec3(item.translate, item.pos, 0);
+	item.pos = (t_vector){0.0, 0.0, 0.0};
+	item.normal = ft_vector(0.0, 0.0, 0.0);
 	if (ft_get_next_line(fd, &line) == 1 && line)
-		iterm.radius = ft_atof(line);
+		item.radius = ft_atof(line);
 	else
 		ft_print_error("cylinder radius :)");
-	iterm.material = ft_material_read(fd);
-	return (ft_object_new(CYLINDRE, &iterm));
+	item.material = ft_material_read(fd);
+	return (ft_object_new(CYLINDRE, &item));
 }
 
 t_object		*ft_plane_read(int fd)
 {
-	t_object	iterm;
+	t_object	item;
 
-	iterm.pos = ft_vector_read(fd);
-	iterm.translate = ft_vector_read(fd);
-	iterm.rotate = ft_vector_read(fd);
-	iterm.radius = 0.0;
-	iterm.angle = 0.0;
-	iterm.normal = ft_vector_read(fd);
-	iterm.material = ft_material_read(fd);
-	return (ft_object_new(PLANE, &iterm));
+	item.pos = ft_vector_read(fd);
+	item.name = "PLANE";
+	item.translate = ft_vector_read(fd);
+	item.rotate = ft_vector_read(fd);
+	item.translate = ft_translate_vec3(item.translate, item.pos, 0);
+	item.pos = (t_vector){0.0, 0.0, 0.0};
+	item.radius = 0.0;
+	item.angle = 0.0;
+	item.normal = ft_vector_read(fd);
+	item.material = ft_material_read(fd);
+	return (ft_object_new(PLANE, &item));
 }
 
-t_light			*ft_light_read(int fd)
+t_object		*ft_disk_read(int fd)
 {
+	t_object	item;
 	char		*line;
-	char		**tab;
-	t_iterm		iterm;
-	int			i;
 
+	item.name = "DISQUE";
+	item.pos = ft_vector_read(fd);
+	item.translate = ft_vector_read(fd);
+	item.translate = ft_translate_vec3(item.translate, item.pos, 0);
+	item.pos = (t_vector){0.0, 0.0, 0.0};
+	item.rotate = ft_vector_read(fd);
 	if (ft_get_next_line(fd, &line) == 1 && line)
-	{
-		if ((tab = ft_strsplit(line, ' ')) && ft_tab_len(tab) != 6)
-			ft_print_error("invalid light paramters");
-		iterm.pos.x = ft_atof(tab[0]);
-		iterm.pos.y = ft_atof(tab[1]);
-		iterm.pos.z = ft_atof(tab[2]);
-		iterm.color.red = ft_atof(tab[3]);
-		iterm.color.green = ft_atof(tab[4]);
-		iterm.color.blue = ft_atof(tab[5]);
-		i = -1;
-		while (++i < 6)
-			free(tab[i]);
-		free(tab);
-		tab = NULL;
-	}
+		item.radius = ft_atof(line);
 	else
-		ft_print_error("light invalid :)");
-	return (ft_light_new(iterm.pos, iterm.color));
+		ft_print_error("disk radius :)");
+	item.angle = item.radius * item.radius;
+	item.normal = ft_vector_read(fd);
+	item.material = ft_material_read(fd);
+	return (ft_object_new(DISK, &item));
 }

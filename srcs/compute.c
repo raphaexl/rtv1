@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 11:29:07 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/02 13:11:12 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 15:56:05 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ int		ft_scene_intersect(t_scene *s, t_intersect *in)
 			hit = 1;
 		else if (p->type == PLANE && ft_plane_compute(p, in))
 			hit = 1;
+		else if (p->type == DISK && ft_disk_compute(p, in))
+			hit = 1;
+		else if (p->type == BOX && ft_box_compute(p, in))
+			hit = 1;
 		p = p->next;
 	}
 	return (hit);
@@ -61,6 +65,10 @@ int		ft_scene_intersectl(t_scene *s, t_intersect *in)
 		else if (p->type == PLANE && ft_plane_intersect(p, &r, &in->t))
 			return (1);
 		else if (p->type == CYLINDRE && ft_cylindre_intersect(p, &r, &in->t))
+			return (1);
+		else if (p->type == DISK && ft_disk_intersect(p, &r, &in->t))
+			return (1);
+		else if (p->type == BOX && ft_box_intersect(p, &r, &in->t))
 			return (1);
 		p = p->next;
 	}

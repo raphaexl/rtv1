@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 11:33:09 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/16 15:35:59 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 18:11:43 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,21 @@ t_vector	ft_normal_cylindre(t_object *cylindre, t_vector p)
 {
 	p = ft_vector_kmult(1.0 / cylindre->radius, p);
 	return (ft_vector(p.x, 0.001, p.z));
+}
+
+t_vector	ft_normal_box(t_object *b, t_vector h)
+{
+	t_vector	c;
+	t_vector	d;
+	t_vector	p;
+	float		bias;
+
+	bias = 1.00001;
+	c = ft_vector_kmult(0.5, ft_vector_sum(b->pos, b->normal));
+	d = ft_vector_kmult(0.5, ft_vector_sub(b->pos, b->normal));
+	d.x = fabs(d.x) * bias;
+	d.y = fabs(d.y) * bias;
+	d.z = fabs(d.z) * bias;
+	p = ft_vector_sub(h, c);
+	return (ft_vector_normalized(ft_vector(p.x / d.x, p.y / d.y, p.z / d.z)));
 }

@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 14:03:14 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/02 18:10:50 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 18:32:08 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,32 @@ static	int		ft_reflect_light(t_intersect *in)
 	return (1);
 }
 
-static void		ft_floor_object(t_object *o, t_material *m, t_vector pos)
+static void		ft_floor_object(t_texture *t, t_object *o, t_material *m,
+		t_vector pos)
 {
-	int		square;
+	float		amount;
+	float		sines;
+	float		u;
+	float		v;
 
-	square = 0;
-	if (o->type != PLANE)
-		return ;
-	if ((m)->chess)
+	amount = 10.0;
+	u = 0.0;
+	v = 0.0;
+	if (o->type != SPHERE)
+		amount = 1.0;
+	if ((m)->chess == 1)
 	{
-		square = floor(pos.x) + floor(pos.z);
-		if (square % 2)
-		{
-			(m)->diffuse.red = 0.0;
-			(m)->diffuse.green = 0.0;
-			(m)->diffuse.blue = 0.0;
-		}
+		sines = sin(amount * pos.x) * sin(amount * pos.y) * sin(amount * pos.z);
+		if (sines < 0.001)
+			(m)->diffuse = (t_color){1.0, 1.0, 0.0};
+	}
+	else if ((m->chess == 2) && (o->type == SPHERE))
+	{
+		pos = ft_rotate_vec3(pos, o->rotate, -1);
+		pos = ft_translate_vec3(pos, o->translate, -1);
+		pos = ft_vector_kmult(1.0 / o->radius, pos);
+		ft_sphere_uv(pos, &u, &v);
+		m->diffuse = ft_texture_image(t, u, v);
 	}
 }
 
@@ -47,7 +57,7 @@ static t_color	ft_light(t_scene *s, t_intersect *in, t_material m, t_color c)
 	t_vector		dist;
 
 	p = s->light;
-	ft_floor_object(in->current, &m, in->p);
+	ft_floor_object(s->earth, in->current, &m, in->p);
 	while (p)
 	{
 		dist = ft_vector_sub(p->pos, in->p);

@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 21:20:26 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/05 20:52:36 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 20:44:17 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,14 @@ static void	ft_env_display_text(SDL_Renderer *r, char *m)
 
 void		ft_env_load_all(t_env *e)
 {
-	int		i;
+	int			i;
+	SDL_Surface *s;
 
 	ft_env_load_images(e);
-	e->menu.pos[0] = (SDL_Rect){.x = 5, .y = 5};
-	e->menu.pos[1] = (SDL_Rect){.x = 10, .y = 160};
-	e->menu.pos[2] = (SDL_Rect){.x = 10, .y = 310};
-	e->menu.pos[3] = (SDL_Rect){.x = 10, .y = 410};
-	e->menu.pos[4] = (SDL_Rect){.x = 10, .y = 510};
-	e->menu.pos[5] = (SDL_Rect){.x = 10, .y = 680};
-	e->menu.pos[6] = (SDL_Rect){.x = 200 + START_X, .y = END_Y + 20};
-	e->menu.pos[7] = (SDL_Rect){.x = 440 + START_X, .y = END_Y + 20};
-	e->menu.pos[8] = (SDL_Rect){.x = 640 + START_X, .y = END_Y + 20};
-	e->menu.pos[9] = (SDL_Rect){.x = 200 + START_X, .y = 25};
-	e->menu.pos[10] = (SDL_Rect){.x = 5 + START_X + 400 + 10, .y = 25};
-	e->menu.pos[11] = (SDL_Rect){.x = 5 + START_X + 620 + 20, .y = 25};
+	if (!(s = IMG_Load("data/imgs/background.png")))
+		ft_sdl_error();
+	if (!(e->bg = SDL_CreateTextureFromSurface(e->ptr.renderer, s)))
+		ft_sdl_error();
 	i = NB_OPTIONS;
 	while (--i >= 0)
 	{
@@ -64,6 +57,7 @@ void		ft_env_load_all(t_env *e)
 				&e->menu.pos[i].h);
 		e->menu.keys[i] = 0;
 	}
+	SDL_FreeSurface(s);
 }
 
 void		ft_env_init(t_env *e, int argc, char **argv)
@@ -97,10 +91,12 @@ void		ft_env_init(t_env *e, int argc, char **argv)
 
 void		ft_env_draw(t_env *e)
 {
-	int		i;
+	int			i;
+	SDL_Rect	pos;
 
-	SDL_SetRenderDrawColor(e->ptr.renderer, 255, 162, 51, 255);
+	pos = (SDL_Rect){0, 0, SCR_WIDTH, SCR_HEIGHT};
 	SDL_RenderClear(e->ptr.renderer);
+	SDL_RenderCopy(e->ptr.renderer, e->bg, NULL, &pos);
 	i = NB_OPTIONS;
 	while (--i >= 0)
 		SDL_RenderCopy(e->ptr.renderer, e->menu.img[i], NULL, &e->menu.pos[i]);

@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 11:42:18 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/30 14:28:56 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 17:00:40 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_object	*ft_object_new(t_type type, t_object *o)
 		new->type = type;
 		new->pos = o->pos;
 		new->id = 0;
-		new->name = ft_get_object_name(new);
+		new->name = o->name;
 		new->translate = o->translate;
 		new->rotate = o->rotate;
 		new->normal = o->normal;
@@ -40,7 +40,7 @@ void		ft_object_push_back(t_object **lst, t_object *new)
 	t_object	*p;
 	int			id;
 
-	id = 0;
+	id = 1;
 	if (!lst || !new)
 		return ;
 	else if (!*lst)
@@ -68,20 +68,38 @@ void		ft_object_add_back(t_object **lst, t_type type)
 		ft_object_push_back(lst, ft_cone_new());
 	else if (type == CYLINDRE)
 		ft_object_push_back(lst, ft_cylindre_new());
+	else if (type == DISK)
+		ft_object_push_back(lst, ft_disk_new());
+	else if (type == BOX)
+		ft_object_push_back(lst, ft_box_new());
 }
 
-char		*ft_get_object_name(t_object *o)
+void		ft_object_remove(t_object **s, int id)
 {
-	if (o->type == SPHERE)
-		return ("SPHERE");
-	else if (o->type == CONE)
-		return ("CONE");
-	else if (o->type == CYLINDRE)
-		return ("CYLINDRE");
-	else if (o->type == PLANE)
-		return ("PLANE");
-	else
-		return ("NONE");
+	t_object	*p;
+	t_object	*q;
+
+	if (!s || !*s)
+		return ;
+	p = *s;
+	if (p && p->id == id)
+	{
+		*s = (*s)->next;
+		free(p);
+		return ;
+	}
+	q = (*s)->next;
+	while (q && q->id != id)
+	{
+		p = q;
+		q = q->next;
+	}
+	if (q && q->id == id)
+	{
+		p->next = q->next;
+		free(q);
+		return ;
+	}
 }
 
 void		ft_object_clean(t_object **lst)

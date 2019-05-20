@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 08:14:04 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/14 16:39:33 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 17:52:26 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,14 @@ void				ft_scene_init(t_scene *s, char *const input_file)
 		s->ambiant = (t_color){0.02, 0.02, 0.02};
 		ft_parse_file(s, fd);
 		close(fd);
+		if (!s->obj)
+			ft_print_error("missing  objects :)");
 	}
 	else
 		ft_error();
 	s->c = (t_color){.0, .0, .0};
 	s->a = 0;
+	s->earth = ft_texture_new("data/imgs/earth.jpg");
 	s->ft_rtv1 = ft_edit_trace;
 }
 

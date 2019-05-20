@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 21:53:37 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/14 16:05:41 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 20:40:38 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef	struct		s_env
 	t_menu			menu;
 	t_ptr			ptr;
 	Uint32			*pixels;
+	SDL_Texture		*bg;
 	int				optimize;
 	int				start;
 	t_object		*selected;

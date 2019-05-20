@@ -6,13 +6,13 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 20:29:41 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/05 13:02:49 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/19 18:32:17 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
 
-int		ft_sdl_init(t_ptr *ptr, const char *title)
+int			ft_sdl_init(t_ptr *ptr, const char *title)
 {
 	SDL_Surface	*ico;
 
@@ -35,27 +35,66 @@ int		ft_sdl_init(t_ptr *ptr, const char *title)
 	return (0);
 }
 
-void	ft_clear_pixels(Uint32 *pixels)
+Uint32		ft_get_pixels(SDL_Surface *s, int x, int y)
 {
-	int		i;
+	int		bpp;
+	Uint8	*p;
 
-	i = -1;
-	while (++i < W_W * W_H)
-		pixels[i] = 0x000000;
+	bpp = s->format->BytesPerPixel;
+	p = (Uint8 *)s->pixels + y * s->pitch + x * bpp;
+	if (bpp == 1)
+		return (*p);
+	if (bpp == 2)
+		return (*(Uint16 *)p);
+	if (bpp == 3)
+	{
+		if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+			return (p[0] << 16 | p[1] << 8 | p[2]);
+		else
+			return (p[0] | p[1] << 8 | p[2] << 16);
+	}
+	if (bpp == 4)
+		return (*(Uint32 *)p);
+	return (0);
 }
 
-int		ft_update_renderer(t_ptr *ptr, Uint32 *pixels)
+Uint32		*ft_load_pixels(char *file_name, int *w, int *h)
+{
+	SDL_Surface		*s;
+	int				x;
+	int				y;
+	Uint32			*pixels;
+
+	s = IMG_Load(file_name);
+	if (!s)
+		ft_sdl_error();
+	SDL_SetColorKey(s, SDL_TRUE, SDL_MapRGB(s->format, 255, 255, 255));
+	pixels = (Uint32 *)malloc(sizeof(Uint32) * (s->w * s->h));
+	SDL_LockSurface(s);
+	y = -1;
+	while ((++y < s->h) && (x = -1))
+		while (++x < s->w)
+			pixels[y * s->w + x] = ft_get_pixels(s, x, y);
+	SDL_UnlockSurface(s);
+	*w = s->w;
+	*h = s->h;
+	SDL_FreeSurface(s);
+	s = NULL;
+	return (pixels);
+}
+
+int			ft_update_renderer(t_ptr *ptr, Uint32 *pixels)
 {
 	SDL_Rect	d;
 
-	d = (SDL_Rect){.x = START_X, .y = (SCR_HEIGHT - W_H) / 2,
+	d = (SDL_Rect){.x = START_X, .y = START_Y,
 		.w = W_W, .h = W_H};
 	SDL_UpdateTexture(ptr->texture, NULL, pixels, W_W * sizeof(Uint32));
 	SDL_RenderCopy(ptr->renderer, ptr->texture, NULL, &d);
 	return (0);
 }
 
-void	ft_sdl_quit(t_ptr *ptr)
+void		ft_sdl_quit(t_ptr *ptr)
 {
 	if (ptr->texture)
 		SDL_DestroyTexture(ptr->texture);

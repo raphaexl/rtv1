@@ -6,39 +6,30 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 15:57:28 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/14 16:16:07 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 18:45:52 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
 
-int			ft_prev_update(t_env *e, t_input *in)
+static int	ft_add_objects(t_env *e, t_menu *menu)
 {
-	int		r;
+	int		ret;
+	int		i;
 
-	r = 0;
-	if (in->mouse[SDL_BUTTON_RIGHT] && in->keys[SDL_SCANCODE_LCTRL] && (r = 1))
-		ft_env_select_object(e, in->mousex, in->mousey);
-	if (in->keys[SDL_SCANCODE_R] && in->keys[SDL_SCANCODE_KP_MINUS] && (r = 1))
-		e->selected->material.diffuse.red -= 0.1;
-	else if (in->keys[SDL_SCANCODE_G] && in->keys[86] && (r = 1))
-		e->selected->material.diffuse.green -= 0.1;
-	else if (in->keys[SDL_SCANCODE_B] && in->keys[86] && (r = 1))
-		e->selected->material.diffuse.blue -= 0.1;
-	else if (in->keys[SDL_SCANCODE_R] && in->keys[87] && (r = 1))
-		e->selected->material.diffuse.red += 0.1;
-	else if (in->keys[SDL_SCANCODE_G] && in->keys[87] && (r = 1))
-		e->selected->material.diffuse.green += 0.1;
-	else if (in->keys[SDL_SCANCODE_B] && in->keys[87] && (r = 1))
-		e->selected->material.diffuse.blue += 0.1;
-	else if (in->keys[SDL_SCANCODE_KP_MINUS] && (r = 1))
-		e->s.nb_samples -= 10;
-	else if (in->keys[SDL_SCANCODE_KP_PLUS] && (r = 1))
-		e->s.nb_samples += 10;
-	else if (in->keys[SDL_SCANCODE_O] && (r = 1))
-		e->optimize = !(e->optimize);
-	e->s.nb_samples = (int)ft_clamp(1.0, 100.0, (float)e->s.nb_samples);
-	return (r);
+	ret = 0;
+	i = 0;
+	while (++i < 6)
+	{
+		if (menu->keys[NEW_SPHERE + i] && (ret = 1))
+		{
+			if (e->s.ft_rtv1 != ft_edit_trace)
+				e->s.ft_rtv1 = ft_edit_trace;
+			ft_object_add_back(&e->s.obj, NEW_SPHERE + i);
+			break ;
+		}
+	}
+	return (ret);
 }
 
 int			ft_update_options(t_menu *m, t_input *in, int k)
@@ -72,24 +63,25 @@ static int	ft_env_update_menu(t_env *e, t_menu *menu, float rev)
 {
 	int		ret;
 
-	ret = 0;
+	ret = ft_add_objects(e, menu);
 	if (menu->keys[EDIT_TRACE] && (e->s.ft_rtv1 != ft_edit_trace) && (ret = 1))
 		e->s.ft_rtv1 = ft_edit_trace;
 	if (menu->keys[PATH_TRACE] && (e->s.ft_rtv1 != ft_path_trace) && (ret = 1))
 		e->s.ft_rtv1 = ft_path_trace;
 	if (menu->keys[RAY_TRACE] && (e->s.ft_rtv1 != ft_ray_trace) && (ret = 1))
 		e->s.ft_rtv1 = ft_ray_trace;
-	if (menu->keys[NEW] && e->selected && (ret = 1))
-	{
-		if (e->s.ft_rtv1 != ft_edit_trace)
-			e->s.ft_rtv1 = ft_edit_trace;
-		ft_object_add_back(&e->s.obj, e->selected->type);
-	}
+	if (menu->keys[SAVE])
+		ft_save_pixels(e->pixels, W_W, W_H);
 	if (menu->keys[ZOOM] && (ret = 1))
 	{
-		e->s.cam.fov = (e->s.cam.fov + rev * DELTA_ANGLE);
-		e->s.cam.fov = ft_clamp(0.0, 179.0, e->s.cam.fov);
-		ft_camera_transform(&e->s.cam);
+		e->s.cam.fov = ft_clamp(0.0, 179.0, e->s.cam.fov + rev * DELTA_ANGLE);
+		e->s.cam.h = tan((e->s.cam.fov * M_PI * (1.0 / 180.0)) / 2.0);
+		e->s.cam.w = e->s.cam.ratio * e->s.cam.h;
+	}
+	if (e->selected && menu->keys[DELETE] && (ret = 1))
+	{
+		ft_object_remove(&e->s.obj, e->selected->id);
+		e->selected = NULL;
 	}
 	return (ret);
 }
@@ -113,6 +105,8 @@ static int	ft_env_update_object(t_env *e, t_menu *menu, float rev)
 		(*s)->translate.y += (DELTA_TRANS * rev);
 	if (menu->keys[MOVE_Z])
 		(*s)->translate.z += (DELTA_TRANS * rev);
+	if (menu->keys[SCALE])
+		ft_object_resize(&e->selected, rev < 0 ? 0.5 : 1.5);
 	(*s)->rotate.x = ft_clamp(-180.0, 180.0, (*s)->rotate.x);
 	(*s)->rotate.y = ft_clamp(-180.0, 180.0, (*s)->rotate.y);
 	(*s)->rotate.z = ft_clamp(-180.0, 180.0, (*s)->rotate.z);

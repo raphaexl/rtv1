@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 11:55:38 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/05 20:57:42 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 20:34:10 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 
 # include <math.h>
 
-# define MAX_DEPTH 10
-# define MAX_DISTANCE 1000.0f
-# define NB_OPTIONS 12
-# define RAND_N 3
-# define DELTA_TRANS 8.5
+# define MAX_DEPTH 5
+# define NB_OPTIONS 20
+# define DELTA_TRANS 1.5
 # define DELTA_ANGLE 2
 # define DEG_TO_RAD(x) ((x) * (M_PI / 180.0))
 
@@ -45,8 +43,9 @@ typedef struct	s_delta
 
 typedef	enum	e_opt
 {
-	NNE = 0, NEW, EDIT_TRACE, RAY_TRACE, PATH_TRACE, ZOOM, MOVE_X, MOVE_Z,
-	MOVE_Y, ROTATE_X, ROTATE_Z, ROTATE_Y
+	NNE = 0, NEW_SPHERE, NEW_CONE, NEW_CYLINDRE, NEW_BOX, NEW_PLANE, NEW_DISK,
+	EDIT_TRACE, RAY_TRACE, PATH_TRACE, ZOOM, MOVE_X, MOVE_Z,
+	MOVE_Y, ROTATE_X, ROTATE_Z, ROTATE_Y, SCALE, SAVE, DELETE
 }				t_options;
 
 typedef	struct	s_font

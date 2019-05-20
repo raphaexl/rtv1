@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:04:01 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/14 16:26:06 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 20:35:26 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define B_W 960
 # define B_H 600
 # define START_X (SCR_WIDTH - B_W) / 2 + 100
-# define START_Y (SCR_HEIGHT - B_H) / 2
+# define START_Y (SCR_HEIGHT - B_H) / 2 - 20
 # define END_X B_W + START_X
 # define END_Y  B_H + START_Y
 # define NB_THREADS 10
@@ -51,6 +51,8 @@ void		ft_env_load_images(t_env *env);
 void		ft_env_init(t_env *e, int argc, char *argv[]);
 int			ft_env_update_camera(t_camera *c, t_input *in);
 void		ft_env_select_object(t_env *e, int x, int y);
+void		ft_object_resize(t_object **s, float rev);
+int			ft_prev_update(t_env *e, t_input *in);
 int			ft_process_event(t_env *e, t_input *in);
 int			ft_update_options(t_menu *m, t_input *in, int k);
 int			ft_mouse_inside(int mousex, int mousey, SDL_Rect *r);
@@ -77,6 +79,8 @@ t_object	*ft_sphere_read(int fd);
 t_object	*ft_cylindre_read(int fd);
 t_object	*ft_plane_read(int fd);
 t_object	*ft_cone_read(int fd);
+t_object	*ft_disk_read(int fd);
+t_object	*ft_box_read(int fd);
 t_light		*ft_light_read(int fd);
 void		ft_scene_read(t_scene *s, int fd);
 void		ft_parse_file(t_scene *s, int	fd);
@@ -105,11 +109,24 @@ t_vector	ft_normal_cylindre(t_object *cylindre, t_vector p);
 int			ft_cylindre_intersect(t_object *plane, t_ray *r, float *t);
 int			ft_cylindre_compute(t_object *p, t_intersect *in);
 
+t_object	*ft_disk_new(void);
+int			ft_disk_intersect(t_object *disk, t_ray *r, float *t);
+int			ft_disk_compute(t_object *d, t_intersect *in);
+
+t_object	*ft_box_new(void);
+t_vector	ft_normal_box(t_object *cone, t_vector p);
+int			ft_box_intersect(t_object *box, t_ray *r, float *t);
+int			ft_box_compute(t_object *b, t_intersect *in);
+
+t_texture	*ft_texture_new(char *img);
+void		ft_sphere_uv(t_vector p, float *u, float *v);
+t_color		ft_texture_image(t_texture *t, float u, float v);
+void		ft_texture_clean(t_texture **t);
 int			ft_scene_intersect(t_scene *s, t_intersect *i);
 int			ft_scene_intersectl(t_scene *s, t_intersect *i);
 
 t_object	*ft_object_new(t_type type, t_object *o);
-char		*ft_get_object_name(t_object *o);
+void		ft_object_remove(t_object **s, int id);
 void		ft_object_push_back(t_object **lst, t_object *nw);
 void		ft_object_add_back(t_object **lst, t_type type);
 void		ft_object_clean(t_object **lst);
@@ -127,7 +144,10 @@ int			ft_update_renderer(t_ptr *ptr, Uint32 *pixel);
 SDL_Texture	*ft_get_render_text(SDL_Renderer *rend, t_font f, SDL_Color color);
 void		ft_render_draw_img(SDL_Renderer *r, SDL_Texture *i, t_point p,\
 		SDL_Rect *pos);
+Uint32		ft_get_pixels(SDL_Surface *s, int x, int y);
+void		ft_put_pixels(SDL_Surface *s, int x, int y, Uint32 pixel);
+void		ft_save_pixels(Uint32 *pixels, int w, int h);
+Uint32		*ft_load_pixels(char *file_name, int *w, int *h);
 void		ft_sdl_error(void);
-void		ft_clear_pixels(Uint32 *pixels);
 void		ft_sdl_quit(t_ptr *ptr);
 #endif

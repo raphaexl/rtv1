@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 09:39:40 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/14 16:26:27 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/20 16:27:57 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ t_object		*ft_cylindre_new(void)
 		new->translate = (t_vector){0.0, 0.0, 0.0};
 		new->rotate = (t_vector){0.0, 0.0, 0.0};
 		new->normal = (t_vector){0.0, 0.0, 0.0};
-		new->material = (t_material){{1.0, 1.0, 1.0}, {0, 0, 0}, 0, 0, 0, 0};
+		new->material = (t_material){{ft_rand48(), ft_rand48(), ft_rand48()},
+			{ft_rand48(), ft_rand48(), ft_rand48()}, 60.0, 0, 0, 0};
 		new->radius = 1.0;
 		new->angle = 0.0;
 		new->next = NULL;
@@ -56,8 +57,8 @@ int				ft_cylindre_compute(t_object *p, t_intersect *in)
 
 	r = in->ray;
 	r.start = ft_rotate_vec3(r.start, p->rotate, -1);
-	r.dir = ft_rotate_vec3(r.dir, p->rotate, -1);
 	r.start = ft_translate_vec3(r.start, p->translate, -1);
+	r.dir = ft_rotate_vec3(r.dir, p->rotate, -1);
 	if (!ft_cylindre_intersect(p, &r, &in->t))
 		return (0);
 	in->current = p;
@@ -66,6 +67,7 @@ int				ft_cylindre_compute(t_object *p, t_intersect *in)
 	in->p = ft_translate_vec3(in->p, p->translate, 0);
 	in->p = ft_rotate_vec3(in->p, p->rotate, 0);
 	in->n = ft_rotate_vec3(in->n, p->rotate, 0);
+	in->n = ft_vector_normalized(in->n);
 	return (1);
 }
 
