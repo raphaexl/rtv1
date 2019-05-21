@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 21:20:26 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/21 17:28:37 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/21 18:27:21 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ void		ft_env_draw(t_env *e)
 {
 	int		i;
 
-	SDL_SetRenderDrawColor(e->ptr.renderer, 255 * ft_rand48(), 255 * ft_rand48()
-			, 255 * ft_rand48(), 255);
+	SDL_SetRenderDrawColor(e->ptr.renderer, 0x10, 0x10, 0x10, 255);
 	SDL_RenderClear(e->ptr.renderer);
 	i = NB_OPTIONS;
 	while (--i >= 0)
