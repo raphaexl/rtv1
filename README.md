@@ -7,4 +7,9 @@ objects : select objects with ctrl + right clic on the object change it's color 
 
 samples: increase the number of samples using ++/--
 
+threads : use them by pressing o or you can enble it during program launch !
+
 save you image !
+
+make then : 
+usage ./rtv1 data/scene/scene0.rt -o
