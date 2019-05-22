@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 18:11:42 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/20 18:50:25 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/22 19:03:56 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_object		*ft_cone_new(void)
 		new->material = (t_material){{ft_rand48(), ft_rand48(), ft_rand48()},
 			{ft_rand48(), ft_rand48(), ft_rand48()}, 60.0, 0, 0, 0};
 		new->radius = 0.0;
-		new->angle = 20.0;
+		new->angle = M_PI / 4.0;
 		new->next = NULL;
 	}
 	else
