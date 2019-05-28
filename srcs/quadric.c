@@ -1,40 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   quadric.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/21 20:20:10 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/22 17:08:18 by ebatchas         ###   ########.fr       */
+/*   Created: 2019/05/22 10:35:18 by ebatchas          #+#    #+#             */
+/*   Updated: 2019/05/22 14:53:29 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
 
-float	ft_clamp(float min, float max, float val)
+int		ft_solve_quadric(double c[3], double s[2])
 {
-	return (fmax(min, fmin(max, val)));
-}
+	double	p;
+	double	q;
+	double	d;
 
-float	ft_rand48(void)
-{
-	static int	initialized = 0;
-
-	if (!initialized)
+	p = c[1] / (2.0 * c[2]);
+	q = c[0] / c[2];
+	d = p * p - q;
+	if (IS_ZERO(d))
 	{
-		initialized = 1;
-		srand(time(NULL));
+		s[0] = -p;
+		return (1);
 	}
-	return ((float)rand() / (float)RAND_MAX);
-}
-
-int		ft_tab_len(char **tab)
-{
-	int		i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
+	else if (d < 0)
+		return (0);
+	else
+	{
+		d = sqrt(d);
+		s[0] = d - p;
+		s[1] = -d - p;
+		return (2);
+	}
 }

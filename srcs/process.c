@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/02 15:57:28 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/21 17:47:15 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/22 17:24:31 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 
 static int	ft_add_objects(t_env *e, t_menu *menu)
 {
-	int		ret;
 	int		i;
+	int		ret;
 
-	ret = 0;
 	i = -1;
-	while (++i < 6)
+	ret = 0;
+	while (++i < 9)
 	{
-		if (menu->keys[NEW_SPHERE + i] && (ret = 1))
+		if (menu->keys[NEW_SPHERE + i])
 		{
 			if (e->s.ft_rtv1 != ft_edit_trace)
 				e->s.ft_rtv1 = ft_edit_trace;
 			ft_object_add_back(&e->s.obj, NEW_SPHERE + i);
+			ret = 1;
 			break ;
 		}
 	}
@@ -83,33 +84,37 @@ static int	ft_env_update_menu(t_env *e, t_menu *menu, float rev)
 		ft_object_remove(&e->s.obj, e->selected->id);
 		e->selected = NULL;
 	}
+	if (menu->keys[RESIZE] && (ret = 1))
+		ft_object_resize(&e->selected, rev < 0 ? 0.5 : 1.5);
 	return (ret);
 }
 
 static int	ft_env_update_object(t_env *e, t_menu *menu, float rev)
 {
-	t_object **s;
-
-	s = &e->selected;
-	if (!*s)
-		return (0);
 	if (menu->keys[ROTATE_X])
-		(*s)->rotate.x += (DELTA_ANGLE * rev);
+		e->selected->rotate.x += (DELTA_ANGLE * rev);
 	if (menu->keys[ROTATE_Y])
-		(*s)->rotate.y += (DELTA_ANGLE * rev);
+		e->selected->rotate.y += (DELTA_ANGLE * rev);
 	if (menu->keys[ROTATE_Z])
-		(*s)->rotate.z += (DELTA_ANGLE * rev);
+		e->selected->rotate.z += (DELTA_ANGLE * rev);
 	if (menu->keys[MOVE_X])
-		(*s)->translate.x += (DELTA_TRANS * rev);
+		e->selected->translate.x += (DELTA_TRANS * rev);
 	if (menu->keys[MOVE_Y])
-		(*s)->translate.y += (DELTA_TRANS * rev);
+		e->selected->translate.y += (DELTA_TRANS * rev);
 	if (menu->keys[MOVE_Z])
-		(*s)->translate.z += (DELTA_TRANS * rev);
-	if (menu->keys[SCALE])
-		ft_object_resize(&e->selected, rev < 0 ? 0.5 : 1.5);
-	(*s)->rotate.x = ft_clamp(-180.0, 180.0, (*s)->rotate.x);
-	(*s)->rotate.y = ft_clamp(-180.0, 180.0, (*s)->rotate.y);
-	(*s)->rotate.z = ft_clamp(-180.0, 180.0, (*s)->rotate.z);
+		e->selected->translate.z += (DELTA_TRANS * rev);
+	if (menu->keys[SCALE_X] && e->selected->scale.x - 0.4f > 0.0f)
+		e->selected->scale.x *= (rev < 0 ? 0.5 : 1.5);
+	if (menu->keys[SCALE_Y] && e->selected->scale.y - 0.4f > 0.0f)
+		e->selected->scale.y *= (rev < 0 ? 0.5 : 1.5);
+	if (menu->keys[SCALE_Z] && e->selected->scale.z - 0.4f > 0.0f)
+		e->selected->scale.z *= (rev < 0 ? 0.5 : 1.5);
+	e->selected->scale.x = ft_clamp(0.5, 100.0, e->selected->scale.x);
+	e->selected->scale.y = ft_clamp(0.5, 100.0, e->selected->scale.y);
+	e->selected->scale.z = ft_clamp(0.5, 100.0, e->selected->scale.z);
+	e->selected->rotate.x = ft_clamp(-180.0, 180.0, e->selected->rotate.x);
+	e->selected->rotate.y = ft_clamp(-180.0, 180.0, e->selected->rotate.y);
+	e->selected->rotate.z = ft_clamp(-180.0, 180.0, e->selected->rotate.z);
 	return (1);
 }
 
@@ -127,13 +132,13 @@ int			ft_process_event(t_env *e, t_input *in)
 	{
 		if (ft_env_update_menu(e, &e->menu, 1.0))
 			return (1);
-		return (ft_env_update_object(e, &e->menu, -1.0));
+		return (e->selected && ft_env_update_object(e, &e->menu, -1.0));
 	}
 	else if (in->mouse[SDL_BUTTON_LEFT] && ft_update_options(&e->menu, in, 1))
 	{
 		if (ft_env_update_menu(e, &e->menu, -1.0))
 			return (1);
-		return (ft_env_update_object(e, &e->menu, 1.0));
+		return (e->selected && ft_env_update_object(e, &e->menu, 1.0));
 	}
 	ft_update_options(&e->menu, in, 0);
 	return (0);

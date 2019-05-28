@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 17:51:42 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/21 17:28:58 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/22 19:00:13 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_object	*ft_sphere_new(void)
 		new->pos = (t_vector){0.0, 0.0, 0.0};
 		new->translate = (t_vector){0.0, 0.0, 0.0};
 		new->rotate = (t_vector){0.0, 0.0, 0.0};
+		new->scale = (t_vector){1.0f, 1.0f, 1.0f};
 		new->normal = (t_vector){0.0, 0.0, 0.0};
 		new->material = (t_material){{ft_rand48(), ft_rand48(), ft_rand48()},
 			{ft_rand48(), ft_rand48(), ft_rand48()}, 60.0, 0, 0, 0};
@@ -35,13 +36,20 @@ t_object	*ft_sphere_new(void)
 	return (new);
 }
 
+t_vector	ft_normal_sphere(t_object *s, t_vector p)
+{
+	return (ft_vector_kmult(1.0 / s->radius, p));
+}
+
 int			ft_sphere_compute(t_object *p, t_intersect *in)
 {
 	t_ray		r;
 
 	r = in->ray;
+	r.start = ft_scale_vec3(r.start, p->scale, -1);
 	r.start = ft_rotate_vec3(r.start, p->rotate, -1);
 	r.start = ft_translate_vec3(r.start, p->translate, -1);
+	r.dir = ft_scale_vec3(r.dir, p->scale, -1);
 	r.dir = ft_rotate_vec3(r.dir, p->rotate, -1);
 	if (!ft_sphere_intersect(p, &r, &in->t))
 		return (0);
@@ -50,7 +58,9 @@ int			ft_sphere_compute(t_object *p, t_intersect *in)
 	in->n = ft_normal_sphere(p, ft_vector_sub(in->p, p->pos));
 	in->p = ft_translate_vec3(in->p, p->translate, 0);
 	in->p = ft_rotate_vec3(in->p, p->rotate, 0);
+	in->p = ft_scale_vec3(in->p, p->scale, 0);
 	in->n = ft_rotate_vec3(in->n, p->rotate, 0);
+	in->n = ft_scale_vec3(in->n, p->scale, -1);
 	in->n = ft_vector_normalized(in->n);
 	return (1);
 }

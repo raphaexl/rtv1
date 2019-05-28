@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 11:42:18 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/20 17:00:40 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/22 18:22:31 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_object	*ft_object_new(t_type type, t_object *o)
 		new->name = o->name;
 		new->translate = o->translate;
 		new->rotate = o->rotate;
+		new->scale = (t_vector){1.0f, 1.0f, 1.0f};
 		new->normal = o->normal;
 		new->material = o->material;
 		new->radius = o->radius;
@@ -72,6 +73,10 @@ void		ft_object_add_back(t_object **lst, t_type type)
 		ft_object_push_back(lst, ft_disk_new());
 	else if (type == BOX)
 		ft_object_push_back(lst, ft_box_new());
+	else if (type == TORUS)
+		ft_object_push_back(lst, ft_torus_new());
+	else if (type == CUBE)
+		ft_object_push_back(lst, ft_cube_new());
 }
 
 void		ft_object_remove(t_object **s, int id)

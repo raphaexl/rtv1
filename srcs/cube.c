@@ -1,41 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.c                                             :+:      :+:    :+:   */
+/*   cube.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/31 18:11:42 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/22 19:56:41 by ebatchas         ###   ########.fr       */
+/*   Created: 2019/05/22 11:39:31 by ebatchas          #+#    #+#             */
+/*   Updated: 2019/05/22 18:23:06 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rtv1.h"
 
-static int		ft_min_ray(float t1, float t2, float *t)
+static int	ft_min_ray(double s[4], float *t, int n)
 {
-	if (((t1 < t2 || t2 < 0.001) && t1 > 0.1) && (t1 < *t))
+	double	min;
+	int		i;
+
+	i = -1;
+	while (++i < n)
 	{
-		*t = t1;
-		return (1);
+		if (s[i] > 0.0001)
+		{
+			min = s[i];
+			break ;
+		}
 	}
-	else if (((t2 < t1 || t1 < 0.001) && t2 > 0.1) && (t2 < *t))
-	{
-		*t = t2;
-		return (1);
-	}
-	else
+	if (i == n)
 		return (0);
+	while (++i < n)
+	{
+		if (s[i] > 0.0001 && s[i] < min)
+			min = s[i];
+	}
+	if (min < *t && min > 0.0001)
+	{
+		*t = min;
+		return (n);
+	}
+	return (0);
 }
 
-t_object		*ft_cone_new(void)
+t_object	*ft_cube_new(void)
 {
 	t_object	*new;
 
 	if ((new = (t_object *)malloc(sizeof(*new))))
 	{
-		new->type = CONE;
-		new->name = "CONE";
+		new->type = CUBE;
+		new->name = "CUBE";
 		new->pos = (t_vector){0.0, 0.0, 0.0};
 		new->translate = (t_vector){0.0, 0.0, 0.0};
 		new->rotate = (t_vector){0.0, 0.0, 0.0};
@@ -43,8 +56,8 @@ t_object		*ft_cone_new(void)
 		new->normal = (t_vector){0.0, 0.0, 0.0};
 		new->material = (t_material){{ft_rand48(), ft_rand48(), ft_rand48()},
 			{ft_rand48(), ft_rand48(), ft_rand48()}, 60.0, 0, 0, 0};
-		new->radius = 0.0;
-		new->angle = M_PI / 4.0;
+		new->radius = 11.8;
+		new->angle = 0.0;
 		new->next = NULL;
 	}
 	else
@@ -52,18 +65,26 @@ t_object		*ft_cone_new(void)
 	return (new);
 }
 
-t_vector		ft_normal_cone(t_object *cone, t_vector p)
+t_vector	ft_normal_cube(t_object *c, t_vector h)
 {
-	if (p.y > 0)
-		p.y = -sqrt(p.z * p.z + p.x * p.x) * tan(cone->angle);
-	else
-		p.y = sqrt(p.z * p.z + p.x * p.x) * tan(cone->angle);
+	t_vector	p;
+	double		x;
+	double		y;
+	double		z;
+
+	(void)c;
+	x = h.x;
+	y = h.y;
+	z = h.z;
+	p.x = 4.0 * x * x * x - 10.0 * x;
+	p.y = 4.0 * y * y * y - 10.0 * y;
+	p.z = 4.0 * z * z * z - 10.0 * z;
 	return (ft_vector_normalized(p));
 }
 
-int				ft_cone_compute(t_object *p, t_intersect *in)
+int			ft_cube_compute(t_object *p, t_intersect *in)
 {
-	t_ray	r;
+	t_ray		r;
 
 	r = in->ray;
 	r.start = ft_scale_vec3(r.start, p->scale, -1);
@@ -71,11 +92,11 @@ int				ft_cone_compute(t_object *p, t_intersect *in)
 	r.start = ft_translate_vec3(r.start, p->translate, -1);
 	r.dir = ft_scale_vec3(r.dir, p->scale, -1);
 	r.dir = ft_rotate_vec3(r.dir, p->rotate, -1);
-	if (!ft_cone_intersect(p, &r, &in->t))
+	if (!ft_cube_intersect(p, &r, &in->t))
 		return (0);
 	in->current = p;
 	in->p = ft_vector_sum(r.start, ft_vector_kmult(in->t, r.dir));
-	in->n = ft_normal_cone(p, ft_vector_sub(in->p, p->pos));
+	in->n = ft_normal_cube(p, ft_vector_sub(in->p, p->pos));
 	in->p = ft_translate_vec3(in->p, p->translate, 0);
 	in->p = ft_rotate_vec3(in->p, p->rotate, 0);
 	in->p = ft_scale_vec3(in->p, p->scale, 0);
@@ -85,26 +106,27 @@ int				ft_cone_compute(t_object *p, t_intersect *in)
 	return (1);
 }
 
-int				ft_cone_intersect(t_object *c, t_ray *r, float *t)
+int			ft_cube_intersect(t_object *t, t_ray *r, float *min)
 {
-	t_delta		d;
 	t_vector	dist;
-	float		anglesin;
-	float		anglecos;
+	int			num;
+	double		c[5];
+	double		s[4];
 
-	anglecos = pow(cos(c->angle), 2.0);
-	anglesin = pow(sin(c->angle), 2.0);
-	dist = ft_vector_sub(r->start, c->pos);
-	d.a = anglecos * (r->dir.z * r->dir.z + r->dir.x * r->dir.x)
-		- anglesin * (r->dir.y * r->dir.y);
-	d.b = 2.0 * (anglecos * (dist.z * r->dir.z + dist.x * r->dir.x)
-			- anglesin * (dist.y * r->dir.y));
-	d.c = anglecos * (dist.z * dist.z + dist.x * dist.x)
-		- anglesin * (dist.y * dist.y);
-	d.delta = d.b * d.b - 4.0 * d.a * d.c;
-	if (d.delta < 0.00000001)
+	c[4] = pow(r->dir.x, 4) + pow(r->dir.y, 4) + pow(r->dir.z, 4);
+	dist = ft_vector_sub(r->start, t->pos);
+	c[3] = 4.0 * (pow(r->dir.x, 3) * dist.x + pow(r->dir.y, 3) * dist.y
+			+ pow(r->dir.z, 3) * dist.z);
+	c[2] = 6.0 * (pow(r->dir.x, 2) * pow(dist.x, 2) + pow(r->dir.y, 2) *
+			pow(dist.y, 2) + pow(r->dir.z, 2) * pow(dist.z, 2))
+		- 5.0 * ft_vector_dot(r->dir, r->dir);
+	c[1] = 4.0 * (pow(dist.x, 3) * r->dir.x + pow(dist.y, 3) * r->dir.y
+			+ pow(dist.z, 3) * r->dir.z)
+		- 10.0 * ft_vector_dot(r->dir, dist);
+	c[0] = pow(dist.x, 4) + pow(dist.y, 4) + pow(dist.z, 4)
+		- 5.0 * ft_vector_dot(dist, dist) + t->radius;
+	num = ft_solve_quartic(c, s);
+	if (num == 0)
 		return (0);
-	d.delta = sqrt(d.delta);
-	return (ft_min_ray((-d.b + d.delta) / (2.0 * d.a),
-				(-d.b - d.delta) / (2.0 * d.a), t));
+	return (ft_min_ray(s, min, num));
 }

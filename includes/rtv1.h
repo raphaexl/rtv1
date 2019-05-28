@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/03 20:04:01 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/21 17:56:59 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/22 15:23:32 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int			ft_prev_update(t_env *e, t_input *in);
 int			ft_process_event(t_env *e, t_input *in);
 int			ft_update_options(t_menu *m, t_input *in, int k);
 int			ft_mouse_inside(int mousex, int mousey, SDL_Rect *r);
-void		ft_env_draw(t_env *e);
+void		ft_env_display_text(SDL_Renderer *r, char *m);
 void		ft_draw(t_env *e);
 void		ft_env_quit(t_env *e);
 
@@ -63,6 +63,11 @@ t_vector	ft_rotate_y(t_vector r, float angle);
 t_vector	ft_rotate_z(t_vector r, float angle);
 t_vector	ft_rotate_vec3(t_vector r, t_vector v, int invert);
 t_vector	ft_translate_vec3(t_vector r, t_vector v, int invert);
+t_vector	ft_scale_vec3(t_vector r, t_vector v, int invert);
+
+int			ft_solve_quadric(double c[3], double s[2]);
+int			ft_solve_cubic(double w[4], double s[3]);
+int			ft_solve_quartic(double w[5], double s[4]);
 
 t_color		ft_get_light(t_intersect *in, t_light *light);
 t_color		ft_trace(t_intersect *in, t_material *m, t_light *l, t_color *a);
@@ -79,6 +84,8 @@ t_object	*ft_plane_read(int fd);
 t_object	*ft_cone_read(int fd);
 t_object	*ft_disk_read(int fd);
 t_object	*ft_box_read(int fd);
+t_object	*ft_cube_read(int fd);
+t_object	*ft_torus_read(int fd);
 t_light		*ft_light_read(int fd);
 void		ft_scene_read(t_scene *s, int fd);
 void		ft_parse_file(t_scene *s, int	fd);
@@ -110,11 +117,22 @@ int			ft_cylindre_compute(t_object *p, t_intersect *in);
 t_object	*ft_disk_new(void);
 int			ft_disk_intersect(t_object *disk, t_ray *r, float *t);
 int			ft_disk_compute(t_object *d, t_intersect *in);
+t_vector	ft_normal_disk(t_object *disk, int ret);
 
 t_object	*ft_box_new(void);
 t_vector	ft_normal_box(t_object *cone, t_vector p);
 int			ft_box_intersect(t_object *box, t_ray *r, float *t);
 int			ft_box_compute(t_object *b, t_intersect *in);
+
+t_object	*ft_cube_new(void);
+t_vector	ft_normal_cube(t_object *cone, t_vector p);
+int			ft_cube_intersect(t_object *cube, t_ray *r, float *t);
+int			ft_cube_compute(t_object *b, t_intersect *in);
+
+t_object	*ft_torus_new(void);
+t_vector	ft_normal_torus(t_object *cone, t_vector p);
+int			ft_torus_intersect(t_object *torus, t_ray *r, float *t);
+int			ft_torus_compute(t_object *b, t_intersect *in);
 
 t_texture	*ft_texture_new(char *img);
 void		ft_sphere_uv(t_vector p, float *u, float *v);

@@ -6,7 +6,7 @@
 #    By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/28 22:15:58 by ebatchas          #+#    #+#              #
-#    Updated: 2019/05/20 16:13:04 by ebatchas         ###   ########.fr        #
+#    Updated: 2019/05/22 13:55:42 by ebatchas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRC=$(SRCDIR)/main.c\
 	$(SRCDIR)/load.c\
 	$(SRCDIR)/env.c\
 	$(SRCDIR)/read.c\
+	$(SRCDIR)/read2.c\
 	$(SRCDIR)/parse.c\
 	$(SRCDIR)/parse_tools.c\
 	$(SRCDIR)/object.c\
@@ -56,17 +57,22 @@ SRC=$(SRCDIR)/main.c\
 	$(SRCDIR)/plane.c\
 	$(SRCDIR)/disque.c\
 	$(SRCDIR)/box.c\
+	$(SRCDIR)/cube.c\
+	$(SRCDIR)/torus.c\
 	$(SRCDIR)/camera.c\
 	$(SRCDIR)/vector1.c\
 	$(SRCDIR)/vector2.c\
+	$(SRCDIR)/roation.c\
 	$(SRCDIR)/transform.c\
+	$(SRCDIR)/quadric.c\
+	$(SRCDIR)/cubic.c\
+	$(SRCDIR)/quartic.c\
 	$(SRCDIR)/color.c\
 	$(SRCDIR)/raytrace.c\
 	$(SRCDIR)/pathtrace.c\
 	$(SRCDIR)/phong.c\
 	$(SRCDIR)/texture.c\
 	$(SRCDIR)/compute.c\
-	$(SRCDIR)/normals.c\
 	$(SRCDIR)/sdl.c
 
 OBJ=$(LIBDIR)/main.o\
@@ -81,6 +87,7 @@ OBJ=$(LIBDIR)/main.o\
 	$(LIBDIR)/load.o\
 	$(LIBDIR)/env.o\
 	$(LIBDIR)/read.o\
+	$(LIBDIR)/read2.o\
 	$(LIBDIR)/parse.o\
 	$(LIBDIR)/parse_tools.o\
 	$(LIBDIR)/object.o\
@@ -92,17 +99,22 @@ OBJ=$(LIBDIR)/main.o\
 	$(LIBDIR)/plane.o\
 	$(LIBDIR)/disque.o\
 	$(LIBDIR)/box.o\
+	$(LIBDIR)/cube.o\
+	$(LIBDIR)/torus.o\
 	$(LIBDIR)/camera.o\
 	$(LIBDIR)/raytrace.o\
 	$(LIBDIR)/pathtrace.o\
 	$(LIBDIR)/phong.o\
 	$(LIBDIR)/texture.o\
-	$(LIBDIR)/compute.o\
-	$(LIBDIR)/normals.o\
 	$(LIBDIR)/vector1.o\
 	$(LIBDIR)/vector2.o\
+	$(LIBDIR)/rotation.o\
 	$(LIBDIR)/transform.o\
+	$(LIBDIR)/quadric.o\
+	$(LIBDIR)/cubic.o\
+	$(LIBDIR)/quartic.o\
 	$(LIBDIR)/color.o\
+	$(LIBDIR)/compute.o\
 	$(LIBDIR)/sdl.o
 
 NAME=rtv1

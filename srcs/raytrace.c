@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 14:03:14 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/21 16:57:35 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/22 15:26:17 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void		ft_floor_object(t_texture *t, t_object *o, t_material *m,
 	}
 	else if ((m->chess == 2) && (o->type == SPHERE))
 	{
+		pos = ft_scale_vec3(pos, o->scale, -1);
 		pos = ft_rotate_vec3(pos, o->rotate, -1);
 		pos = ft_translate_vec3(pos, o->translate, -1);
 		pos = ft_vector_kmult(1.0 / o->radius, pos);

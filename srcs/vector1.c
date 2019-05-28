@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 18:08:32 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/04/30 18:23:52 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/28 21:52:03 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ t_vector	ft_vector_cross(t_vector a, t_vector b)
 
 	res.x = a.y * b.z - a.z * b.y;
 	res.y = a.z * b.x - a.x * b.z;
-	res.z = a.x * b.y - a.y * b.z;
+	res.z = a.x * b.y - a.y * b.x;
 	return (res);
 }

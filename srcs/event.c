@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 15:10:56 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/21 17:11:21 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/22 16:37:46 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,16 @@ void		ft_object_resize(t_object **s, float rev)
 	else if ((*s) && (*s)->type == CONE)
 		(*s)->angle = ft_clamp(M_PI / 180.0, M_PI / 2.0 - 0.1,
 				rev * (*s)->angle);
+	else if ((*s) && (*s)->type == BOX)
+		(*s)->scale = ft_vector_kmult(rev, (*s)->scale);
+	else if ((*s) && (*s)->type == TORUS)
+	{
+		(*s)->radius = ft_clamp(0.5, 1000.0, rev * (*s)->radius);
+		(*s)->angle = ft_clamp(0.1, 10.0, rev * (*s)->angle);
+	}
+	else if ((*s) && (*s)->type == CUBE)
+		(*s)->radius = ft_clamp(8.5, 15.0, (*s)->radius +
+				(rev < 1.01f ? 0.5 : -0.5));
 }
 
 void		ft_env_select_object(t_env *e, int x, int y)

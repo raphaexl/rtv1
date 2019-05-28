@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 10:47:27 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/21 17:41:15 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/22 18:16:34 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 typedef enum	e_type
 {
-	NONE = 0, SPHERE, CONE, CYLINDRE, BOX,PLANE, DISK
+	NONE = 0, SPHERE, CONE, CYLINDRE, BOX, PLANE, DISK, TORUS, CUBE
 }				t_type;
 
 typedef struct	s_ray
@@ -59,6 +59,7 @@ typedef	struct	s_o
 	t_vector	pos;
 	t_vector	translate;
 	t_vector	rotate;
+	t_vector	scale;
 	t_vector	normal;
 	float		radius;
 	float		angle;

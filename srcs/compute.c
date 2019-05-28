@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 11:29:07 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/21 16:39:06 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/22 15:29:47 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ t_ray	ft_transform_ray(t_object *p, t_ray *ro, int invert)
 {
 	t_ray	r;
 
-	r.start = ft_rotate_vec3(ro->start, p->rotate, invert);
-	r.dir = ft_rotate_vec3(ro->dir, p->rotate, invert);
+	r.start = ft_scale_vec3(ro->start, p->scale, invert);
+	r.start = ft_rotate_vec3(r.start, p->rotate, invert);
 	r.start = ft_translate_vec3(r.start, p->translate, invert);
+	r.dir = ft_scale_vec3(ro->dir, p->scale, invert);
+	r.dir = ft_rotate_vec3(r.dir, p->rotate, invert);
 	return (r);
 }
 
@@ -34,15 +36,17 @@ int		ft_scene_intersect(t_scene *s, t_intersect *in)
 	{
 		if (p->type == SPHERE && ft_sphere_compute(p, in))
 			hit = 1;
-		else if (p->type == CONE && ft_cone_compute(p, in))
+		else if ((p->type == CONE && ft_cone_compute(p, in)) || \
+			(p->type == CYLINDRE && ft_cylindre_compute(p, in)))
 			hit = 1;
-		else if (p->type == CYLINDRE && ft_cylindre_compute(p, in))
-			hit = 1;
-		else if (p->type == PLANE && ft_plane_compute(p, in))
-			hit = 1;
-		else if (p->type == DISK && ft_disk_compute(p, in))
+		else if ((p->type == PLANE && ft_plane_compute(p, in)) || \
+				(p->type == DISK && ft_disk_compute(p, in)))
 			hit = 1;
 		else if (p->type == BOX && ft_box_compute(p, in))
+			hit = 1;
+		else if (p->type == TORUS && ft_torus_compute(p, in))
+			hit = 1;
+		else if (p->type == CUBE && ft_cube_compute(p, in))
 			hit = 1;
 		p = p->next;
 	}
@@ -62,13 +66,16 @@ int		ft_scene_intersectl(t_scene *s, t_intersect *in)
 			return (1);
 		else if (p->type == CONE && ft_cone_intersect(p, &r, &in->t))
 			return (1);
-		else if (p->type == PLANE && ft_plane_intersect(p, &r, &in->t))
+		else if ((p->type == PLANE && ft_plane_intersect(p, &r, &in->t)) ||\
+				(p->type == DISK && ft_disk_intersect(p, &r, &in->t)))
 			return (1);
 		else if (p->type == CYLINDRE && ft_cylindre_intersect(p, &r, &in->t))
 			return (1);
-		else if (p->type == DISK && ft_disk_intersect(p, &r, &in->t))
-			return (1);
 		else if (p->type == BOX && ft_box_intersect(p, &r, &in->t))
+			return (1);
+		else if (p->type == CUBE && ft_cube_intersect(p, &r, &in->t))
+			return (1);
+		else if (p->type == TORUS && ft_torus_intersect(p, &r, &in->t))
 			return (1);
 		p = p->next;
 	}

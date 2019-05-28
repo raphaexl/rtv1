@@ -6,7 +6,7 @@
 /*   By: ebatchas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 08:14:04 by ebatchas          #+#    #+#             */
-/*   Updated: 2019/05/20 17:52:26 by ebatchas         ###   ########.fr       */
+/*   Updated: 2019/05/22 18:16:52 by ebatchas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void				ft_scene_init(t_scene *s, char *const input_file)
 
 void				ft_scene_clear(t_scene *s)
 {
+	ft_texture_clean(&s->earth);
 	ft_object_clean(&s->obj);
 	s->obj = NULL;
 	ft_light_clean(&s->light);
