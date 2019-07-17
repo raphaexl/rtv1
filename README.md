@@ -13,3 +13,4 @@ save you image !
 
 make then : 
 usage ./rtv1 data/scene/scene0.rt -o
+<img width="1194" alt="demo6" src="https://user-images.githubusercontent.com/44092987/61384108-d51d9000-a8a7-11e9-917d-c96450f334a6.png">
